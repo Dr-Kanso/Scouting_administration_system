@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Textarea,
-  VStack,
-  Heading,
-  HStack,
-} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import './sessionplanner.css';
+import { db, auth } from '../utils/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import beaverBadges from '../data/beaverBadges';
+import cubBadges from '../data/cubBadges'; // Import Cub badges
+import scoutBadges from '../data/scoutBadges'; // Import Scout badges
 
 export default function SessionPlanner() {
   const [form, setForm] = useState({
@@ -19,7 +13,6 @@ export default function SessionPlanner() {
     date: '',
     title: '',
     badges: '',
-    objectives: '',
     intro: '',
     islamic: '',
     body: '',
@@ -29,103 +22,200 @@ export default function SessionPlanner() {
     www: '',
     ebi: '',
   });
+  const [availableBadges, setAvailableBadges] = useState([]);
+  const [selectedBadges, setSelectedBadges] = useState([]);
+  const [checkedSteps, setCheckedSteps] = useState({});
+
+  // Update available badges when group changes
+  useEffect(() => {
+    if (form.group === 'Beavers') {
+      setAvailableBadges(beaverBadges);
+    } else if (form.group === 'Cubs') { // Add condition for Cubs
+      setAvailableBadges(cubBadges);
+    } else if (form.group === 'Scouts') { // Add condition for Scouts
+      setAvailableBadges(scoutBadges);
+    } else {
+      // For other groups, clear available badges for now
+      setAvailableBadges([]);
+    }
+    // Reset selected badges when group changes
+    setSelectedBadges([]);
+    setForm(prevForm => ({ ...prevForm, badges: '' })); // Use functional update for safety
+  }, [form.group]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleBadgeSelect = (badge) => {
+    let updatedSelection;
+    if (selectedBadges.some(b => b.name === badge.name)) {
+      updatedSelection = selectedBadges.filter(b => b.name !== badge.name);
+    } else {
+      updatedSelection = [...selectedBadges, badge];
+    }
+    setSelectedBadges(updatedSelection);
+    setForm({
+      ...form,
+      badges: updatedSelection.map(b => b.name).join(', ')
+    });
+  };
+
+  // Track checked steps
+  const handleStepCheckChange = (badgeName, step) => {
+    setCheckedSteps(prev => {
+      const badgeChecks = { ...prev[badgeName] };
+      badgeChecks[step] = !badgeChecks[step];
+      return { ...prev, [badgeName]: badgeChecks };
+    });
+  };
+
+  const handleReset = () => {
+    setForm(Object.fromEntries(Object.keys(form).map(key => [key, ''])));
+    setSelectedBadges([]);
+    setCheckedSteps({});
+  };
+
+  const handleSave = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        alert('You must be logged in to save a session.');
+        return;
+      }
+
+      await addDoc(collection(db, 'sessions'), {
+        ...form,
+        createdAt: serverTimestamp(),
+        createdBy: user.uid
+      });
+
+      alert('Session saved successfully!');
+      handleReset(); // Optional: clear form after save
+    } catch (error) {
+      console.error('Error saving session:', error);
+      alert('Failed to save session.');
+    }
+  };
+
   return (
-    <Box maxW="1000px" mx="auto" p={8}>
-      <Heading mb={6} color="purple.700">🧭 Session Planner</Heading>
-      <VStack spacing={4} align="stretch">
+    <div className="session-planner">
+      <h1>🧭 Session Planner</h1>
 
-        <HStack spacing={4}>
-          <FormControl isRequired>
-            <FormLabel>Leader's Name</FormLabel>
-            <Input name="leader" value={form.leader} onChange={handleChange} />
-          </FormControl>
+      <div className="form-row">
+        <label>Leader's Name:</label>
+        <input name="leader" value={form.leader} onChange={handleChange} />
+      </div>
 
-          <FormControl isRequired>
-            <FormLabel>Group</FormLabel>
-            <Select name="group" value={form.group} onChange={handleChange}>
-              <option value="">Select</option>
-              <option value="Beavers">Beavers</option>
-              <option value="Cubs">Cubs</option>
-              <option value="Scouts">Scouts</option>
-            </Select>
-          </FormControl>
+      <div className="form-row">
+        <label>Group:</label>
+        <select name="group" value={form.group} onChange={handleChange}>
+          <option value="">Select</option>
+          <option value="Beavers">Beavers</option>
+          <option value="Cubs">Cubs</option>
+          <option value="Scouts">Scouts</option>
+        </select>
+      </div>
 
-          <FormControl isRequired>
-            <FormLabel>Date</FormLabel>
-            <Input type="date" name="date" value={form.date} onChange={handleChange} />
-          </FormControl>
-        </HStack>
+      <div className="form-row">
+        <label>Date:</label>
+        <input type="date" name="date" value={form.date} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Session Title</FormLabel>
-          <Input name="title" value={form.title} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Session Title:</label>
+        <input name="title" value={form.title} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Badge(s) Covered</FormLabel>
-          <Input name="badges" value={form.badges} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Badge(s) Covered:</label>
+        <input name="badges" value={form.badges} onChange={handleChange} placeholder="Type or select below" /> 
+        
+        {availableBadges.length > 0 && (
+          <div className="badge-selector">
+            <h4>Select from available {form.group} badges:</h4> {/* Dynamic title */}
+            <div className="badge-grid">
+              {availableBadges.map(badge => (
+                <div 
+                  key={badge.name}
+                  className={`badge-item ${selectedBadges.some(b => b.name === badge.name) ? 'selected' : ''}`}
+                  onClick={() => handleBadgeSelect(badge)}
+                  title={badge.name} // Add title for hover effect
+                >
+                  <img src={badge.image} alt={badge.name} />
+                  <span>{badge.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
-        <FormControl>
-          <FormLabel>Objectives</FormLabel>
-          <Textarea name="objectives" value={form.objectives} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <h3>Badge Steps Checklist</h3>
+        {selectedBadges.map(badge => (
+          <div key={badge.name}>
+            <h4>{badge.name}</h4>
+            {badge.steps && badge.steps.map(step => (
+              <label key={step} className="checklist-label"> {/* Add className here */}
+                <input
+                  type="checkbox"
+                  checked={checkedSteps[badge.name]?.[step] || false}
+                  onChange={() => handleStepCheckChange(badge.name, step)}
+                />
+                {step}
+              </label>
+            ))}
+          </div>
+        ))}
+      </div>
 
-        <FormControl>
-          <FormLabel>Introductory Points</FormLabel>
-          <Textarea name="intro" value={form.intro} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Introductory Points:</label>
+        <textarea name="intro" value={form.intro} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Islamic Principles (integrated)</FormLabel>
-          <Textarea name="islamic" value={form.islamic} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Islamic Principles (integrated):</label>
+        <textarea name="islamic" value={form.islamic} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Main Body</FormLabel>
-          <Textarea name="body" value={form.body} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Main Body:</label>
+        <textarea name="body" value={form.body} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Activities Overview</FormLabel>
-          <Textarea name="activities" value={form.activities} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Activities Overview:</label>
+        <textarea name="activities" value={form.activities} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Equipment Needed (include costs)</FormLabel>
-          <Textarea name="equipment" value={form.equipment} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Equipment Needed (include costs):</label>
+        <textarea name="equipment" value={form.equipment} onChange={handleChange} />
+      </div>
 
-        <FormControl>
-          <FormLabel>Conclusive Statement</FormLabel>
-          <Textarea name="conclusion" value={form.conclusion} onChange={handleChange} />
-        </FormControl>
+      <div className="form-row">
+        <label>Conclusive Statement:</label>
+        <textarea name="conclusion" value={form.conclusion} onChange={handleChange} />
+      </div>
 
-        <HStack spacing={4}>
-          <FormControl>
-            <FormLabel>What Went Well (WWW)</FormLabel>
-            <Textarea name="www" value={form.www} onChange={handleChange} />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Even Better If (EBI)</FormLabel>
-            <Textarea name="ebi" value={form.ebi} onChange={handleChange} />
-          </FormControl>
-        </HStack>
+      <div className="form-row split">
+        <div>
+          <label>What Went Well (WWW):</label>
+          <textarea name="www" value={form.www} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Even Better If (EBI):</label>
+          <textarea name="ebi" value={form.ebi} onChange={handleChange} />
+        </div>
+      </div>
 
-        <HStack spacing={4} pt={4}>
-          <Button colorScheme="purple">💾 Save</Button>
-          <Button colorScheme="green">⬇️ Export as Word</Button>
-          <Button colorScheme="gray" variant="outline" onClick={() => setForm({ ...form, ...Object.fromEntries(Object.keys(form).map(key => [key, ''])) })}>
-            🔁 Reset
-          </Button>
-        </HStack>
-
-      </VStack>
-    </Box>
+      <div className="form-buttons">
+        <button onClick={handleSave}>💾 Save</button>
+        <button onClick={() => alert('Export coming next')}>⬇️ Export as Word</button>
+        <button onClick={handleReset}>🔁 Reset</button>
+      </div>
+    </div>
   );
 }

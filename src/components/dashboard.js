@@ -34,6 +34,9 @@ export default function Dashboard() {
         <div className="card" onClick={() => navigate('/calendar')}>
           🗓️ Upcoming Sessions
         </div>
+        <div className="card" onClick={() => navigate('/sessions')}>
+          📋 Session List
+        </div>
       </div>
 
       <button className="logout" onClick={handleLogout}>Logout</button>

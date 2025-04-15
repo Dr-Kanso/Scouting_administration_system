@@ -4,6 +4,11 @@ import Login from './components/auth/login';
 import Dashboard from './components/dashboard';
 import { auth } from './utils/firebase'; // Import auth
 import { useAuthState } from 'react-firebase-hooks/auth'; // Import useAuthState
+import SessionPlanner from './components/sessionplanner';
+import SessionList from './components/sessionlist';
+import SessionDetail from './components/sessiondetail';
+
+
 
 
 function App() {
@@ -24,6 +29,12 @@ function App() {
 
         {/* If logged in (user exists), show Dashboard. If not logged in, redirect to Login */}
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" replace />} />
+        <Route path="/planner" element={<SessionPlanner />} />
+        <Route path="/sessions" element={<SessionList />} />
+        <Route path="/session/:id" element={<SessionDetail />} />
+
+
+
 
         {/* Add other protected routes here similarly */}
         {/* e.g., <Route path="/planner" element={user ? <Planner /> : <Navigate to="/" replace />} /> */}
