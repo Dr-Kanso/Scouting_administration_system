@@ -153,3 +153,99 @@
     margin-left: 15px; /* Optional: Indent steps under the badge name */
     margin-bottom: 5px; /* Optional: Add spacing between steps */
   }
+
+  .activity-selector {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .activity-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: white;
+    height: 100%;
+  }
+
+  .activity-item:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+  }
+
+  .activity-item.selected {
+    border: 2px solid #7413dc;
+    background-color: #f0e6ff;
+  }
+
+  .activity-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .activity-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .activity-type {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 3px;
+  }
+
+  .activity-duration {
+    color: #7413dc;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+  }
+
+  .activity-description {
+    font-size: 0.9em;
+    margin: 5px 0;
+  }
+
+  .activity-item a {
+    color: #0056b3;
+    text-decoration: none;
+    font-size: 0.85em;
+    margin-top: auto;
+    text-align: right;
+  }
+
+  .activity-item a:hover {
+    text-decoration: underline;
+  }
+
+  .activity-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 5px 0;
+  }
+
+  .activity-badge-tag {
+    font-size: 0.75em;
+    background-color: #7413dc;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  .no-activities-message {
+    color: #666;
+    font-style: italic;
+    margin-top: 10px;
+  }
