@@ -151,24 +151,32 @@ export default function SessionPlanner() {
         )}
       </div>
 
-      <div className="form-row">
-        <h3>Badge Steps Checklist</h3>
-        {selectedBadges.map(badge => (
-          <div key={badge.name}>
-            <h4>{badge.name}</h4>
-            {badge.steps && badge.steps.map(step => (
-              <label key={step} className="checklist-label"> {/* Add className here */}
-                <input
-                  type="checkbox"
-                  checked={checkedSteps[badge.name]?.[step] || false}
-                  onChange={() => handleStepCheckChange(badge.name, step)}
+      {selectedBadges.length > 0 && (
+        <div className="form-row">
+          <h3>Badge Steps Checklist</h3>
+          {selectedBadges.map(badge => (
+            <div key={badge.name}>
+              <h4>
+                {badge.name} <img
+                  src={badge.image}
+                  alt={badge.name}
+                  style={{ width: '32px', height: 'auto' }}
                 />
-                {step}
-              </label>
-            ))}
-          </div>
-        ))}
-      </div>
+              </h4>
+              {badge.steps && badge.steps.map(step => (
+                <label key={step} className="checklist-label"> {/* Add className here */}
+                  <input
+                    type="checkbox"
+                    checked={checkedSteps[badge.name]?.[step] || false}
+                    onChange={() => handleStepCheckChange(badge.name, step)}
+                  />
+                  {step}
+                </label>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="form-row">
         <label>Introductory Points:</label>
