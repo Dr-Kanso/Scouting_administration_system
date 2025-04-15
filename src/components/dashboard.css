@@ -1,0 +1,74 @@
+body {
+  background-color: white; /* Set global background to white */
+  margin: 0; /* Remove default body margin */
+  font-family: 'Segoe UI', sans-serif; /* Keep default font consistent */
+}
+
+.dashboard {
+  text-align: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.scarf-banner {
+  width: 100%;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+.header {
+  margin: 20px 0;
+  display: flex; /* Consider flexbox for alignment */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text */
+  margin-bottom: 30px; /* Add space below header */
+}
+
+.logo {
+  width: 300px; /* Increase width (adjust value as needed) */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 15px; /* Add space below the logo */
+}
+
+h1 {
+  margin-top: 0; /* Adjust top margin if needed */
+  margin-bottom: 5px; /* Space between h1 and paragraph */
+}
+
+p {
+  margin-top: 0; /* Adjust top margin if needed */
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.card {
+  background: white;
+  border: 2px solid #7400d3;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.03);
+  background: #f0e7ff;
+}
+
+.logout {
+  margin-top: 40px;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
