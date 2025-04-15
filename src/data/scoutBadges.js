@@ -13,7 +13,7 @@ const scoutBadges = [
   {
     "name": "Athletics",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/athletics/",
-    "image": "https://prod-cms.scouts.org.uk/media/4380/activity-sc-athletics.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4382/activity-sc-athletics.png",
     "steps": [
       "Show the correct technique for a long distance run or sprint start.",
       "Take part in a throwing event. Show the correct technique for the throw you choose.",
@@ -26,7 +26,7 @@ const scoutBadges = [
   {
     "name": "Athletics Plus",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/athletics-plus/",
-    "image": "https://prod-cms.scouts.org.uk/media/4381/activity-sc-athletics-plus.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4383/activity-sc-athleticsplus.png",
     "steps": [
       "Take part regularly in athletics training over a period of three months. Your training should help you prepare for achieving the goals you set yourself for requirement 2.",
       "Show improvement in four different events. Choose two from track events and two from field events.",
@@ -37,7 +37,7 @@ const scoutBadges = [
   {
     "name": "Camper",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/camper/",
-    "image": "https://prod-cms.scouts.org.uk/media/4382/activity-sc-camper.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4384/activity-sc-camper-rgbmin.png",
     "steps": [
       "Camp under canvas for at least two nights as a Scout.",
       "Know the specific rules for the campsite you are using.",
@@ -52,7 +52,7 @@ const scoutBadges = [
   {
     "name": "Caver",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/caver/",
-    "image": "https://prod-cms.scouts.org.uk/media/4383/activity-sc-caver.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4385/activity-sc-caver.png",
     "steps": [
       "Know the basic safety rules for caving.",
       "Know what clothing and equipment is needed for caving.",
@@ -64,7 +64,7 @@ const scoutBadges = [
   {
     "name": "Chef",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/chef/",
-    "image": "https://prod-cms.scouts.org.uk/media/4384/activity-sc-chef.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4386/activity-sc-chef.png",
     "steps": [
       "Plan a menu for a balanced two-course meal for between four and six people.",
       "Show how to use the cooking equipment safely.",
@@ -77,7 +77,7 @@ const scoutBadges = [
   {
     "name": "Circus Skills",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/circus-skills/",
-    "image": "https://prod-cms.scouts.org.uk/media/4385/activity-sc-circus-skills.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4387/activity-sc-circus-skills.png",
     "steps": [
       "Show you can perform three different circus skills. Choose from juggling, diabolo, plate spinning, stilt walking, devil sticks, balancing peacock feathers, poi, cigar boxes or unicycling.",
       "Show you can perform a simple routine involving at least two of the skills you chose for requirement 1.",
@@ -88,7 +88,7 @@ const scoutBadges = [
   {
     "name": "Climber",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/climber/",
-    "image": "https://prod-cms.scouts.org.uk/media/4386/activity-sc-climber.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4388/activity-sc-climber.png",
     "steps": [
       "Know the safety rules for climbing.",
       "Know the different items of equipment needed for climbing and bouldering. Show you know how to care for them.",
@@ -103,7 +103,7 @@ const scoutBadges = [
   {
     "name": "Communicator",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/communicator/",
-    "image": "https://prod-cms.scouts.org.uk/media/4387/activity-sc-communicator.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4389/activity-sc-communicator.png",
     "steps": [
       "Spell your name using the phonetic alphabet.",
       "Take part in a simulated emergency situation using a radio.",
@@ -116,7 +116,7 @@ const scoutBadges = [
   {
     "name": "Community Impact Stage 1",
     "url": "https://www.scouts.org.uk/staged-badges/community-impact/",
-    "image": "https://prod-cms.scouts.org.uk/media/1130/community-impact-stage-1.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4456/staged-community.png",
     "steps": [
       "Identify a need in a community that you belong to.",
       "Plan a project that will meet this need. Your project must be approved by your leader before you start.",
@@ -128,7 +128,7 @@ const scoutBadges = [
   {
     "name": "Craft",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/craft/",
-    "image": "https://prod-cms.scouts.org.uk/media/4388/activity-sc-craft.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4390/activity-sc-craft.png",
     "steps": [
       "Choose a craft that interests you, such as candle making, model making, pottery, fly tying, leatherwork or jewellery making.",
       "Show you know how to use the tools needed for your craft safely.",
@@ -141,7 +141,7 @@ const scoutBadges = [
   {
     "name": "DIY",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/diy/",
-    "image": "https://prod-cms.scouts.org.uk/media/4389/activity-sc-diy.png",
+    "image": "https://prod-cms.scouts.org.uk/media/kvvjdqgq/speedy-tool-hire_activity-badges-sc-diy.png",
     "steps": [
       "Show you know how to use and look after tools like saws, screwdrivers, hammers, drills and planes safely.",
       "Show you know how to prepare surfaces before painting or varnishing.",
@@ -160,7 +160,7 @@ const scoutBadges = [
   {
     "name": "Digital Citizen Stage 1",
     "url": "https://www.scouts.org.uk/staged-badges/digital-citizen/",
-    "image": "https://prod-cms.scouts.org.uk/media/1133/digital-citizen-stage-1.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4457/staged-digital-citizen.png",
     "steps": [
       "Show you know how to use the internet safely. Explain the SMART rules.",
       "Show you know how to use email safely. Explain what to do if you receive an email you are unsure about.",
@@ -172,7 +172,7 @@ const scoutBadges = [
   {
     "name": "Electronics",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/electronics/",
-    "image": "https://prod-cms.scouts.org.uk/media/4390/activity-sc-electronics.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4394/activity-sc-electronics.png",
     "steps": [
       "Explain the difference between analogue and digital signals.",
       "Explain the difference between series and parallel circuits.",
@@ -185,7 +185,7 @@ const scoutBadges = [
   {
     "name": "Emergency Aid Stage 3",
     "url": "https://www.scouts.org.uk/staged-badges/emergency-aid/",
-    "image": "https://prod-cms.scouts.org.uk/media/1136/emergency-aid-stage-3.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4459/staged-emergency-aid.png",
     "steps": [
       "Explain how to get help in an emergency. Give examples of when you should call 999 or 112.",
       "Show how to assess a casualty. Explain the steps you would take using DR ABC (Danger, Response, Airway, Breathing, Circulation).",
@@ -202,7 +202,7 @@ const scoutBadges = [
   {
     "name": "Entertainer",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/entertainer/",
-    "image": "https://prod-cms.scouts.org.uk/media/4391/activity-sc-entertainer.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4395/activity-sc-entertainer.png",
     "steps": [
       "Take part in a performance. This could be a play, sketch, campfire skit, mime, reading, song, dance or musical item.",
       "Help behind the scenes with a performance. This could involve costumes, make-up, props, scenery, lighting or sound.",
@@ -217,7 +217,7 @@ const scoutBadges = [
   {
     "name": "Environmental Conservation",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/environmental-conservation/",
-    "image": "https://prod-cms.scouts.org.uk/media/4392/activity-sc-environmental-conservation.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4396/activity-sc-environmental-conservation.png",
     "steps": [
       "Explain what is meant by ‘environment’ and ‘conservation’.",
       "Find out about five environmental issues that affect your local area or the wider world.",
@@ -232,7 +232,7 @@ const scoutBadges = [
   {
     "name": "Farming",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/farming/",
-    "image": "https://prod-cms.scouts.org.uk/media/4393/activity-sc-farming.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4398/activity-sc-farming.png",
     "steps": [
       "Visit a farm. Talk to the farmer about the work they do.",
       "Find out about the different types of farming in your area or region.",
@@ -245,7 +245,7 @@ const scoutBadges = [
   {
     "name": "Fire Safety",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/fire-safety/",
-    "image": "https://prod-cms.scouts.org.uk/media/4394/activity-sc-fire-safety.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4399/activity-sc-fire-safety.png",
     "steps": [
       "Explain the dangers of fire and smoke.",
       "Explain how to prevent fires starting at home and at camp.",
@@ -260,7 +260,7 @@ const scoutBadges = [
   {
     "name": "Forester",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/forester/",
-    "image": "https://prod-cms.scouts.org.uk/media/4395/activity-sc-forester.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4400/activity-sc-forrester.png",
     "steps": [
       "Identify six different species of tree commonly found in the UK. Describe their features, such as leaves, bark, buds, flowers and fruit.",
       "Explain the importance of trees and forests for wildlife and the environment.",
@@ -273,7 +273,7 @@ const scoutBadges = [
   {
     "name": "Fundraising",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/fundraising/",
-    "image": "https://prod-cms.scouts.org.uk/media/4396/activity-sc-fundraising.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4401/activity-sc-fundraising.png",
     "steps": [
       "Choose a charity or cause that you want to support. Find out about the work they do.",
       "Plan a fundraising event or activity. Think about your target audience, budget, resources and safety. Get your plan approved by your leader.",
@@ -286,7 +286,7 @@ const scoutBadges = [
   {
     "name": "Global Issues",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/global-issues/",
-    "image": "https://prod-cms.scouts.org.uk/media/4397/activity-sc-global-issues.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4403/activity-sc-global-issues.png",
     "steps": [
       "Choose a global issue that interests you, such as poverty, climate change, health, education or conflict.",
       "Find out about the causes and effects of your chosen issue.",
@@ -299,7 +299,7 @@ const scoutBadges = [
   {
     "name": "Hikes Away Stage 10",
     "url": "https://www.scouts.org.uk/staged-badges/hikes-away/",
-    "image": "https://prod-cms.scouts.org.uk/media/1143/hikes-away-10.png",
+    "image": "https://prod-cms.scouts.org.uk/media/19907/hikes-away-02-01-1.png",
     "steps": [
       "Complete ten hikes. Each hike must be at least 5km (3 miles) long.",
       "Plan and lead at least one of the hikes.",
@@ -313,7 +313,7 @@ const scoutBadges = [
   {
     "name": "Hobbies",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/hobbies/",
-    "image": "https://prod-cms.scouts.org.uk/media/4398/activity-sc-hobbies.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4405/activity-sc-hobbies.png",
     "steps": [
       "Choose a hobby that interests you. This could be collecting something, a creative activity, a sport, or something else.",
       "Pursue your hobby regularly for at least three months.",
@@ -324,7 +324,7 @@ const scoutBadges = [
   {
     "name": "Hill Walker",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/hill-walker/",
-    "image": "https://prod-cms.scouts.org.uk/media/4399/activity-sc-hill-walker.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4404/activity-sc-hill-walker.png",
     "steps": [
       "Know the safety rules for hill walking.",
       "Know what clothing and equipment is needed for hill walking in different conditions.",
@@ -339,7 +339,7 @@ const scoutBadges = [
   {
     "name": "International",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/international/",
-    "image": "https://prod-cms.scouts.org.uk/media/4400/activity-sc-international.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4406/activity-sc-international.png",
     "steps": [
       "Find out about Scouting in another country. Learn about their Promise, Law, uniform, badges and activities.",
       "Learn some simple phrases in the language of another country.",
@@ -352,7 +352,7 @@ const scoutBadges = [
   {
     "name": "Islamophobia Awareness Month",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/islamophobia-awareness-month-blanket-badge/",
-    "image": "https://prod-cms.scouts.org.uk/media/18623/islamophobia-awareness-month-badge-2023.png?width=221&height=250&rnd=133429805440000000",
+    "image": "https://prod-cms.scouts.org.uk/media/l4ybcdeg/islamophobia-awareness-month-blanket-badge_final-01.png",
     "steps": [
       "Learn what Islamophobia is and how it affects people.",
       "Explore Muslim contributions to society.",
@@ -364,7 +364,7 @@ const scoutBadges = [
   {
     "name": "Librarian",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/librarian/",
-    "image": "https://prod-cms.scouts.org.uk/media/4401/activity-sc-librarian.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4407/activity-sc-librarian.png",
     "steps": [
       "Visit your local library. Find out about the services it offers.",
       "Know how books are classified and arranged in a library (e.g., Dewey Decimal System).",
@@ -377,7 +377,7 @@ const scoutBadges = [
   {
     "name": "Lifesaver",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/lifesaver/",
-    "image": "https://prod-cms.scouts.org.uk/media/4402/activity-sc-lifesaver.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4408/activity-sc-lifesaver.png",
     "steps": [
       "Know the safety rules for activities in, on or near water.",
       "Explain the dangers of swimming in open water (rivers, lakes, sea).",
@@ -390,7 +390,7 @@ const scoutBadges = [
   {
     "name": "Local Knowledge",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/local-knowledge/",
-    "image": "https://prod-cms.scouts.org.uk/media/4403/activity-sc-local-knowledge.png",
+    "image": "https://prod-cms.scouts.org.uk/media/3fpjlkmo/activity-sc-local-knowledge.png",
     "steps": [
       "Draw a sketch map of your local area (about 2km radius from your meeting place or home). Mark key features like roads, public buildings, parks, transport links and places of interest.",
       "Point out the main features of interest and explain their significance or history.",
@@ -403,7 +403,7 @@ const scoutBadges = [
   {
     "name": "Martial Arts",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/martial-arts/",
-    "image": "https://prod-cms.scouts.org.uk/media/4404/activity-sc-martial-arts.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4410/activity-sc-martial-arts.png",
     "steps": [
       "Take part regularly in martial arts training for at least three months.",
       "Know the safety rules and etiquette for your chosen martial art.",
@@ -415,7 +415,7 @@ const scoutBadges = [
   {
     "name": "Master at Arms",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/master-at-arms/",
-    "image": "https://prod-cms.scouts.org.uk/media/4405/activity-sc-master-at-arms.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4411/activity-sc-master-at-arms.png",
     "steps": [
       "Know the safety rules for archery, shooting and fencing.",
       "Show the correct technique for shooting an air rifle or pistol at a target.",
@@ -431,7 +431,7 @@ const scoutBadges = [
   {
     "name": "Mechanic",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/mechanic/",
-    "image": "https://prod-cms.scouts.org.uk/media/4406/activity-sc-mechanic.png",
+    "image": "https://prod-cms.scouts.org.uk/media/tv2g2auj/army_sc-mechanic-rgb_347-x-350px.png",
     "steps": [
       "Show you know how to check and maintain a bicycle. Include checking tyres, brakes, chain and lights.",
       "Show you know how to repair a puncture.",
@@ -444,7 +444,7 @@ const scoutBadges = [
   {
     "name": "My Faith",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/my-faith/",
-    "image": "https://prod-cms.scouts.org.uk/media/4407/activity-sc-my-faith.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4416/activity-sc-my-faith.png",
     "steps": [
       "Find out about the key beliefs and teachings of your faith.",
       "Find out about the main festivals or celebrations in your faith. Explain their significance.",
@@ -457,7 +457,7 @@ const scoutBadges = [
   {
     "name": "Naturalist",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/naturalist/",
-    "image": "https://prod-cms.scouts.org.uk/media/4408/activity-sc-naturalist.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4417/activity-sc-naturalist.png",
     "steps": [
       "Over a period of three months, study the wildlife and plants in a local natural habitat (e.g., woodland, pond, park, hedgerow).",
       "Keep records of your observations, using notes, sketches, photographs or recordings.",
@@ -470,7 +470,7 @@ const scoutBadges = [
   {
     "name": "Navigator Stage 3",
     "url": "https://www.scouts.org.uk/staged-badges/navigator/",
-    "image": "https://prod-cms.scouts.org.uk/media/1150/navigator-stage-3.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4463/staged-navigator.png",
     "steps": [
       "Know the main points of a compass (N, NE, E, SE, S, SW, W, NW).",
       "Show you can set a map using a compass.",
@@ -484,7 +484,7 @@ const scoutBadges = [
   {
     "name": "Nights Away Stage 10",
     "url": "https://www.scouts.org.uk/staged-badges/nights-away/",
-    "image": "https://prod-cms.scouts.org.uk/media/1157/nights-away-10.png",
+    "image": "https://prod-cms.scouts.org.uk/media/19908/nights-away-02-01-1.png",
     "steps": [
       "Complete ten nights away as part of Scouting activities.",
       "At least four of these nights must be camping.",
@@ -497,7 +497,7 @@ const scoutBadges = [
   {
     "name": "Orienteer",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/orienteer/",
-    "image": "https://prod-cms.scouts.org.uk/media/4409/activity-sc-orienteer.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4418/activity-sc-orienteer.png",
     "steps": [
       "Know the safety rules for orienteering.",
       "Know the conventional signs and symbols used on an orienteering map.",
@@ -510,7 +510,7 @@ const scoutBadges = [
   {
     "name": "Photographer",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/photographer/",
-    "image": "https://prod-cms.scouts.org.uk/media/4410/activity-sc-photographer.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4420/activity-sc-photographer.png",
     "steps": [
       "Show you know how to use a camera (digital or film) safely and correctly. Explain the basic functions like focus, zoom and flash.",
       "Explain the principles of composition, such as rule of thirds, leading lines and framing.",
@@ -522,7 +522,7 @@ const scoutBadges = [
   {
     "name": "Pioneer",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/pioneer/",
-    "image": "https://prod-cms.scouts.org.uk/media/4411/activity-sc-pioneer.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4422/activity-sc-pioneer.png",
     "steps": [
       "Know the safety rules for pioneering projects.",
       "Show you can tie the following knots and know their uses: clove hitch, timber hitch, reef knot, sheet bend, bowline, figure of eight, sheepshank.",
@@ -535,7 +535,7 @@ const scoutBadges = [
   {
     "name": "Scientist",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/scientist/",
-    "image": "https://prod-cms.scouts.org.uk/media/4412/activity-sc-scientist.png",
+    "image": "https://prod-cms.scouts.org.uk/media/otoeb5yw/rolls-royce_sc-scientist-cmyk_347-x-350px.png",
     "steps": [
       "Choose a scientific topic that interests you (e.g., biology, chemistry, physics, astronomy, geology).",
       "Carry out three experiments or investigations related to your chosen topic. Keep records of your methods, results and conclusions.",
@@ -548,7 +548,7 @@ const scoutBadges = [
   {
     "name": "Space",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/space/",
-    "image": "https://prod-cms.scouts.org.uk/media/4413/activity-sc-space.png",
+    "image": "https://prod-cms.scouts.org.uk/media/21397/sc_astronomer_sa.png",
     "steps": [
       "Point out the Pole Star (or Southern Cross in the Southern Hemisphere). Explain how to find it.",
       "Identify three constellations in the night sky. Know the stories behind them.",
@@ -562,7 +562,7 @@ const scoutBadges = [
   {
     "name": "Sports Enthusiast",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/sports-enthusiast/",
-    "image": "https://prod-cms.scouts.org.uk/media/4414/activity-sc-sports-enthusiast.png",
+    "image": "https://prod-cms.scouts.org.uk/media/s3lfzenl/ygam-compressed-activity-badge.png",
     "steps": [
       "Take part regularly in a chosen sport for at least three months.",
       "Know the rules of your chosen sport.",
@@ -579,7 +579,7 @@ const scoutBadges = [
   {
     "name": "Survival Skills",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/survival-skills/",
-    "image": "https://prod-cms.scouts.org.uk/media/4415/activity-sc-survival-skills.png",
+    "image": "https://prod-cms.scouts.org.uk/media/szpdzgod/victorinox_survival-skills-badge-2018-rgb_347-x-350px.png",
     "steps": [
       "Build a shelter using natural or lightweight materials. Spend a night in it.",
       "Show you know how to light a fire in wet conditions without using matches or a lighter.",
@@ -593,7 +593,7 @@ const scoutBadges = [
   {
     "name": "World Faiths",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/world-faiths/",
-    "image": "https://prod-cms.scouts.org.uk/media/4416/activity-sc-world-faiths.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4431/activity-sc-world-faiths.png",
     "steps": [
       "Find out about the key beliefs and practices of two major world faiths (different from your own, if you have one).",
       "Find out about the main festivals or celebrations of these two faiths.",
@@ -606,7 +606,7 @@ const scoutBadges = [
   {
     "name": "Writer",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/writer/",
-    "image": "https://prod-cms.scouts.org.uk/media/4417/activity-sc-writer.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4432/activity-sc-writer.png",
     "steps": [
       "Write a short story (at least 500 words).",
       "Write a poem (at least 12 lines).",

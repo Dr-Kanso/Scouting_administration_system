@@ -8,7 +8,7 @@ const cubBadges = [
   {
     "name": "Artist",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/artist/",
-    "image": "https://prod-cms.scouts.org.uk/media/21410/cu_artist_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4307/activity-cu-artist.png",
     "steps": [
       "Create two items using different skills like painting, collage, digital art, sculpture or textiles.",
       "Show you know how to use the tools for your chosen skills safely.",
@@ -19,7 +19,7 @@ const cubBadges = [
   {
     "name": "Athletics Activity Badge",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/athletics-activity-badge/",
-    "image": "https://prod-cms.scouts.org.uk/media/21411/cu_athletics_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4309/activity-cu-athletics.png",
     "steps": [
       "Show how to warm up and warm down safely before and after exercise.",
       "Take part in four different athletics activities. Choose from: a sprint over 60 metres, a sprint over 80 metres, throwing a ball, standing long jump, high jump, 600 metre run/walk, skipping.",
@@ -31,7 +31,7 @@ const cubBadges = [
   {
     "name": "Athletics Plus",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/athletics-plus/",
-    "image": "https://prod-cms.scouts.org.uk/media/21412/cu_athletics_plus_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4310/activity-cu-athleticsplus.png",
     "steps": [
       "Complete the Athletics Activity Badge.",
       "Take part in four different athletics activities. Choose from: a sprint over 80 metres, throwing a ball, standing long jump, high jump, 800 metre run/walk, skipping.",
@@ -43,7 +43,7 @@ const cubBadges = [
   {
     "name": "Backwoods Cooking",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/backwoods-cooking/",
-    "image": "https://prod-cms.scouts.org.uk/media/21413/cu_backwoods_cooking_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4312/activity-cu-backwooks-cooking.png",
     "steps": [
       "Show you know the safety rules for backwoods cooking.",
       "Help to build a fire. It doesn’t have to be big.",
@@ -56,7 +56,7 @@ const cubBadges = [
   {
     "name": "Book Reader",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/book-reader/",
-    "image": "https://prod-cms.scouts.org.uk/media/21414/cu_book_reader_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4313/activity-cu-book-reader.png",
     "steps": [
       "Read at least six books. Tell your leader or other Cubs about the books you have read.",
       "Show you know how to care for books.",
@@ -67,7 +67,7 @@ const cubBadges = [
   {
     "name": "Chef",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/chef/",
-    "image": "https://prod-cms.scouts.org.uk/media/21415/cu_chef_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4314/activity-cu-chef.png",
     "steps": [
       "Show that you know about kitchen safety and food hygiene.",
       "Talk to your leader about the different ways to make a healthy, balanced meal.",
@@ -80,7 +80,7 @@ const cubBadges = [
   {
     "name": "Collector",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/collector/",
-    "image": "https://prod-cms.scouts.org.uk/media/21416/cu_collector_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4315/activity-cu-collector.png",
     "steps": [
       "Make a collection over three months of something that interests you.",
       "Show your collection to your leader or other Cubs.",
@@ -91,7 +91,7 @@ const cubBadges = [
   {
     "name": "Communicator",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/communicator/",
-    "image": "https://prod-cms.scouts.org.uk/media/21417/cu_communicator_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4316/activity-cu-communicator.png",
     "steps": [
       "Spell your name using the phonetic alphabet.",
       "Send and receive a simple message using Morse code, semaphore, or another code.",
@@ -104,7 +104,7 @@ const cubBadges = [
   {
     "name": "Community Impact (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/community-impact/",
-    "image": "https://prod-cms.scouts.org.uk/media/21400/staged_community_impact_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4456/staged-community.png",
     "steps": [
       "Identify a need in a community you belong to.",
       "Plan a project or activity to make a positive impact.",
@@ -115,7 +115,7 @@ const cubBadges = [
   {
     "name": "Cyclist",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/cyclist/",
-    "image": "https://prod-cms.scouts.org.uk/media/21418/cu_cyclist_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/19912/cubs-cyclist-02-01-1.png",
     "steps": [
       "Show you know how to ride your bike safely. This includes starting, stopping, balancing, steering and signalling.",
       "Show you know the safety rules for riding on the road. Explain what the Green Cross Code is.",
@@ -126,7 +126,7 @@ const cubBadges = [
   {
     "name": "DIY",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/diy/",
-    "image": "https://prod-cms.scouts.org.uk/media/21419/cu_diy_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4319/activity-cu-diy.png",
     "steps": [
       "Show you know how to use simple tools safely. You could choose from tools like a hammer, screwdriver, spanner or pliers.",
       "Help with a DIY project at home or at your meeting place.",
@@ -137,7 +137,7 @@ const cubBadges = [
   {
     "name": "Digital Citizen (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/digital-citizen/",
-    "image": "https://prod-cms.scouts.org.uk/media/21401/staged_digital_citizen_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4457/staged-digital-citizen.png",
     "steps": [
       "Show you can use a computer, tablet or smartphone.",
       "Show you know how to stay safe online.",
@@ -148,7 +148,7 @@ const cubBadges = [
   {
     "name": "Disability Awareness",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/disability-awareness/",
-    "image": "https://prod-cms.scouts.org.uk/media/21420/cu_disability_awareness_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/tqjm0xbw/option-b-cub-scouts-1.png",
     "steps": [
       "Find out about different types of disabilities. You could research physical disabilities, learning disabilities, sensory impairments or mental health conditions.",
       "Learn about famous people with disabilities and their achievements.",
@@ -160,7 +160,7 @@ const cubBadges = [
   {
     "name": "Emergency Aid (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/emergency-aid/",
-    "image": "https://prod-cms.scouts.org.uk/media/21402/staged_emergency_aid_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4459/staged-emergency-aid.png",
     "steps": [
       "Know how to get help in an emergency.",
       "Know how to help someone who is bleeding.",
@@ -171,7 +171,7 @@ const cubBadges = [
   {
     "name": "Entertainer",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/entertainer/",
-    "image": "https://prod-cms.scouts.org.uk/media/21421/cu_entertainer_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4320/activity-cu-entertainer.png",
     "steps": [
       "Take part in a performance. This could be at a Pack meeting, campfire, show or other event.",
       "Choose two of these to do: a. Tell three jokes. b. Recite a poem. c. Perform a magic trick. d. Play a musical instrument. e. Sing a song. f. Take part in a mime or sketch. g. Perform a dance.",
@@ -182,7 +182,7 @@ const cubBadges = [
   {
     "name": "Environmental Conservation",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/environmental-conservation/",
-    "image": "https://prod-cms.scouts.org.uk/media/21422/cu_environmental_conservation_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4321/activity-cu-environment-conservation.png",
     "steps": [
       "Find out about an environmental issue that affects your local area. This could be pollution, litter, loss of green spaces or climate change impacts.",
       "Take part in a practical conservation project. This could be planting trees, clearing a pond, building bird boxes or creating a wildlife garden.",
@@ -194,7 +194,7 @@ const cubBadges = [
   {
     "name": "Fire Safety",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/fire-safety/",
-    "image": "https://prod-cms.scouts.org.uk/media/21423/cu_fire_safety_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4323/activity-cu-fire-safety.png",
     "steps": [
       "Learn about the dangers of fire. Talk about how fires can start and spread.",
       "Show you know what to do if you discover a fire. This includes raising the alarm and getting out safely.",
@@ -207,7 +207,7 @@ const cubBadges = [
   {
     "name": "Gardener",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/gardener/",
-    "image": "https://prod-cms.scouts.org.uk/media/21424/cu_gardener_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4324/activity-cu-gardener.png",
     "steps": [
       "Grow and care for a plant for at least two months. This could be indoors or outdoors.",
       "Learn about the tools needed for gardening, like trowels, forks, watering cans and gloves. Show how to use them safely.",
@@ -219,7 +219,7 @@ const cubBadges = [
   {
     "name": "Global Issues",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/global-issues/",
-    "image": "https://prod-cms.scouts.org.uk/media/21425/cu_global_issues_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/v10fxzbk/varta-badge.png",
     "steps": [
       "Find out about a global issue like poverty, climate change, access to clean water or health.",
       "Learn about a charity or organisation that works on this issue. Find out what they do.",
@@ -230,7 +230,7 @@ const cubBadges = [
   {
     "name": "Hikes Away (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/hikes-away/",
-    "image": "https://prod-cms.scouts.org.uk/media/21403/staged_hikes_away_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/19907/hikes-away-02-01-1.png",
     "steps": [
       "Take part in a hike or walk of at least 2km."
     ]
@@ -238,7 +238,7 @@ const cubBadges = [
   {
     "name": "Hobbies",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/hobbies/",
-    "image": "https://prod-cms.scouts.org.uk/media/21426/cu_hobbies_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/lflh5heo/airfix-01.png",
     "steps": [
       "Have a hobby and follow it for at least four weeks. This could be anything from model making or coding to playing an instrument or looking after pets.",
       "Show you know about your hobby and can talk about it enthusiastically.",
@@ -249,7 +249,7 @@ const cubBadges = [
   {
     "name": "Home Help",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/home-help/",
-    "image": "https://prod-cms.scouts.org.uk/media/21427/cu_home_help_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4327/activity-cu-home-help.png",
     "steps": [
       "Help with chores at home for at least four weeks. Keep a chart or diary to show what you have done.",
       "Show you can do two of these safely and well: a. Wash up or load/unload a dishwasher. b. Clean shoes. c. Tidy your bedroom. d. Make your bed. e. Help with laundry (sorting, loading machine, hanging out).",
@@ -260,7 +260,7 @@ const cubBadges = [
   {
     "name": "International",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/international/",
-    "image": "https://prod-cms.scouts.org.uk/media/21428/cu_international_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4329/activity-cu-international.png",
     "steps": [
       "Find out about Scouting in another country. Learn about their uniform, Promise, Law or activities.",
       "Learn some words or phrases in another language. Try to have a simple conversation.",
@@ -272,7 +272,7 @@ const cubBadges = [
   {
     "name": "Islamophobia Awareness Month Blanket Badge",
     "url": "https://www.scouts.org.uk/scouts/activity-badges/islamophobia-awareness-month-blanket-badge/",
-    "image": "https://prod-cms.scouts.org.uk/media/18806/islamophobia-awareness-month-badge.png",
+    "image": "https://prod-cms.scouts.org.uk/media/l4ybcdeg/islamophobia-awareness-month-blanket-badge_final-01.png",
     "steps": [
       "Take part in an activity to learn about Islamophobia and how to challenge it.",
       "Share what you have learned with others."
@@ -281,7 +281,7 @@ const cubBadges = [
   {
     "name": "Local Knowledge",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/local-knowledge/",
-    "image": "https://prod-cms.scouts.org.uk/media/21429/cu_local_knowledge_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4330/activity-cu-local-knowledge.png",
     "steps": [
       "Find out about the history of your local area. This could include finding out how your town or village got its name or learning about an important local event.",
       "Visit a place of interest in your local area, like a museum, park, historic building or nature reserve. Explain why it is interesting.",
@@ -293,7 +293,7 @@ const cubBadges = [
   {
     "name": "Martial Arts",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/martial-arts/",
-    "image": "https://prod-cms.scouts.org.uk/media/21430/cu_martial_arts_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4331/activity-cu-martial-arts.png",
     "steps": [
       "Take part regularly in a martial art for at least four months. This could be karate, judo, taekwondo, aikido, kung fu or another recognised style.",
       "Show you know the rules and etiquette (good manners) of your chosen martial art.",
@@ -305,7 +305,7 @@ const cubBadges = [
   {
     "name": "Money Skills",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/money-skills/",
-    "image": "https://prod-cms.scouts.org.uk/media/21431/cu_money_skills_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/13707/activity-badges-cu-money-skills-rgb.png",
     "steps": [
       "Show you know the value of different coins and notes used in the UK. Be able to make up different amounts.",
       "Learn about different ways to pay for things, like cash, cards (debit/credit), online payments and mobile payments. Talk about the pros and cons of each.",
@@ -317,7 +317,7 @@ const cubBadges = [
   {
     "name": "My Faith",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/my-faith/",
-    "image": "https://prod-cms.scouts.org.uk/media/21432/cu_my_faith_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4332/activity-cu-my-faith.png",
     "steps": [
       "Learn about the main beliefs and practices of your faith.",
       "Find out about important stories, writings or figures in your faith.",
@@ -329,7 +329,7 @@ const cubBadges = [
   {
     "name": "Naturalist",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/naturalist/",
-    "image": "https://prod-cms.scouts.org.uk/media/21433/cu_naturalist_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4333/activity-cu-naturalist.png",
     "steps": [
       "Identify six different types of trees or plants you might find locally.",
       "Identify six different types of birds, insects or animals you might find locally.",
@@ -341,7 +341,7 @@ const cubBadges = [
   {
     "name": "Navigator (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/navigator/",
-    "image": "https://prod-cms.scouts.org.uk/media/21404/staged_navigator_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4463/staged-navigator.png",
     "steps": [
       "Know the four cardinal points: North, South, East and West.",
       "Know how to set a map so it lines up with North.",
@@ -353,7 +353,7 @@ const cubBadges = [
   {
     "name": "Nights Away (Staged)",
     "url": "https://www.scouts.org.uk/staged-badges/nights-away/",
-    "image": "https://prod-cms.scouts.org.uk/media/21405/staged_nights_away_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/19908/nights-away-02-01-1.png",
     "steps": [
       "Spend one night away on a recognised Scout activity (like a camp or sleepover).",
       "Help pitch or strike a tent OR help set up or clear away your sleeping area.",
@@ -363,7 +363,7 @@ const cubBadges = [
   {
     "name": "Photographer",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/photographer/",
-    "image": "https://prod-cms.scouts.org.uk/media/21434/cu_photographer_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4335/activity-cu-photographer.png",
     "steps": [
       "Show you know how to use a camera or phone camera safely and respectfully. Understand about asking permission before taking photos of people.",
       "Take at least eight photos on a theme chosen with your leader. Think about composition (how the picture is arranged).",
@@ -375,7 +375,7 @@ const cubBadges = [
   {
     "name": "Physical Recreation",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/physical-recreation/",
-    "image": "https://prod-cms.scouts.org.uk/media/21435/cu_physical_recreation_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4336/activity-cu-physical-recreation.png",
     "steps": [
       "Take part regularly in a physical activity for at least four weeks. This could be a sport like football, swimming, gymnastics or dancing, or another activity like skateboarding or climbing.",
       "Show you know the rules or techniques for your chosen activity.",
@@ -386,7 +386,7 @@ const cubBadges = [
   {
     "name": "Pioneer",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/pioneer/",
-    "image": "https://prod-cms.scouts.org.uk/media/21436/cu_pioneer_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4337/activity-cu-pioneer.png",
     "steps": [
       "Learn how to tie four different knots useful for pioneering, such as reef knot, clove hitch, bowline, sheet bend or timber hitch.",
       "Learn how to tie two different lashings, such as square lashing and diagonal lashing.",
@@ -398,7 +398,7 @@ const cubBadges = [
   {
     "name": "Road Safety",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/road-safety/",
-    "image": "https://prod-cms.scouts.org.uk/media/21437/cu_road_safety_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4338/activity-cu-road-safety.png",
     "steps": [
       "Learn the Green Cross Code and explain it in your own words.",
       "Show you know how to cross different types of roads safely, including roads with parked cars, junctions and crossings (like zebra or pelican crossings).",
@@ -410,7 +410,7 @@ const cubBadges = [
   {
     "name": "Scientist",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/scientist/",
-    "image": "https://prod-cms.scouts.org.uk/media/21438/cu_scientist_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4222/cu-scientist-rollsroyce.png",
     "steps": [
       "Carry out three different science experiments. These could explore topics like forces, electricity, chemical reactions or properties of materials.",
       "Explain what you did and what happened in each experiment. Talk about what you learned.",
@@ -422,7 +422,7 @@ const cubBadges = [
   {
     "name": "Space",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/space/",
-    "image": "https://prod-cms.scouts.org.uk/media/21439/cu_space_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/21395/cu_astronomer_sa.png",
     "steps": [
       "Identify some constellations you can see in the night sky, like the Plough or Orion. Know a story associated with one of them.",
       "Learn about the planets in our solar system. Know their order from the Sun and one fact about each.",
@@ -434,7 +434,7 @@ const cubBadges = [
   {
     "name": "World Faiths",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/world-faiths/",
-    "image": "https://prod-cms.scouts.org.uk/media/21440/cu_world_faiths_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4344/activity-cu-world-faiths.png",
     "steps": [
       "Find out about the main beliefs of two different world faiths (not including your own, if you have one). Choose from faiths like Buddhism, Christianity, Hinduism, Islam, Judaism or Sikhism.",
       "Learn about important festivals or celebrations in these faiths. Find out when and why they are celebrated.",
