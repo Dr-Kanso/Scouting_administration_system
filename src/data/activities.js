@@ -3371,6 +3371,19 @@ let activities = [ // Changed const to let to allow reassignment
     ]
   },
   {
+    id: 'evening-stroll',
+    name: "Evening Stroll",
+    type: "Outdoors",
+    description: "Experience the outdoors at dusk and observe nature at night",
+    duration: "60 minutes",
+    url: "https://www.scouts.org.uk/activities/evening-stroll/",
+    suitable: ["Cubs", "Scouts"],
+    badges: [
+      { section: "Cubs", name: "Our Outdoors Challenge" },
+      { section: "Scouts", name: "Outdoor Challenge" }
+    ]
+  },
+  {
     id: 'every-picture-tells-a-story',
     name: "Every Picture Tells a Story",
     type: "Creative",
@@ -3382,19 +3395,6 @@ let activities = [ // Changed const to let to allow reassignment
       { section: "Beavers", name: "Creative" },
       { section: "Cubs", name: "Photographer" },
       { section: "Scouts", name: "Creative" }
-    ]
-  },
-  {
-    id: 'everyones-a-critic',
-    name: "Everyone's a Critic",
-    type: "Communication",
-    description: "Learn to give and receive constructive criticism",
-    duration: "35 minutes",
-    url: "https://www.scouts.org.uk/activities/everyone-s-a-critic/",
-    suitable: ["Cubs", "Scouts"],
-    badges: [
-      { section: "Cubs", name: "Our Skills Challenge" },
-      { section: "Scouts", name: "Skills Challenge" }
     ]
   },
   {
@@ -3411,6 +3411,19 @@ let activities = [ // Changed const to let to allow reassignment
     ]
   },
   {
+    id: 'exciting-experiments',
+    name: "Exciting Experiments",
+    type: "STEM",
+    description: "Conduct fun and educational science experiments",
+    duration: "45 minutes",
+    url: "https://www.scouts.org.uk/activities/exciting-experiments/",
+    suitable: ["Beavers", "Cubs"],
+    badges: [
+      { section: "Beavers", name: "Experiment" },
+      { section: "Cubs", name: "Science" }
+    ]
+  },
+  {
     id: 'experiment-development',
     name: "Experiment Development",
     type: "STEM",
@@ -3421,19 +3434,6 @@ let activities = [ // Changed const to let to allow reassignment
     badges: [
       { section: "Cubs", name: "Science" },
       { section: "Scouts", name: "Science" }
-    ]
-  },
-  {
-    id: 'experiment-making-magic-mud',
-    name: "Experiment: Making Magic Mud",
-    type: "STEM",
-    description: "Create a non-Newtonian fluid and explore its properties",
-    duration: "30 minutes",
-    url: "https://www.scouts.org.uk/activities/experiment-making-magic-mud/",
-    suitable: ["Beavers", "Cubs"],
-    badges: [
-      { section: "Beavers", name: "Experiment" },
-      { section: "Cubs", name: "Science" }
     ]
   },
   {

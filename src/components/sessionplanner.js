@@ -142,6 +142,9 @@ export default function SessionPlanner() {
 
       await addDoc(collection(db, 'sessions'), {
         ...form,
+        selectedBadges: selectedBadges,
+        checkedSteps: checkedSteps,
+        selectedActivities: selectedActivities,
         createdAt: serverTimestamp(),
         createdBy: user.uid
       });
