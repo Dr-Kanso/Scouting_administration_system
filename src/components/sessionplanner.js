@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react'; // Import useMemo
 import './sessionplanner.css';
 import { db, auth } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import beaverBadges from '../data/beaverBadges';
 import cubBadges from '../data/cubBadges'; // Import Cub badges
 import scoutBadges from '../data/scoutBadges'; // Import Scout badges
-import activities from '../data/activities'; // Import activities
+import rawActivities from '../data/activities'; // Import raw activities data
 
 export default function SessionPlanner() {
   const [form, setForm] = useState({
@@ -17,8 +17,6 @@ export default function SessionPlanner() {
     intro: '',
     islamic: '',
     body: '',
-    activities: '',
-    selectedActivities: '',
     equipment: '',
     conclusion: '',
     www: '',
@@ -27,52 +25,48 @@ export default function SessionPlanner() {
   const [availableBadges, setAvailableBadges] = useState([]);
   const [selectedBadges, setSelectedBadges] = useState([]);
   const [checkedSteps, setCheckedSteps] = useState({});
-  const [availableActivities, setAvailableActivities] = useState([]);
-  const [selectedActivities, setSelectedActivities] = useState([]);
+
+  // Transform raw activity data into the format needed by the component
+  const transformedActivities = useMemo(() => {
+    return rawActivities.map((activity, index) => {
+      const badges = [];
+      if (activity.countsTowards) {
+        Object.entries(activity.countsTowards).forEach(([section, badgeNames]) => {
+          badgeNames.forEach(name => {
+            badges.push({ section, name });
+          });
+        });
+      }
+      return {
+        id: `${activity.title.replace(/\s+/g, '-')}-${index}`, // Generate a simple ID
+        name: activity.title,
+        url: activity.url,
+        duration: activity.details?.time || 'N/A',
+        cost: activity.details?.cost || 'N/A',
+        location: activity.details?.location || 'N/A',
+        groupSize: activity.details?.groupSize || 'N/A',
+        suitable: activity.details?.suitableFor || [],
+        description: `Activity details available at: ${activity.url}`, // Placeholder description
+        badges: badges,
+        type: 'General', // Add a placeholder type if needed, or derive it
+      };
+    });
+  }, []); // Empty dependency array means this runs once
 
   // Update available badges when group changes
   useEffect(() => {
     if (form.group === 'Beavers') {
       setAvailableBadges(beaverBadges);
-    } else if (form.group === 'Cubs') { // Add condition for Cubs
+    } else if (form.group === 'Cubs') {
       setAvailableBadges(cubBadges);
-    } else if (form.group === 'Scouts') { // Add condition for Scouts
+    } else if (form.group === 'Scouts') {
       setAvailableBadges(scoutBadges);
     } else {
-      // For other groups, clear available badges for now
       setAvailableBadges([]);
     }
-    // Reset selected badges when group changes
     setSelectedBadges([]);
-    setForm(prevForm => ({ ...prevForm, badges: '' })); // Use functional update for safety
+    setForm(prevForm => ({ ...prevForm, badges: '' }));
   }, [form.group]);
-
-  // Filter activities by group and selected badges
-  useEffect(() => {
-    let filteredActivities = [];
-    
-    if (form.group) {
-      // First filter by group
-      filteredActivities = activities.filter(activity => 
-        activity.suitable.includes(form.group)
-      );
-      
-      // If badges are selected, further filter by those badges
-      if (selectedBadges.length > 0) {
-        filteredActivities = filteredActivities.filter(activity => {
-          // Check if activity contributes to any selected badge
-          return activity.badges.some(badge => 
-            badge.section === form.group && 
-            selectedBadges.some(selectedBadge => selectedBadge.name === badge.name)
-          );
-        });
-      }
-    } else {
-      filteredActivities = activities;
-    }
-    
-    setAvailableActivities(filteredActivities);
-  }, [form.group, selectedBadges]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -92,31 +86,6 @@ export default function SessionPlanner() {
     });
   };
 
-  const handleActivitySelect = (activity) => {
-    let updatedSelection;
-    if (selectedActivities.some(a => a.id === activity.id)) {
-      updatedSelection = selectedActivities.filter(a => a.id !== activity.id);
-    } else {
-      updatedSelection = [...selectedActivities, activity];
-    }
-    setSelectedActivities(updatedSelection);
-    setForm({
-      ...form,
-      selectedActivities: updatedSelection.map(a => a.name).join(', ')
-    });
-    
-    // Optionally auto-populate activities field with selected activities
-    const activitiesText = updatedSelection.map(a => 
-      `${a.name} (${a.duration}): ${a.description}`
-    ).join('\n\n');
-    
-    setForm(prevForm => ({
-      ...prevForm,
-      activities: activitiesText
-    }));
-  };
-
-  // Track checked steps
   const handleStepCheckChange = (badgeName, step) => {
     setCheckedSteps(prev => {
       const badgeChecks = { ...prev[badgeName] };
@@ -128,7 +97,6 @@ export default function SessionPlanner() {
   const handleReset = () => {
     setForm(Object.fromEntries(Object.keys(form).map(key => [key, ''])));
     setSelectedBadges([]);
-    setSelectedActivities([]);
     setCheckedSteps({});
   };
 
@@ -144,13 +112,12 @@ export default function SessionPlanner() {
         ...form,
         selectedBadges: selectedBadges,
         checkedSteps: checkedSteps,
-        selectedActivities: selectedActivities,
         createdAt: serverTimestamp(),
         createdBy: user.uid
       });
 
       alert('Session saved successfully!');
-      handleReset(); // Optional: clear form after save
+      handleReset();
     } catch (error) {
       console.error('Error saving session:', error);
       alert('Failed to save session.');
@@ -182,24 +149,19 @@ export default function SessionPlanner() {
       </div>
 
       <div className="form-row">
-        <label>Session Title:</label>
-        <input name="title" value={form.title} onChange={handleChange} />
-      </div>
-
-      <div className="form-row">
         <label>Badge(s) Covered:</label>
         <input name="badges" value={form.badges} onChange={handleChange} placeholder="Type or select below" />
 
         {availableBadges.length > 0 && (
           <div className="badge-selector">
-            <h4>Select from available {form.group} badges:</h4> {/* Dynamic title */}
+            <h4>Select from available {form.group} badges:</h4>
             <div className="badge-grid">
               {availableBadges.map(badge => (
                 <div
                   key={badge.name}
                   className={`badge-item ${selectedBadges.some(b => b.name === badge.name) ? 'selected' : ''}`}
                   onClick={() => handleBadgeSelect(badge)}
-                  title={badge.name} // Add title for hover effect
+                  title={badge.name}
                 >
                   <img src={badge.image} alt={badge.name} />
                   <span>{badge.name}</span>
@@ -216,13 +178,25 @@ export default function SessionPlanner() {
           {selectedBadges.map(badge => (
             <div key={badge.name}>
               <h4>
-                {badge.name} <img
+                {badge.name}
+                <img
                   src={badge.image}
                   alt={badge.name}
-                  style={{ width: '32px', height: 'auto' }} />
+                  style={{ width: '32px', height: 'auto', verticalAlign: 'middle' }}
+                />
+                {badge.url && (
+                  <a
+                    href={badge.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ fontSize: '0.8em', marginLeft: '10px' }}
+                  >
+                    (show activities)
+                  </a>
+                )}
               </h4>
               {badge.steps && badge.steps.map(step => (
-                <label key={step} className="checklist-label"> {/* Add className here */}
+                <label key={step} className="checklist-label">
                   <input
                     type="checkbox"
                     checked={checkedSteps[badge.name]?.[step] || false}
@@ -234,6 +208,11 @@ export default function SessionPlanner() {
           ))}
         </div>
       )}
+
+      <div className="form-row">
+        <label>Session Title:</label>
+        <input name="title" value={form.title} onChange={handleChange} />
+      </div>
 
       <div className="form-row">
         <label>Introductory Points:</label>
@@ -248,73 +227,6 @@ export default function SessionPlanner() {
       <div className="form-row">
         <label>Main Body:</label>
         <textarea name="body" value={form.body} onChange={handleChange} />
-      </div>
-
-      <div className="form-row">
-        <label>Activities:</label>
-        <textarea name="activities" value={form.activities} onChange={handleChange} />
-
-        {form.group && selectedBadges.length > 0 && availableActivities.length > 0 && (
-          <div className="activity-selector">
-            <h4>
-              {selectedBadges.length > 0 
-                ? `Activities for ${selectedBadges.map(b => b.name).join(', ')}:`
-                : 'Select from Scout activities:'}
-            </h4>
-            <div className="activity-grid">
-              {availableActivities.map(activity => (
-                <div 
-                  key={activity.id}
-                  className={`activity-item ${selectedActivities.some(a => a.id === activity.id) ? 'selected' : ''}`}
-                  onClick={() => handleActivitySelect(activity)}
-                >
-                  <div className="activity-content">
-                    <span className="activity-name">{activity.name}</span>
-                    <span className="activity-type">{activity.type}</span>
-                    <span className="activity-duration">{activity.duration}</span>
-                    <p className="activity-description">{activity.description}</p>
-                    <div className="activity-badges">
-                      {activity.badges
-                        .filter(badge => badge.section === form.group)
-                        .map(badge => (
-                          <span 
-                            key={badge.name} 
-                            className="activity-badge-tag"
-                            title={`Counts towards ${badge.name}`}
-                          >
-                            {badge.name}
-                          </span>
-                        ))
-                      }
-                    </div>
-                    <a 
-                      href={activity.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      View details
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {form.group && selectedBadges.length > 0 && availableActivities.length === 0 && (
-          <div className="activity-selector">
-            <p className="no-activities-message">
-              No activities found for the selected badges. Try selecting different badges.
-            </p>
-          </div>
-        )}
-        
-        {(!form.group || selectedBadges.length === 0) && (
-          <div className="activity-selector-info">
-            <p>Please select a group and at least one badge to view relevant activities.</p>
-          </div>
-        )}
       </div>
 
       <div className="form-row">
