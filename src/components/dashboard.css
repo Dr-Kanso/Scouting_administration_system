@@ -29,8 +29,8 @@ body {
 }
 
 .logo {
-  width: 80px; /* Increased from 60px */
-  height: 80px; /* Increased from 60px */
+  width: 200px; /* Increased from 80px */
+  height: 200px; /* Increased from 80px */
   margin-right: 1.5rem;
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -38,6 +38,26 @@ body {
 
 .logo:hover {
   transform: scale(1.05);
+}
+
+.title-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.title-area h1 {
+  margin: 0;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.leader-info {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
 }
 
 .header h1 {
@@ -126,6 +146,31 @@ body {
 
 .manage-user-card {
   border-left-color: #3f51b5 !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background-color: #f5f7ff !important; /* Slightly different background */
+  box-shadow: 0 2px 5px rgba(63, 81, 181, 0.15) !important;
+}
+
+.manage-user-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3) !important;
+  background-color: #eef1ff !important;
+}
+
+.manage-user-card:hover::after {
+  content: "Click to manage your leader details";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(63, 81, 181, 0.9);
+  color: white;
+  padding: 6px 5px;
+  font-size: 0.85rem;
+  text-align: center;
+  font-weight: 500;
 }
 
 .signout-button {
@@ -151,11 +196,18 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background for better contrast */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(2px); /* Slight blur effect on background */
+  animation: fadeIn 0.2s ease-out; /* Animation for entrance */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .user-modal {
@@ -165,7 +217,15 @@ body {
   max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow for emphasis */
+  z-index: 1100;
+  animation: slideIn 0.3s ease-out; /* Slide in animation */
+  border: 1px solid #e0e0e0;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-header {
@@ -173,56 +233,52 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid #3f51b5; /* Colored border to make header stand out */
+  background-color: #f5f7ff; /* Subtle background color */
 }
 
 .modal-header h2 {
   margin: 0;
-  font-size: 1.4rem;
-  color: #333;
+  font-size: 1.5rem;
+  color: #3f51b5;
+  font-weight: 600;
 }
 
-.close-button {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #777;
-}
-
+/* Enhance form elements for better visibility */
 .user-modal form {
-  padding: 20px;
+  padding: 25px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: #555;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.error-message {
-  background-color: #ffebee;
-  color: #d32f2f;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  font-size: 0.9rem;
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.2);
+  outline: none;
 }
 
+/* Improve button visibility in modal */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -231,10 +287,12 @@ body {
 }
 
 .modal-actions button {
-  padding: 10px 15px;
+  padding: 12px 20px;
   border-radius: 4px;
   font-weight: 500;
   cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
 }
 
 .modal-actions button:first-child {
@@ -247,11 +305,396 @@ body {
   background-color: #4CAF50;
   border: none;
   color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.primary-button:hover:not(:disabled) {
+  background-color: #43A047;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .primary-button:disabled {
   background-color: #a5d6a7;
   cursor: not-allowed;
+}
+
+/* Upcoming Sessions Calendar */
+.upcoming-sessions {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+}
+
+.upcoming-sessions h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-session-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-session-button:hover {
+  background-color: #45a049;
+}
+
+.calendar-container {
+  margin-top: 1rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-day {
+  height: 80px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 0.5rem;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+  background-color: #f5f5f5;
+}
+
+.calendar-day.has-event {
+  background-color: #f8f8f8;
+}
+
+.calendar-day.has-event:hover {
+  background-color: #e8eaf6;
+}
+
+.calendar-day-header {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-day.today {
+  background-color: #f0f8ff;
+  border-color: #4287f5;
+}
+
+.calendar-day.has-event {
+  cursor: pointer;
+}
+
+.calendar-day.other-month {
+  background-color: #f9f9f9;
+  color: #ccc;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4287f5;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+.session-event {
+  font-size: 0.8rem;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+  background-color: #e3f2fd;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.session-event.beaver {
+  background-color: #e3f2fd;
+  border-left: 3px solid #4287f5;
+}
+
+.session-event.cub {
+  background-color: #e8f5e9;
+  border-left: 3px solid #4CAF50;
+}
+
+.session-event.scout {
+  background-color: #fff3e0;
+  border-left: 3px solid #ff9800;
+}
+
+.session-event.explorer {
+  background-color: #fce4ec;
+  border-left: 3px solid #f542c8;
+}
+
+.date-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.session-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.session-item-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.section-badge {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  color: white;
+  background-color: #757575;
+}
+
+.section-badge.beavers {
+  background-color: #4287f5;
+}
+
+.section-badge.cubs {
+  background-color: #4CAF50;
+}
+
+.section-badge.scouts {
+  background-color: #ff9800;
+}
+
+.section-badge.explorers {
+  background-color: #f542c8;
+}
+
+.session-item-details {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.session-item-details p {
+  margin: 0.25rem 0;
+}
+
+.session-list {
+  margin-top: 1.5rem;
+}
+
+.session-list h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.session-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  background-color: #f8f8f8;
+  transition: all 0.2s ease;
+}
+
+.session-item:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.session-date {
+  width: 60px;
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.session-day {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.session-month {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.session-details {
+  flex-grow: 1;
+}
+
+.session-title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.session-info {
+  font-size: 0.85rem;
+  color: #666;
+  display: flex;
+  gap: 1rem;
+}
+
+.session-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.session-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.session-actions button:first-child {
+  background-color: #4287f5;
+  color: white;
+}
+
+.edit-button {
+  background-color: #f5a742 !important;
+  color: white !important;
+}
+
+.delete-button {
+  background-color: #f54242 !important;
+  color: white !important;
+}
+
+.session-actions button:hover {
+  opacity: 0.9;
+}
+
+/* Confirm delete modal */
+.confirm-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.confirm-content {
+  padding: 15px 20px;
+}
+
+.confirm-content p {
+  margin-bottom: 10px;
+}
+
+/* View Session Modal */
+.view-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.view-content {
+  padding: 15px 20px;
+}
+
+.session-detail-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.detail-label {
+  width: 100px;
+  font-weight: 600;
+  color: #555;
+}
+
+.detail-value {
+  flex: 1;
+}
+
+.detail-value.description {
+  white-space: pre-line;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+}
+
+.session-creator {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #777;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Session Management */
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-group.half {
+  flex: 1;
+}
+
+input[type="date"],
+input[type="time"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
 /* Responsive adjustments */

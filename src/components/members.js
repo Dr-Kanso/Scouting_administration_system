@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './members.css';
 import logo from '../assets/logo.png';
-import { auth } from '../utils/firebase';
+import { auth, db } from '../utils/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById } from '../services/memberService';
 
 export default function Members() {
@@ -23,6 +24,35 @@ export default function Members() {
   });
   const [viewMember, setViewMember] = useState(null);
   const [viewLoading, setViewLoading] = useState(false);
+  const [leaderDetails, setLeaderDetails] = useState(null);
+  const [canDeleteMembers, setCanDeleteMembers] = useState(false);
+
+  // Fetch leader details to check permissions
+  useEffect(() => {
+    const fetchLeaderDetails = async () => {
+      try {
+        if (user) {
+          const leaderDocRef = doc(db, 'leaders', user.uid);
+          const leaderDoc = await getDoc(leaderDocRef);
+          
+          if (leaderDoc.exists()) {
+            const details = leaderDoc.data();
+            setLeaderDetails(details);
+            
+            // Check if user has permission to delete members (GSL or Section Leader)
+            const isGSL = details.role === 'GSL' && user.email === 'drhassankanso@gmail.com';
+            const isSectionLeader = details.role === 'Section Leader';
+            
+            setCanDeleteMembers(isGSL || isSectionLeader);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching leader details:", err);
+      }
+    };
+
+    fetchLeaderDetails();
+  }, [user]);
 
   useEffect(() => {
     loadMembers();
@@ -187,7 +217,9 @@ export default function Members() {
                   <td>{member.joinDate?.toDate ? member.joinDate.toDate().toLocaleDateString() : 'N/A'}</td>
                   <td>
                     <button onClick={() => handleViewMember(member.id)}>View</button>
-                    <button onClick={() => handleDeleteMember(member.id)}>Delete</button>
+                    {canDeleteMembers && (
+                      <button onClick={() => handleDeleteMember(member.id)}>Delete</button>
+                    )}
                   </td>
                 </tr>
               ))}
