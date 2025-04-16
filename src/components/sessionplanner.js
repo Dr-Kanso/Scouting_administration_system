@@ -251,7 +251,7 @@ export default function SessionPlanner() {
         <label>Activities:</label>
         <textarea name="activities" value={form.activities} onChange={handleChange} />
 
-        {availableActivities.length > 0 && (
+        {form.group && selectedBadges.length > 0 && availableActivities.length > 0 && (
           <div className="activity-selector">
             <h4>
               {selectedBadges.length > 0 
@@ -296,11 +296,20 @@ export default function SessionPlanner() {
                 </div>
               ))}
             </div>
-            {availableActivities.length === 0 && selectedBadges.length > 0 && (
-              <p className="no-activities-message">
-                No activities found for the selected badges. Try selecting different badges or viewing all activities.
-              </p>
-            )}
+          </div>
+        )}
+        
+        {form.group && selectedBadges.length > 0 && availableActivities.length === 0 && (
+          <div className="activity-selector">
+            <p className="no-activities-message">
+              No activities found for the selected badges. Try selecting different badges.
+            </p>
+          </div>
+        )}
+        
+        {(!form.group || selectedBadges.length === 0) && (
+          <div className="activity-selector-info">
+            <p>Please select a group and at least one badge to view relevant activities.</p>
           </div>
         )}
       </div>
