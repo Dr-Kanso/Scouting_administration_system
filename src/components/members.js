@@ -4,7 +4,29 @@ import './members.css';
 import logo from '../assets/logo.png';
 import { auth, db } from '../utils/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById } from '../services/memberService';
+import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById, updateMember } from '../services/memberService';
+import * as XLSX from 'xlsx';
+
+// Helper function to calculate age from date of birth
+const calculateAge = (birthDateString) => {
+  if (!birthDateString) return null;
+  
+  // Handle both string dates and Firestore timestamp objects
+  const birthDate = birthDateString.toDate ? 
+    birthDateString.toDate() : 
+    new Date(birthDateString);
+  
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  
+  // If birthday hasn't occurred yet this year, subtract 1
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  return age;
+};
 
 export default function Members() {
   const navigate = useNavigate();
@@ -15,13 +37,17 @@ export default function Members() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSection, setSelectedSection] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [newMember, setNewMember] = useState({
     firstName: '',
     lastName: '',
     section: 'Beavers',
     dateOfBirth: '',
-    notes: ''
+    notes: '',
+    phone: '',
+    email: ''
   });
+  const [editMember, setEditMember] = useState(null);
   const [viewMember, setViewMember] = useState(null);
   const [viewLoading, setViewLoading] = useState(false);
   const [leaderDetails, setLeaderDetails] = useState(null);
@@ -97,6 +123,14 @@ export default function Members() {
     }));
   };
 
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditMember(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
@@ -106,12 +140,35 @@ export default function Members() {
         lastName: '',
         section: 'Beavers',
         dateOfBirth: '',
-        notes: ''
+        notes: '',
+        phone: '',
+        email: ''
       });
       setShowAddForm(false);
       loadMembers();
     } catch (error) {
       console.error('Error adding member:', error);
+    }
+  };
+
+  const handleEditMember = (member) => {
+    setEditMember({...member});
+    setShowEditForm(true);
+  };
+
+  const handleUpdateMember = async (e) => {
+    e.preventDefault();
+    try {
+      await updateMember(editMember.id, editMember);
+      setShowEditForm(false);
+      setEditMember(null);
+      loadMembers();
+      // If the current view member is the one being edited, update the view as well
+      if (viewMember && viewMember.id === editMember.id) {
+        setViewMember(editMember);
+      }
+    } catch (error) {
+      console.error('Error updating member:', error);
     }
   };
 
@@ -142,10 +199,43 @@ export default function Members() {
     setViewMember(null);
   };
 
+  const exportToExcel = () => {
+    // Prepare data for export
+    const exportData = members.map(member => ({
+      'First Name': member.firstName,
+      'Last Name': member.lastName,
+      'Section': member.section,
+      'Date of Birth': member.dateOfBirth ? 
+        (member.dateOfBirth.toDate ? 
+          member.dateOfBirth.toDate().toLocaleDateString() : 
+          new Date(member.dateOfBirth).toLocaleDateString()) : 'N/A',
+      'Join Date': member.joinDate ? 
+        (member.joinDate.toDate ? 
+          member.joinDate.toDate().toLocaleDateString() : 
+          new Date(member.joinDate).toLocaleDateString()) : 'N/A',
+      'Phone': member.phone || 'N/A',
+      'Email': member.email || 'N/A',
+      'Notes': member.notes || ''
+    }));
+
+    // Create workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Members");
+
+    // Generate Excel file
+    const excelFileName = `scouts_members_${new Date().toISOString().slice(0,10)}.xlsx`;
+    XLSX.writeFile(workbook, excelFileName);
+  };
+
   return (
     <div className="members-container">
       <div className="header">
-        <img src={logo} alt="14th Willesden Logo" className="logo" />
+        <div className="logo-container" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
+          <img src={logo} alt="14th Willesden Logo" className="logo" />
+        </div>
         <h1>Member Database</h1>
         <p>{user?.email}</p>
       </div>
@@ -193,6 +283,7 @@ export default function Members() {
         />
         <button onClick={handleSearch}>Search</button>
         <button className="add-button" onClick={() => setShowAddForm(true)}>Add Member</button>
+        <button className="export-button" onClick={exportToExcel}>Export to Excel</button>
       </div>
 
       {loading ? (
@@ -217,6 +308,7 @@ export default function Members() {
                   <td>{member.joinDate?.toDate ? member.joinDate.toDate().toLocaleDateString() : 'N/A'}</td>
                   <td>
                     <button onClick={() => handleViewMember(member.id)}>View</button>
+                    <button onClick={() => handleEditMember(member)}>Edit</button>
                     {canDeleteMembers && (
                       <button onClick={() => handleDeleteMember(member.id)}>Delete</button>
                     )}
@@ -253,13 +345,85 @@ export default function Members() {
               </div>
               <div className="form-group">
                 <label>Date of Birth</label>
-                <input type="date" name="dateOfBirth" value={newMember.dateOfBirth} onChange={handleInputChange} />
+                <div className="dob-row">
+                  <input type="date" name="dateOfBirth" value={newMember.dateOfBirth} onChange={handleInputChange} />
+                  {newMember.dateOfBirth && (
+                    <span className="age-display">Age: {calculateAge(newMember.dateOfBirth)} years</span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" value={newMember.phone || ''} onChange={handleInputChange} />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" value={newMember.email || ''} onChange={handleInputChange} />
               </div>
               <div className="form-group">
                 <label>Notes</label>
                 <textarea name="notes" value={newMember.notes} onChange={handleInputChange}></textarea>
               </div>
               <button type="submit">Add Member</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showEditForm && editMember && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowEditForm(false)}>&times;</span>
+            <h2>Edit Member</h2>
+            <form onSubmit={handleUpdateMember}>
+              <div className="form-group">
+                <label>First Name</label>
+                <input type="text" name="firstName" value={editMember.firstName} onChange={handleEditInputChange} required />
+              </div>
+              <div className="form-group">
+                <label>Last Name</label>
+                <input type="text" name="lastName" value={editMember.lastName} onChange={handleEditInputChange} required />
+              </div>
+              <div className="form-group">
+                <label>Section</label>
+                <select name="section" value={editMember.section} onChange={handleEditInputChange}>
+                  <option value="Beavers">Beavers</option>
+                  <option value="Cubs">Cubs</option>
+                  <option value="Scouts">Scouts</option>
+                  <option value="Explorers">Explorers</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Date of Birth</label>
+                <div className="dob-row">
+                  <input 
+                    type="date" 
+                    name="dateOfBirth" 
+                    value={editMember.dateOfBirth ? 
+                      (editMember.dateOfBirth.toDate ? 
+                        editMember.dateOfBirth.toDate().toISOString().split('T')[0] : 
+                        new Date(editMember.dateOfBirth).toISOString().split('T')[0]) : ''
+                    } 
+                    onChange={handleEditInputChange} 
+                  />
+                  {editMember.dateOfBirth && (
+                    <span className="age-display">Age: {calculateAge(editMember.dateOfBirth)} years</span>
+                  )}
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" value={editMember.phone || ''} onChange={handleEditInputChange} />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" value={editMember.email || ''} onChange={handleEditInputChange} />
+              </div>
+              <div className="form-group">
+                <label>Notes</label>
+                <textarea name="notes" value={editMember.notes || ''} onChange={handleEditInputChange}></textarea>
+              </div>
+              <button type="submit">Update Member</button>
             </form>
           </div>
         </div>
@@ -289,6 +453,8 @@ export default function Members() {
                         ? viewMember.dateOfBirth.toDate().toLocaleDateString() 
                         : new Date(viewMember.dateOfBirth).toLocaleDateString())
                       : 'Not provided'}
+                    {viewMember.dateOfBirth && 
+                      <span className="age-display"> (Age: {calculateAge(viewMember.dateOfBirth)} years)</span>}
                   </div>
                   
                   <div className="info-item">
@@ -298,6 +464,16 @@ export default function Members() {
                         ? viewMember.joinDate.toDate().toLocaleDateString() 
                         : new Date(viewMember.joinDate).toLocaleDateString())
                       : 'Not recorded'}
+                  </div>
+                  
+                  <div className="info-item">
+                    <strong>Phone Number:</strong> 
+                    {viewMember.phone || 'Not provided'}
+                  </div>
+                  
+                  <div className="info-item">
+                    <strong>Email:</strong> 
+                    {viewMember.email || 'Not provided'}
                   </div>
 
                   {viewMember.notes && (

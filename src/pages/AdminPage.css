@@ -1,0 +1,221 @@
+.admin-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #023c69;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  height: 60px;
+  cursor: pointer;
+}
+
+.title-area {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.title-area h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.back-button, .signout-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.back-button {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.signout-button {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.admin-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.leaders-table-container {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+.leaders-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.leaders-table th, .leaders-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.leaders-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.leaders-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.edit-button, .delete-button {
+  padding: 6px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.admin-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.primary-button {
+  background-color: #023c69;
+  color: white;
+}
+
+.confirm-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.confirm-content {
+  margin: 20px 0;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.role-display {
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Admin card styling */
+.admin-card {
+  background-color: #023c69;
+  color: white;
+}
+
+.admin-card:hover {
+  background-color: #035aa0;
+}
+
+small {
+  color: #666;
+  font-size: 0.8rem;
+}

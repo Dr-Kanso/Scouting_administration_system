@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import SessionPlanner from './components/sessionplanner';
 import SessionList from './components/sessionlist';
 import SessionDetail from './components/sessiondetail';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -27,6 +28,7 @@ function App() {
         <Route path="/planner" element={<SessionPlanner />} />
         <Route path="/sessions" element={<SessionList />} />
         <Route path="/session/:id" element={<SessionDetail />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </Router>
   );

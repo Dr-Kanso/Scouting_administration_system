@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './sessionplanner.css';
 import { db, auth } from '../utils/firebase';
-import { collection, addDoc, serverTimestamp, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType } from 'docx';
 import { saveAs } from 'file-saver';
 import beaverBadges from '../data/beaverBadges';
@@ -10,8 +10,33 @@ import cubBadges from '../data/cubBadges';
 import scoutBadges from '../data/scoutBadges';
 import rawActivities from '../data/activities';
 
+const parseDate = (dateField) => {
+  if (!dateField) return '';
+  try {
+    const date = dateField.toDate ? dateField.toDate() : new Date(dateField);
+    return date.toISOString().split('T')[0];
+  } catch (e) {
+    console.error("Error parsing date:", e);
+    return '';
+  }
+};
+
+const parseTime = (dateField) => {
+  if (!dateField) return '15:30';
+  try {
+    const date = dateField.toDate ? dateField.toDate() : new Date(dateField);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  } catch (e) {
+    console.error("Error parsing time:", e);
+    return '15:30';
+  }
+};
+
 export default function SessionPlanner() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({
     leader: '',
     group: '',
@@ -21,7 +46,7 @@ export default function SessionPlanner() {
     intro: '',
     islamic: '',
     body: '',
-    equipment: '',
+    activityLink: '',
     conclusion: '',
     www: '',
     ebi: '',
@@ -30,6 +55,10 @@ export default function SessionPlanner() {
   const [availableBadges, setAvailableBadges] = useState([]);
   const [selectedBadges, setSelectedBadges] = useState([]);
   const [checkedSteps, setCheckedSteps] = useState({});
+  const [costItems, setCostItems] = useState([{ resource: '', quantity: 1, cost: '' }]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mode, setMode] = useState('create');
+  const [sessionId, setSessionId] = useState(null);
 
   const transformedActivities = useMemo(() => {
     return rawActivities.map((activity, index) => {
@@ -58,6 +87,64 @@ export default function SessionPlanner() {
   }, []);
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const modeParam = params.get('mode');
+    const idParam = params.get('sessionId');
+
+    if (idParam && (modeParam === 'edit' || modeParam === 'view')) {
+      setMode(modeParam);
+      setSessionId(idParam);
+      setIsLoading(true);
+
+      const fetchSessionData = async () => {
+        try {
+          const sessionDocRef = doc(db, 'sessions', idParam);
+          const sessionDoc = await getDoc(sessionDocRef);
+
+          if (sessionDoc.exists()) {
+            const data = sessionDoc.data();
+
+            setForm({
+              leader: data.leader || '',
+              group: data.section || data.group || '',
+              sessionDate: parseDate(data.date || data.plannedFor),
+              sessionTime: parseTime(data.date || data.plannedFor),
+              title: data.title || '',
+              badges: data.badges || '',
+              intro: data.intro || '',
+              islamic: data.islamic || '',
+              body: data.description || data.body || '',
+              activityLink: data.activityLink || '',
+              conclusion: data.conclusion || '',
+              www: data.www || '',
+              ebi: data.ebi || '',
+            });
+
+            setSelectedBadges(data.selectedBadges || []);
+            setCheckedSteps(data.checkedSteps || {});
+            setCostItems(Array.isArray(data.costBreakdown) && data.costBreakdown.length > 0 ? data.costBreakdown : [{ resource: '', quantity: 1, cost: '' }]);
+          } else {
+            console.error("Session not found!");
+            alert("Session not found. Redirecting to dashboard.");
+            navigate('/dashboard');
+          }
+        } catch (error) {
+          console.error("Error fetching session data:", error);
+          alert("Error loading session data.");
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchSessionData();
+    } else {
+      setMode('create');
+      setSessionId(null);
+      fetchLeaderDetails();
+    }
+  }, [location.search, navigate]);
+
+  useEffect(() => {
     if (form.group === 'Beavers') {
       setAvailableBadges(beaverBadges);
     } else if (form.group === 'Cubs') {
@@ -67,41 +154,41 @@ export default function SessionPlanner() {
     } else {
       setAvailableBadges([]);
     }
-    setSelectedBadges([]);
-    setForm(prevForm => ({ ...prevForm, badges: '' }));
-  }, [form.group]);
+    if (mode === 'create') {
+      setSelectedBadges([]);
+      setForm(prevForm => ({ ...prevForm, badges: '' }));
+    }
+  }, [form.group, mode]);
 
-  useEffect(() => {
-    const fetchLeaderDetails = async () => {
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          const leaderDocRef = doc(db, 'leaders', user.uid);
-          const leaderDoc = await getDoc(leaderDocRef);
-          
-          if (leaderDoc.exists()) {
-            const leaderData = leaderDoc.data();
-            const leaderName = `${leaderData.firstName || ''} ${leaderData.lastName || ''}`.trim();
-            setForm(prevForm => ({
-              ...prevForm,
-              leader: leaderName,
-              group: leaderData.section || prevForm.group
-            }));
-          }
+  const fetchLeaderDetails = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const leaderDocRef = doc(db, 'leaders', user.uid);
+        const leaderDoc = await getDoc(leaderDocRef);
+
+        if (leaderDoc.exists()) {
+          const leaderData = leaderDoc.data();
+          const leaderName = `${leaderData.firstName || ''} ${leaderData.lastName || ''}`.trim();
+          setForm(prevForm => ({
+            ...prevForm,
+            leader: prevForm.leader || leaderName,
+            group: prevForm.group || leaderData.section || ''
+          }));
         }
-      } catch (err) {
-        console.error("Error fetching leader details:", err);
       }
-    };
-
-    fetchLeaderDetails();
-  }, []);
+    } catch (err) {
+      console.error("Error fetching leader details:", err);
+    }
+  };
 
   const handleChange = (e) => {
+    if (mode === 'view') return;
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleBadgeSelect = (badge) => {
+    if (mode === 'view') return;
     let updatedSelection;
     if (selectedBadges.some(b => b.name === badge.name)) {
       updatedSelection = selectedBadges.filter(b => b.name !== badge.name);
@@ -116,6 +203,7 @@ export default function SessionPlanner() {
   };
 
   const handleStepCheckChange = (badgeName, step) => {
+    if (mode === 'view') return;
     setCheckedSteps(prev => {
       const badgeChecks = { ...prev[badgeName] };
       badgeChecks[step] = !badgeChecks[step];
@@ -123,27 +211,66 @@ export default function SessionPlanner() {
     });
   };
 
+  const handleCostItemChange = (index, field, value) => {
+    if (mode === 'view') return;
+    const newCostItems = [...costItems];
+
+    if (field === 'quantity') {
+      value = Math.max(1, parseInt(value) || 1);
+    } else if (field === 'cost') {
+      value = value === '' ? '' : parseFloat(value) || 0;
+    }
+
+    newCostItems[index][field] = value;
+    setCostItems(newCostItems);
+  };
+
+  const addCostItem = () => {
+    if (mode === 'view') return;
+    setCostItems([...costItems, { resource: '', quantity: 1, cost: '' }]);
+  };
+
+  const removeCostItem = (index) => {
+    if (mode === 'view') return;
+    if (costItems.length === 1) {
+      setCostItems([{ resource: '', quantity: 1, cost: '' }]);
+    } else {
+      const newCostItems = [...costItems];
+      newCostItems.splice(index, 1);
+      setCostItems(newCostItems);
+    }
+  };
+
+  const calculateItemTotal = (item) => {
+    const quantity = parseInt(item.quantity) || 0;
+    const cost = parseFloat(item.cost) || 0;
+    return quantity * cost;
+  };
+
+  const calculateGrandTotal = () => {
+    return costItems.reduce((sum, item) => sum + calculateItemTotal(item), 0);
+  };
+
   const handleReset = () => {
-    setForm({
-      leader: '',
-      group: '',
-      sessionDate: '',
-      sessionTime: '15:30',
-      title: '',
-      badges: '',
-      intro: '',
-      islamic: '',
-      body: '',
-      equipment: '',
-      conclusion: '',
-      www: '',
-      ebi: '',
-    });
-    setSelectedBadges([]);
-    setCheckedSteps({});
+    if (window.confirm("Are you sure you want to reset the form? Any unsaved changes will be lost.")) {
+      if (mode === 'edit' || mode === 'view') {
+        navigate('/planner');
+      } else {
+        setForm({
+          leader: '', group: '', sessionDate: '', sessionTime: '15:30', title: '', badges: '',
+          intro: '', islamic: '', body: '', activityLink: '', conclusion: '', www: '', ebi: '',
+        });
+        setSelectedBadges([]);
+        setCheckedSteps({});
+        setCostItems([{ resource: '', quantity: 1, cost: '' }]);
+        fetchLeaderDetails();
+      }
+    }
   };
 
   const handleSave = async () => {
+    if (mode === 'view') return;
+
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -151,67 +278,59 @@ export default function SessionPlanner() {
         return;
       }
 
-      // Validate required fields for calendar display
       if (!form.title || !form.sessionDate || !form.group) {
         alert('Please fill in at least the Title, Session Date, and Group fields before saving.');
         return;
       }
 
-      // Creation date (when the session plan is added to the system)
-      const creationDate = new Date();
-      
-      // Session date (when the session will actually take place - for the calendar)
       const sessionDate = new Date(form.sessionDate);
       const [hours, minutes] = form.sessionTime.split(':');
       sessionDate.setHours(parseInt(hours), parseInt(minutes), 0);
 
-      // Extract time information if available, or use default time
-      let timeString = "15:30";
-      if (form.sessionTime) {
-        timeString = form.sessionTime;
-      }
+      let timeString = form.sessionTime || "15:30";
 
-      // Create data object in format compatible with dashboard calendar
       const sessionData = {
-        // Calendar required fields
         title: form.title,
-        date: sessionDate, // This is the execution date that appears on the calendar
+        date: sessionDate,
         section: form.group,
-        location: form.location || "Scout HQ",
-        description: form.body || form.intro || "Session planned via Session Planner",
-        
-        // Tracking dates
-        createdAt: serverTimestamp(), // When the session plan was created
-        plannedFor: sessionDate, // When the session will be executed
-        
-        // User tracking
-        createdBy: user.uid,
-        
-        // Additional session planner fields
+        description: form.body,
+        activityLink: form.activityLink,
+        plannedFor: sessionDate,
         leader: form.leader,
         badges: form.badges,
         selectedBadges: selectedBadges,
         checkedSteps: checkedSteps,
         intro: form.intro,
         islamic: form.islamic,
-        equipment: form.equipment,
         conclusion: form.conclusion,
         www: form.www,
         ebi: form.ebi,
-        
-        // Flag to identify as a session plan
-        isSessionPlan: true
+        costBreakdown: costItems.map(item => ({
+          ...item,
+          totalCost: calculateItemTotal(item)
+        })).filter(item => item.resource || item.cost),
+        costTotal: calculateGrandTotal(),
+        isSessionPlan: true,
+        lastUpdatedAt: serverTimestamp(),
+        ...(mode === 'create' && { createdAt: serverTimestamp(), createdBy: user.uid }),
+        ...(mode === 'edit' && { updatedBy: user.uid }),
       };
 
-      // Save to Firestore sessions collection
-      await addDoc(collection(db, 'sessions'), sessionData);
+      if (mode === 'edit' && sessionId) {
+        const sessionDocRef = doc(db, 'sessions', sessionId);
+        await updateDoc(sessionDocRef, sessionData);
+        alert('Session plan updated successfully!');
+        navigate('/sessions');
+      } else {
+        await addDoc(collection(db, 'sessions'), sessionData);
+        alert('Session plan saved successfully! The session will appear on the calendar for ' + 
+              sessionDate.toLocaleDateString() + ' at ' + timeString + '.');
+        handleReset();
+      }
 
-      alert('Session plan saved successfully! The session will appear on the calendar for ' + 
-            sessionDate.toLocaleDateString() + ' at ' + form.sessionTime + '.');
-      handleReset();
     } catch (error) {
-      console.error('Error saving session:', error);
-      alert('Failed to save session.');
+      console.error(`Error ${mode === 'edit' ? 'updating' : 'saving'} session:`, error);
+      alert(`Failed to ${mode === 'edit' ? 'update' : 'save'} session.`);
     }
   };
 
@@ -327,7 +446,7 @@ export default function SessionPlanner() {
                     new Paragraph({
                       children: [
                         new TextRun({
-                          text: "□ ",
+                          text: checkedSteps[badge.name]?.[step] ? "☑ " : "□ ", 
                           bold: true,
                         }),
                         new TextRun(step),
@@ -362,10 +481,71 @@ export default function SessionPlanner() {
               new Paragraph(form.body || ""),
               
               new Paragraph({
-                text: "Equipment Needed",
+                text: "Link to Activity",
                 heading: HeadingLevel.HEADING_4,
               }),
-              new Paragraph(form.equipment || ""),
+              new Paragraph(form.activityLink || "N/A"),
+
+              new Paragraph({
+                text: "Equipment and Cost", 
+                heading: HeadingLevel.HEADING_4,
+              }),
+              ...(costItems.some(item => item.resource || item.cost) ? [
+                new Table({
+                  width: { size: 100, type: WidthType.PERCENTAGE },
+                  rows: [
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          width: { size: 40, type: WidthType.PERCENTAGE },
+                          children: [new Paragraph({ text: "Resource", bold: true })],
+                        }),
+                        new TableCell({
+                          width: { size: 15, type: WidthType.PERCENTAGE },
+                          children: [new Paragraph({ text: "Quantity", bold: true })],
+                        }),
+                        new TableCell({
+                          width: { size: 20, type: WidthType.PERCENTAGE },
+                          children: [new Paragraph({ text: "Cost Per Item (£)", bold: true })],
+                        }),
+                        new TableCell({
+                          width: { size: 25, type: WidthType.PERCENTAGE },
+                          children: [new Paragraph({ text: "Total (£)", bold: true })],
+                        }),
+                      ],
+                    }),
+                    ...costItems.filter(item => item.resource || item.cost).map(item => 
+                      new TableRow({
+                        children: [
+                          new TableCell({
+                            children: [new Paragraph(item.resource || "")],
+                          }),
+                          new TableCell({
+                            children: [new Paragraph(item.quantity?.toString() || "1")],
+                          }),
+                          new TableCell({
+                            children: [new Paragraph(item.cost?.toString() || "")],
+                          }),
+                          new TableCell({
+                            children: [new Paragraph((calculateItemTotal(item)).toFixed(2))],
+                          }),
+                        ],
+                      })
+                    ),
+                    new TableRow({
+                      children: [
+                        new TableCell({
+                          columnSpan: 3,
+                          children: [new Paragraph({ text: "Grand Total:", bold: true })],
+                        }),
+                        new TableCell({
+                          children: [new Paragraph({ text: `£${calculateGrandTotal().toFixed(2)}`, bold: true })],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ] : [new Paragraph("No cost items added.")]),
               
               new Paragraph({
                 text: "Conclusive Statement",
@@ -404,16 +584,22 @@ export default function SessionPlanner() {
     }
   };
 
+  const isReadOnly = mode === 'view';
+
+  if (isLoading) {
+    return <div className="loading-container">Loading session data...</div>;
+  }
+
   return (
     <div className="session-planner">
       <div className="planner-header">
-        <h1>🧭 Session Planner</h1>
-        <p>Create and manage your Scout sessions with this interactive planner</p>
+        <h1>{mode === 'view' ? 'View Session Plan' : mode === 'edit' ? 'Edit Session Plan' : '🧭 Session Planner'}</h1>
+        <p>{mode === 'view' ? 'Reviewing session details.' : 'Create and manage your Scout sessions.'}</p>
         <button 
           className="back-to-dashboard" 
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate(mode === 'view' || mode === 'edit' ? '/sessions' : '/dashboard')} 
         >
-          ← Back to Dashboard
+          {mode === 'view' || mode === 'edit' ? '← Back to List' : '← Back to Dashboard'}
         </button>
       </div>
 
@@ -439,6 +625,7 @@ export default function SessionPlanner() {
               value={form.group} 
               onChange={handleChange}
               className="form-select"
+              disabled={isReadOnly}
             >
               <option value="">Select a group</option>
               <option value="Beavers">Beavers</option>
@@ -455,6 +642,7 @@ export default function SessionPlanner() {
               value={form.sessionDate} 
               onChange={handleChange} 
               className="date-input"
+              readOnly={isReadOnly}
             />
           </div>
 
@@ -466,6 +654,7 @@ export default function SessionPlanner() {
               value={form.sessionTime} 
               onChange={handleChange} 
               className="time-input"
+              readOnly={isReadOnly}
             />
           </div>
         </div>
@@ -479,19 +668,20 @@ export default function SessionPlanner() {
             name="badges" 
             value={form.badges} 
             onChange={handleChange} 
-            placeholder="Type or select badges below" 
+            placeholder={isReadOnly ? "N/A" : "Type or select badges below"}
             className="badge-input"
+            readOnly={isReadOnly}
           />
 
-          {availableBadges.length > 0 && (
-            <div className="badge-selector">
-              <h4>Select from available {form.group} badges:</h4>
+          {(availableBadges.length > 0 && !isReadOnly) || (isReadOnly && selectedBadges.length > 0) ? (
+            <div className={`badge-selector ${isReadOnly ? 'view-mode' : ''}`}>
+              <h4>{isReadOnly ? "Selected Badges:" : `Select from available ${form.group} badges:`}</h4>
               <div className="badge-grid">
-                {availableBadges.map(badge => (
+                {(isReadOnly ? selectedBadges : availableBadges).map(badge => (
                   <div
                     key={badge.name}
-                    className={`badge-item ${selectedBadges.some(b => b.name === badge.name) ? 'selected' : ''}`}
-                    onClick={() => handleBadgeSelect(badge)}
+                    className={`badge-item ${selectedBadges.some(b => b.name === badge.name) ? 'selected' : ''} ${isReadOnly ? 'no-click' : ''}`}
+                    onClick={!isReadOnly ? () => handleBadgeSelect(badge) : undefined}
                     title={badge.name}
                   >
                     <img src={badge.image} alt={badge.name} />
@@ -500,7 +690,7 @@ export default function SessionPlanner() {
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
 
         {selectedBadges.length > 0 && (
@@ -528,11 +718,12 @@ export default function SessionPlanner() {
                 </div>
                 <div className="steps-checklist">
                   {badge.steps && badge.steps.map(step => (
-                    <label key={step} className="checklist-label">
+                    <label key={step} className={`checklist-label ${isReadOnly ? 'view-mode' : ''}`}>
                       <input
                         type="checkbox"
                         checked={checkedSteps[badge.name]?.[step] || false}
                         onChange={() => handleStepCheckChange(badge.name, step)} 
+                        disabled={isReadOnly}
                       />
                       <span>{step}</span>
                     </label>
@@ -552,7 +743,8 @@ export default function SessionPlanner() {
             name="title" 
             value={form.title} 
             onChange={handleChange}
-            placeholder="Give your session a name" 
+            placeholder={isReadOnly ? "N/A" : "Give your session a name"}
+            readOnly={isReadOnly}
           />
         </div>
 
@@ -562,19 +754,21 @@ export default function SessionPlanner() {
             name="intro" 
             value={form.intro} 
             onChange={handleChange}
-            placeholder="How will you introduce the session?" 
+            placeholder={isReadOnly ? "N/A" : "How will you introduce the session?"}
             rows="3"
+            readOnly={isReadOnly}
           />
         </div>
 
-        <div className="form-group full-width">
+        <div className="form-group full-width"> 
           <label>Islamic Principles (integrated):</label>
           <textarea 
             name="islamic" 
             value={form.islamic} 
             onChange={handleChange}
-            placeholder="Add Islamic principles related to this activity" 
+            placeholder={isReadOnly ? "N/A" : "Add Islamic principles related to this activity"}
             rows="3"
+            readOnly={isReadOnly}
           />
         </div>
 
@@ -584,20 +778,101 @@ export default function SessionPlanner() {
             name="body" 
             value={form.body} 
             onChange={handleChange}
-            placeholder="Describe the main activities and instructions"
+            placeholder={isReadOnly ? "N/A" : "Describe the main activities and instructions"}
             rows="6" 
+            readOnly={isReadOnly}
           />
         </div>
 
         <div className="form-group full-width">
-          <label>Equipment Needed:</label>
-          <textarea 
-            name="equipment" 
-            value={form.equipment} 
+          <label>
+            Link to Activity: 
+            <span className="label-badge-links"> 
+              (Link to badges: 
+              <a href="https://www.scouts.org.uk/beavers/activity-badges/" target="_blank" rel="noopener noreferrer">Beavers</a>, 
+              <a href="https://www.scouts.org.uk/cubs/activity-badges/" target="_blank" rel="noopener noreferrer">Cubs</a>, 
+              <a href="https://www.scouts.org.uk/scouts/activity-badges/" target="_blank" rel="noopener noreferrer">Scouts</a>
+              )
+            </span>
+          </label> 
+          <input
+            type="url" 
+            name="activityLink" 
+            value={form.activityLink} 
             onChange={handleChange}
-            placeholder="List all equipment and materials (include costs if applicable)"
-            rows="3" 
+            placeholder={isReadOnly ? "N/A" : "https://example.com/activity-details"}
+            readOnly={isReadOnly}
           />
+        </div>
+
+        <div className="form-group full-width">
+          <h3>💲 Equipment and Cost</h3> 
+          <div className={`cost-breakdown-table ${isReadOnly ? 'view-mode' : ''}`}> 
+            <div className={`cost-header ${isReadOnly ? 'view-mode' : ''}`}> 
+              <div>Resource</div>
+              <div>Quantity</div>
+              <div>Cost Per Item (£)</div>
+              <div>Total (£)</div>
+              {!isReadOnly && <div></div>} 
+            </div>
+            {costItems.map((item, index) => (
+              <div key={index} className={`cost-row ${isReadOnly ? 'view-mode' : ''}`}> 
+                <input
+                  type="text"
+                  value={item.resource}
+                  onChange={(e) => handleCostItemChange(index, 'resource', e.target.value)}
+                  placeholder={isReadOnly ? "N/A" : "Item name"}
+                  readOnly={isReadOnly}
+                />
+                <input
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) => handleCostItemChange(index, 'quantity', e.target.value)}
+                  placeholder="1"
+                  min="1"
+                  readOnly={isReadOnly}
+                />
+                <div className="cost-input-wrapper">
+                  <span className="currency-symbol">£</span>
+                  <input
+                    type="number"
+                    value={item.cost}
+                    onChange={(e) => handleCostItemChange(index, 'cost', e.target.value)}
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    readOnly={isReadOnly}
+                  />
+                </div>
+                <div className="total-cost">
+                  £{calculateItemTotal(item).toFixed(2)}
+                </div>
+                {!isReadOnly && ( 
+                  <button 
+                    type="button" 
+                    className="remove-cost-btn"
+                    onClick={() => removeCostItem(index)}
+                  >
+                    ✖ 
+                  </button>
+                )}
+              </div>
+            ))}
+            <div className={`total-row ${isReadOnly ? 'view-mode' : ''}`}> 
+              <div className="total-label">Grand Total:</div>
+              <div className="grand-total">£{calculateGrandTotal().toFixed(2)}</div>
+              {!isReadOnly && <div></div>} 
+            </div>
+            {!isReadOnly && ( 
+              <button 
+                type="button" 
+                className="add-cost-btn" 
+                onClick={addCostItem}
+              >
+                + Add Item
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="form-group full-width">
@@ -606,13 +881,14 @@ export default function SessionPlanner() {
             name="conclusion" 
             value={form.conclusion} 
             onChange={handleChange}
-            placeholder="How will you wrap up the session?"
+            placeholder={isReadOnly ? "N/A" : "How will you wrap up the session?"}
             rows="3"
+            readOnly={isReadOnly}
           />
         </div>
       </div>
 
-      <div className="planner-card">
+      <div className="planner-card"> 
         <h2>🔍 Reflection</h2>
         <div className="reflection-grid">
           <div className="form-group">
@@ -621,8 +897,9 @@ export default function SessionPlanner() {
               name="www" 
               value={form.www} 
               onChange={handleChange}
-              placeholder="Reflect on the positive aspects"
+              placeholder={isReadOnly ? "N/A" : "Reflect on the positive aspects"}
               rows="4" 
+              readOnly={isReadOnly}
             />
           </div>
           <div className="form-group">
@@ -631,23 +908,33 @@ export default function SessionPlanner() {
               name="ebi" 
               value={form.ebi} 
               onChange={handleChange}
-              placeholder="Note areas for improvement"
+              placeholder={isReadOnly ? "N/A" : "Note areas for improvement"}
               rows="4" 
+              readOnly={isReadOnly}
             />
           </div>
         </div>
       </div>
 
-      <div className="form-buttons">
-        <button className="btn-save" onClick={handleSave}>
-          <span>💾</span> Save Session
-        </button>
+      <div className="form-buttons"> 
+        {mode !== 'view' && (
+          <button className="btn-save" onClick={handleSave}>
+            <span>💾</span> {mode === 'edit' ? 'Update Session' : 'Save Session'}
+          </button>
+        )}
         <button className="btn-export" onClick={handleExportWord}>
           <span>⬇️</span> Export as Word
         </button>
-        <button className="btn-reset" onClick={handleReset}>
-          <span>🔁</span> Reset Form
-        </button>
+        {mode !== 'view' && (
+          <button className="btn-reset" onClick={handleReset}>
+            <span>🔁</span> {mode === 'edit' ? 'Cancel Changes' : 'Reset Form'}
+          </button>
+        )}
+        {mode === 'view' && sessionId && (
+          <button className="btn-edit" onClick={() => navigate(`/planner?mode=edit&sessionId=${sessionId}`)}>
+            <span>✏️</span> Edit Session
+          </button>
+        )}
       </div>
     </div>
   );

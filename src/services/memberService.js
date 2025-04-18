@@ -70,13 +70,13 @@ export const addNewMember = async (memberData) => {
 };
 
 // Update member
-export const updateMember = async (id, data) => {
-  const docRef = doc(db, 'members', id);
+export const updateMember = async (id, memberData) => {
   try {
-    await updateDoc(docRef, data);
+    const memberRef = doc(db, 'members', id);
+    await updateDoc(memberRef, memberData);
     return true;
   } catch (error) {
-    console.error('Error updating member:', error);
+    console.error("Error updating member: ", error);
     throw error;
   }
 };

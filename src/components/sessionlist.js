@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { db, auth } from '../utils/firebase';
 import { collection, getDocs, query, orderBy, where, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import './sessionlist.css';
 
 export default function SessionList() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [leaderDetails, setLeaderDetails] = useState(null);
@@ -21,6 +22,42 @@ export default function SessionList() {
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteSessionId, setDeleteSessionId] = useState(null);
+  
+  // State for handling auto-view of a specific session
+  const [viewingSessionId, setViewingSessionId] = useState(null);
+
+  // Extract query parameters on component mount
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const action = queryParams.get('action');
+    const sessionId = queryParams.get('id');
+
+    // If we have action=view and a sessionId, set it for handling
+    if (action === 'view' && sessionId) {
+      setViewingSessionId(sessionId);
+      
+      // Check if we have the session data in sessionStorage
+      const storedSessionData = sessionStorage.getItem('viewingSession');
+      if (storedSessionData) {
+        try {
+          // Clean up after using it
+          sessionStorage.removeItem('viewingSession');
+        } catch (err) {
+          console.error("Error parsing stored session data:", err);
+        }
+      }
+    }
+  }, [location.search]);
+
+  // Auto-navigate to view the session if viewingSessionId is set
+  useEffect(() => {
+    if (viewingSessionId && !loading) {
+      // Navigate to the planner with the session ID for viewing
+      handleViewSession(viewingSessionId);
+      // Reset to avoid repeated navigations
+      setViewingSessionId(null);
+    }
+  }, [viewingSessionId, loading]);
 
   // Fetch leader details to get their section and role
   useEffect(() => {
@@ -291,17 +328,17 @@ export default function SessionList() {
     }
   };
   
-  // Handle view session details
+  // Handle view session details - navigate to planner in view mode
   const handleViewSession = (sessionId) => {
     if (!sessionId) return;
     
-    // Store a flag in localStorage to indicate this is coming from the session list
-    // This will help the session detail view to format properly
-    localStorage.setItem('viewMode', 'planner');
-    localStorage.setItem('viewSessionId', sessionId);
+    // Navigate to the planner with mode=view parameter
+    navigate(`/planner?mode=view&sessionId=${sessionId}`);
     
-    // Navigate to the session details page
-    navigate(`/session/${sessionId}`);
+    // Clear previous localStorage items if they exist (optional cleanup)
+    localStorage.removeItem('viewMode');
+    localStorage.removeItem('viewSessionId');
+    localStorage.removeItem('editSessionId'); 
   };
   
   // Handle session edit - modified to ensure proper navigation to edit mode
@@ -434,6 +471,12 @@ export default function SessionList() {
                 <p className="session-leader">
                   <strong>Leader:</strong> {session.leader || 'Unknown'}
                 </p>
+
+                {(session.costTotal !== undefined && session.costTotal > 0) && (
+                  <p className="session-total-cost">
+                    <strong>Total Cost:</strong> £{session.costTotal.toFixed(2)}
+                  </p>
+                )}
                 
                 {session.badges && (
                   <div className="badge-tags">
