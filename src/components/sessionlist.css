@@ -1,3 +1,45 @@
+/* Add header styles at the top of the file */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+  text-align: center;
+}
+
+.logo {
+  height: 60px;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.header h1 {
+  margin: 0;
+  color: #4b2c85;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scout-icon {
+  margin-right: 10px;
+  font-size: 32px;
+}
+
+.header p {
+  color: #666;
+  margin-left: 20px;
+  font-size: 0.9rem;
+}
+
 .session-list {
     max-width: 800px;
     margin: 40px auto;
@@ -41,6 +83,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
+  width: 100%; /* Ensure the container takes full width */
 }
 
 .back-button {

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { db, auth } from '../utils/firebase';
 import { collection, getDocs, query, orderBy, where, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import './sessionlist.css';
+import logo from '../assets/logo.png'; // Import the logo
 
 export default function SessionList() {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function SessionList() {
   const [loading, setLoading] = useState(true);
   const [leaderDetails, setLeaderDetails] = useState(null);
   const [canManageSessions, setCanManageSessions] = useState(false);
+  const [userEmail, setUserEmail] = useState(''); // Add state for user email
   
   // Filtering states - initialize empty and will be set after leader details are loaded
   const [filters, setFilters] = useState({
@@ -94,6 +96,14 @@ export default function SessionList() {
     };
 
     fetchLeaderDetails();
+  }, []);
+
+  // Set user email on component mount
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    if (currentUser && currentUser.email) {
+      setUserEmail(currentUser.email);
+    }
   }, []);
 
   // Fetch sessions with improved filtering
@@ -356,14 +366,30 @@ export default function SessionList() {
 
   return (
     <div className="session-list-container">
+      {/* Add header from badge tracker */}
+      <div className="header">
+        <img 
+          src={logo} 
+          alt="14th Willesden Logo" 
+          className="logo" 
+          onClick={() => navigate('/dashboard')}
+        />
+        <h1><span className="scout-icon"></span> Session plans</h1>
+        <p>{userEmail}</p>
+      </div>
+      
       <div className="session-list-header">
-        <h1>📋 Session Plans</h1>
+
         <div className="header-buttons">
           <button className="back-button" onClick={() => navigate('/dashboard')}>
             ← Back to Dashboard
           </button>
           {canManageSessions && (
-            <button className="create-session" onClick={() => navigate('/planner')}>
+            <button 
+              className="create-session" 
+              onClick={() => navigate('/planner')}
+              style={{ marginLeft: 'auto' }} // Add this style
+            >
               Create New Session
             </button>
           )}
