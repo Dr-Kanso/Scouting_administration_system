@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './members.css';
 import logo from '../assets/logo.png';
 import { auth, db } from '../utils/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById, updateMember } from '../services/memberService';
 import TabSelector from './common/TabSelector';
 import NavigationHeader from './dashboard/NavigationHeader';
@@ -66,6 +66,17 @@ export default function Members() {
   const [viewMember, setViewMember] = useState(null);
   const [viewLoading, setViewLoading] = useState(false);
   const [canDeleteMembers, setCanDeleteMembers] = useState(false);
+  
+  // User details modal state and functions
+  const [userDetailsForm, setUserDetailsForm] = useState({
+    firstName: '',
+    lastName: '',
+    section: '',
+    role: '',
+    phone: ''
+  });
+  const [saving, setSaving] = useState(false);
+  const [userError, setUserError] = useState(null);
 
   // Tab configuration
   const tabs = [
@@ -220,6 +231,62 @@ export default function Members() {
   const closeViewModal = () => {
     setViewMember(null);
   };
+
+  // User details form handlers
+  const handleUserInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserDetailsForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleUserDetailsSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setUserError(null);
+
+    try {
+      const leaderRef = doc(db, 'leaders', user.uid);
+      await setDoc(leaderRef, {
+        firstName: userDetailsForm.firstName,
+        lastName: userDetailsForm.lastName,
+        section: userDetailsForm.section,
+        role: userDetailsForm.role,
+        phone: userDetailsForm.phone,
+        email: user.email,
+        uid: user.uid
+      }, { merge: true });
+
+      // Update local state
+      setLeaderDetails(prev => ({
+        ...prev,
+        ...userDetailsForm
+      }));
+
+      setShowUserModal(false);
+      return true;
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      setUserError('Failed to update details. Please try again.');
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Initialize user details form when modal opens
+  React.useEffect(() => {
+    if (showUserModal && leaderDetails) {
+      setUserDetailsForm({
+        firstName: leaderDetails.firstName || '',
+        lastName: leaderDetails.lastName || '',
+        section: leaderDetails.section || 'Beavers',
+        role: leaderDetails.role || '',
+        phone: leaderDetails.phone || ''
+      });
+    }
+  }, [showUserModal, leaderDetails]);
 
   const exportToExcel = () => {
     // Prepare data for export
@@ -418,7 +485,7 @@ export default function Members() {
 
 
       {showAddForm && activeTab !== 'add' && (
-        <div className="modal">
+        <div className="modal" style={{ zIndex: 999999, position: 'fixed' }}>
           <div className="modal-content">
             <span className="close" onClick={() => setShowAddForm(false)}>&times;</span>
             <h2>Add New Member</h2>
@@ -468,7 +535,7 @@ export default function Members() {
       )}
 
       {showEditForm && editMember && (
-        <div className="modal">
+        <div className="modal" style={{ zIndex: 999999, position: 'fixed' }}>
           <div className="modal-content">
             <span className="close" onClick={() => setShowEditForm(false)}>&times;</span>
             <h2>Edit Member</h2>
@@ -527,7 +594,7 @@ export default function Members() {
       )}
 
       {viewMember && (
-        <div className="modal">
+        <div className="modal" style={{ zIndex: 999999, position: 'fixed' }}>
           <div className="modal-content member-details">
             <span className="close" onClick={closeViewModal}>&times;</span>
             
@@ -629,9 +696,14 @@ export default function Members() {
       
       {showUserModal && (
         <UserDetailsModal
+          showModal={showUserModal}
+          setShowModal={setShowUserModal}
+          leaderDetails={userDetailsForm}
+          handleInputChange={handleUserInputChange}
+          handleSubmit={handleUserDetailsSubmit}
+          saving={saving}
+          error={userError}
           user={user}
-          leaderDetails={leaderDetails}
-          onClose={() => setShowUserModal(false)}
         />
       )}
       </div>

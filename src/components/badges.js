@@ -49,6 +49,17 @@ export default function Badges() {
   const [selectedBadge, setSelectedBadge] = useState(null);
   const [badgeProgress, setBadgeProgress] = useState('');
   const [badgeStage, setBadgeStage] = useState(1);
+  
+  // User details modal state and functions
+  const [userDetailsForm, setUserDetailsForm] = useState({
+    firstName: '',
+    lastName: '',
+    section: '',
+    role: '',
+    phone: ''
+  });
+  const [saving, setSaving] = useState(false);
+  const [userError, setUserError] = useState(null);
 
   useEffect(() => {
     if (selectedSection) {
@@ -145,6 +156,59 @@ export default function Badges() {
       badge.name === badgeName && badge.section === selectedSection
     );
   };
+
+  // User details form handlers
+  const handleUserInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserDetailsForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleUserDetailsSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setUserError(null);
+
+    try {
+      const { doc, setDoc } = await import('firebase/firestore');
+      const { db } = await import('../utils/firebase');
+      
+      const leaderRef = doc(db, 'leaders', user.uid);
+      await setDoc(leaderRef, {
+        firstName: userDetailsForm.firstName,
+        lastName: userDetailsForm.lastName,
+        section: userDetailsForm.section,
+        role: userDetailsForm.role,
+        phone: userDetailsForm.phone,
+        email: user.email,
+        uid: user.uid
+      }, { merge: true });
+
+      setShowUserModal(false);
+      return true;
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      setUserError('Failed to update details. Please try again.');
+      return false;
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Initialize user details form when modal opens
+  React.useEffect(() => {
+    if (showUserModal && leaderDetails) {
+      setUserDetailsForm({
+        firstName: leaderDetails.firstName || '',
+        lastName: leaderDetails.lastName || '',
+        section: leaderDetails.section || 'Beavers',
+        role: leaderDetails.role || '',
+        phone: leaderDetails.phone || ''
+      });
+    }
+  }, [showUserModal, leaderDetails]);
 
   if (authLoading) {
     return <div>Loading...</div>;
@@ -452,9 +516,14 @@ export default function Badges() {
       
       {showUserModal && (
         <UserDetailsModal
+          showModal={showUserModal}
+          setShowModal={setShowUserModal}
+          leaderDetails={userDetailsForm}
+          handleInputChange={handleUserInputChange}
+          handleSubmit={handleUserDetailsSubmit}
+          saving={saving}
+          error={userError}
           user={user}
-          leaderDetails={leaderDetails}
-          onClose={() => setShowUserModal(false)}
         />
       )}
     </div>
