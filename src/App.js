@@ -1,36 +1,88 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/auth/login';
-import Dashboard from './components/dashboard';
+import Dashboard from './components/DashboardNew';
 import Badges from './components/badges';
 import Members from './components/members';
-import { auth } from './utils/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import SessionPlanner from './components/sessionplanner';
 import SessionList from './components/sessionlist';
 import SessionDetail from './components/sessiondetail';
 import AdminPage from './pages/AdminPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 function App() {
-  const [user, loading] = useAuthState(auth);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={!user ? <Login /> : <Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" replace />} />
-        <Route path="/badges" element={<Badges />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/planner" element={<SessionPlanner />} />
-        <Route path="/sessions" element={<SessionList />} />
-        <Route path="/session/:id" element={<SessionDetail />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute requireAuth={false}>
+                <Login />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/badges" 
+            element={
+              <ProtectedRoute>
+                <Badges />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/members" 
+            element={
+              <ProtectedRoute>
+                <Members />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/planner" 
+            element={
+              <ProtectedRoute>
+                <SessionPlanner />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/sessions" 
+            element={
+              <ProtectedRoute>
+                <SessionList />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/session/:id" 
+            element={
+              <ProtectedRoute>
+                <SessionDetail />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin" 
+            element={
+              <ProtectedRoute>
+                <AdminPage />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
