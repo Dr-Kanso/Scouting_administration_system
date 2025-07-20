@@ -5,6 +5,9 @@ import { db, auth } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType } from 'docx';
 import { saveAs } from 'file-saver';
+import NavigationHeader from './dashboard/NavigationHeader';
+import UserDetailsModal from './dashboard/UserDetailsModal';
+import { useAuth } from '../hooks/useAuth';
 import beaverBadges from '../data/beaverBadges';
 import cubBadges from '../data/cubBadges';
 import scoutBadges from '../data/scoutBadges';
@@ -37,6 +40,18 @@ const parseTime = (dateField) => {
 export default function SessionPlanner() {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const {
+    user,
+    leaderDetails,
+    showUserModal,
+    setShowUserModal,
+    loading: authLoading,
+    handleLogout,
+    canManageSessions,
+    canManageMeetings
+  } = useAuth();
+  
   const [form, setForm] = useState({
     leader: '',
     group: '',
@@ -159,26 +174,21 @@ export default function SessionPlanner() {
       setForm(prevForm => ({ ...prevForm, badges: '' }));
     }
   }, [form.group, mode]);
+  
+  useEffect(() => {
+    if (leaderDetails) {
+      fetchLeaderDetails();
+    }
+  }, [leaderDetails]);
 
   const fetchLeaderDetails = async () => {
-    try {
-      const user = auth.currentUser;
-      if (user) {
-        const leaderDocRef = doc(db, 'leaders', user.uid);
-        const leaderDoc = await getDoc(leaderDocRef);
-
-        if (leaderDoc.exists()) {
-          const leaderData = leaderDoc.data();
-          const leaderName = `${leaderData.firstName || ''} ${leaderData.lastName || ''}`.trim();
-          setForm(prevForm => ({
-            ...prevForm,
-            leader: prevForm.leader || leaderName,
-            group: prevForm.group || leaderData.section || ''
-          }));
-        }
-      }
-    } catch (err) {
-      console.error("Error fetching leader details:", err);
+    if (leaderDetails) {
+      const leaderName = `${leaderDetails.firstName || ''} ${leaderDetails.lastName || ''}`.trim();
+      setForm(prevForm => ({
+        ...prevForm,
+        leader: prevForm.leader || leaderName,
+        group: prevForm.group || leaderDetails.section || ''
+      }));
     }
   };
 
@@ -272,7 +282,6 @@ export default function SessionPlanner() {
     if (mode === 'view') return;
 
     try {
-      const user = auth.currentUser;
       if (!user) {
         alert('You must be logged in to save a session.');
         return;
@@ -586,21 +595,25 @@ export default function SessionPlanner() {
 
   const isReadOnly = mode === 'view';
 
-  if (isLoading) {
-    return <div className="loading-container">Loading session data...</div>;
+  if (authLoading || isLoading) {
+    return <div className="loading-container">Loading...</div>;
   }
 
   return (
     <div className="session-planner">
-      <div className="planner-header">
+      <NavigationHeader
+        user={user}
+        leaderDetails={leaderDetails}
+        setShowUserModal={setShowUserModal}
+        handleLogout={handleLogout}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
+      />
+      
+      <div className="session-planner-content">
+        <div className="planner-header">
         <h1>{mode === 'view' ? 'View Session Plan' : mode === 'edit' ? 'Edit Session Plan' : '🧭 Session Planner'}</h1>
         <p>{mode === 'view' ? 'Reviewing session details.' : 'Create and manage your Scout sessions.'}</p>
-        <button 
-          className="back-to-dashboard" 
-          onClick={() => navigate(mode === 'view' || mode === 'edit' ? '/sessions' : '/dashboard')} 
-        >
-          {mode === 'view' || mode === 'edit' ? '← Back to List' : '← Back to Dashboard'}
-        </button>
       </div>
 
       <div className="planner-card">
@@ -936,6 +949,15 @@ export default function SessionPlanner() {
           </button>
         )}
       </div>
+      </div>
+      
+      {showUserModal && (
+        <UserDetailsModal
+          user={user}
+          leaderDetails={leaderDetails}
+          onClose={() => setShowUserModal(false)}
+        />
+      )}
     </div>
   );
 }

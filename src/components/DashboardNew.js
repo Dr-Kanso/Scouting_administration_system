@@ -227,6 +227,8 @@ export default function Dashboard() {
               upcomingSessions={upcomingSessions}
               upcomingMeetings={upcomingMeetings}
               onEventClick={handleEventClick}
+              canManageSessions={canManageSessions}
+              canManageMeetings={canManageMeetings}
             />
           </div>
 
@@ -300,6 +302,7 @@ export default function Dashboard() {
         handleSubmit={handleUserDetailsSubmit}
         saving={saving}
         error={error}
+        user={user}
       />
 
       {/* Date Sessions Modal */}
@@ -350,6 +353,8 @@ export default function Dashboard() {
         onEdit={handleEventEdit}
         onDelete={handleEventDelete}
         onClose={handleContextMenuClose}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
       />
     </>
   );

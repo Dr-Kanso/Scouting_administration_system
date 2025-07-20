@@ -7,7 +7,9 @@ const EventContextMenu = ({
   onEdit, 
   onDelete, 
   onClose, 
-  isVisible 
+  isVisible,
+  canManageSessions,
+  canManageMeetings 
 }) => {
   const menuRef = useRef(null);
 
@@ -37,6 +39,9 @@ const EventContextMenu = ({
 
   if (!isVisible || !event) return null;
 
+  // Determine if user can edit/delete this event
+  const canEditEvent = event.type === 'session' ? canManageSessions : canManageMeetings;
+
   return (
     <div 
       ref={menuRef}
@@ -61,26 +66,35 @@ const EventContextMenu = ({
         <p><strong>Time:</strong> {event.startTime || 'TBD'}{event.endTime ? ` - ${event.endTime}` : ''}</p>
       </div>
 
-      <div className="context-menu-actions">
-        <button 
-          className="btn btn-secondary context-menu-btn"
-          onClick={() => {
-            onEdit(event);
-            onClose();
-          }}
-        >
-          ✏️ Edit
-        </button>
-        <button 
-          className="btn btn-danger context-menu-btn"
-          onClick={() => {
-            onDelete(event);
-            onClose();
-          }}
-        >
-          🗑️ Delete
-        </button>
-      </div>
+      {canEditEvent && (
+        <div className="context-menu-actions">
+          <button 
+            className="btn btn-secondary context-menu-btn"
+            onClick={() => {
+              onEdit(event);
+              onClose();
+            }}
+          >
+            ✏️ Edit
+          </button>
+          <button 
+            className="btn btn-danger context-menu-btn"
+            onClick={() => {
+              onDelete(event);
+              onClose();
+            }}
+          >
+            🗑️ Delete
+          </button>
+        </div>
+      )}
+      {!canEditEvent && (
+        <div className="context-menu-info">
+          <p style={{ color: '#666', fontSize: '0.9rem', textAlign: 'center', margin: '10px 0' }}>
+            You don't have permission to edit this {event.type}.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

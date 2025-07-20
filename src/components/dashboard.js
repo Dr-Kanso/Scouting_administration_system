@@ -151,7 +151,7 @@ export default function Dashboard() {
     return leaderDetails.role === roleToCheck;
   };
 
-  const canManageSessions = hasRole('GSL') || hasRole('Leader')|| hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)');
+  const canManageSessions = hasRole('GSL') || hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)');
   const canManageMeetings = hasRole('GSL') || hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)');
 
   const handleCreateSession = async (e) => {

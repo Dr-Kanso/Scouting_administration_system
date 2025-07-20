@@ -5,6 +5,10 @@ import logo from '../assets/logo.png';
 import { auth, db } from '../utils/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById, updateMember } from '../services/memberService';
+import TabSelector from './common/TabSelector';
+import NavigationHeader from './dashboard/NavigationHeader';
+import UserDetailsModal from './dashboard/UserDetailsModal';
+import { useAuth } from '../hooks/useAuth';
 import * as XLSX from 'xlsx';
 
 // Helper function to calculate age from date of birth
@@ -30,8 +34,19 @@ const calculateAge = (birthDateString) => {
 
 export default function Members() {
   const navigate = useNavigate();
-  const user = auth.currentUser;
   
+  const {
+    user,
+    leaderDetails,
+    showUserModal,
+    setShowUserModal,
+    loading: authLoading,
+    handleLogout,
+    canManageSessions,
+    canManageMeetings
+  } = useAuth();
+  
+  const [activeTab, setActiveTab] = useState('list');
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,35 +65,31 @@ export default function Members() {
   const [editMember, setEditMember] = useState(null);
   const [viewMember, setViewMember] = useState(null);
   const [viewLoading, setViewLoading] = useState(false);
-  const [leaderDetails, setLeaderDetails] = useState(null);
   const [canDeleteMembers, setCanDeleteMembers] = useState(false);
 
-  // Fetch leader details to check permissions
-  useEffect(() => {
-    const fetchLeaderDetails = async () => {
-      try {
-        if (user) {
-          const leaderDocRef = doc(db, 'leaders', user.uid);
-          const leaderDoc = await getDoc(leaderDocRef);
-          
-          if (leaderDoc.exists()) {
-            const details = leaderDoc.data();
-            setLeaderDetails(details);
-            
-            // Check if user has permission to delete members (GSL or Section Leader)
-            const isGSL = details.role === 'GSL' && user.email === 'drhassankanso@gmail.com';
-            const isSectionLeader = details.role === 'Section Leader';
-            
-            setCanDeleteMembers(isGSL || isSectionLeader);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching leader details:", err);
-      }
-    };
+  // Tab configuration
+  const tabs = [
+    {
+      id: 'list',
+      label: 'Member List',
+      icon: '📋',
+      badge: members.length > 0 ? members.length : null
+    },
+    {
+      id: 'add',
+      label: 'Add Member',
+      icon: '➕'
+    }
+  ];
 
-    fetchLeaderDetails();
-  }, [user]);
+  // Check permissions for deleting members
+  useEffect(() => {
+    if (leaderDetails && user) {
+      const isGSL = leaderDetails.role === 'GSL' && user.email === 'drhassankanso@gmail.com';
+      const isSectionLeader = leaderDetails.role === 'Section Leader';
+      setCanDeleteMembers(isGSL || isSectionLeader);
+    }
+  }, [leaderDetails, user]);
 
   useEffect(() => {
     loadMembers();
@@ -145,9 +156,20 @@ export default function Members() {
         email: ''
       });
       setShowAddForm(false);
+      setActiveTab('list'); // Switch back to list after adding
       loadMembers();
     } catch (error) {
       console.error('Error adding member:', error);
+    }
+  };
+
+  // Handle tab changes
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (tabId === 'add') {
+      setShowAddForm(true);
+    } else {
+      setShowAddForm(false);
     }
   };
 
@@ -230,50 +252,65 @@ export default function Members() {
     XLSX.writeFile(workbook, excelFileName);
   };
 
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="members-container">
-      <div className="header">
-        <div className="logo-container" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
-          <img src={logo} alt="14th Willesden Logo" className="logo" />
-        </div>
-        <h1>Member Database</h1>
-        <p>{user?.email}</p>
-      </div>
+      <NavigationHeader
+        user={user}
+        leaderDetails={leaderDetails}
+        setShowUserModal={setShowUserModal}
+        handleLogout={handleLogout}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
+      />
 
-      <div className="section-filter">
-        <button 
-          className={selectedSection === '' ? 'active' : ''} 
-          onClick={() => setSelectedSection('')}
-        >
-          All Members
-        </button>
-        <button 
-          className={selectedSection === 'Beavers' ? 'active' : ''} 
-          onClick={() => setSelectedSection('Beavers')}
-        >
-          Beavers
-        </button>
-        <button 
-          className={selectedSection === 'Cubs' ? 'active' : ''} 
-          onClick={() => setSelectedSection('Cubs')}
-        >
-          Cubs
-        </button>
-        <button 
-          className={selectedSection === 'Scouts' ? 'active' : ''} 
-          onClick={() => setSelectedSection('Scouts')}
-        >
-          Scouts
-        </button>
-        <button 
-          className={selectedSection === 'Explorers' ? 'active' : ''} 
-          onClick={() => setSelectedSection('Explorers')}
-        >
-          Explorers
-        </button>
-      </div>
+      <TabSelector
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        className="members-tabs"
+      />
 
-      <div className="search-bar">
+      <div className="main-content">
+        {activeTab === 'list' && (
+          <>
+            <div className="section-filter">
+              <button 
+                className={selectedSection === '' ? 'active' : ''} 
+                onClick={() => setSelectedSection('')}
+              >
+                All Members
+              </button>
+              <button 
+                className={selectedSection === 'Beavers' ? 'active' : ''} 
+                onClick={() => setSelectedSection('Beavers')}
+              >
+                Beavers
+              </button>
+              <button 
+                className={selectedSection === 'Cubs' ? 'active' : ''} 
+                onClick={() => setSelectedSection('Cubs')}
+              >
+                Cubs
+              </button>
+              <button 
+                className={selectedSection === 'Scouts' ? 'active' : ''} 
+                onClick={() => setSelectedSection('Scouts')}
+              >
+                Scouts
+              </button>
+              <button 
+                className={selectedSection === 'Explorers' ? 'active' : ''} 
+                onClick={() => setSelectedSection('Explorers')}
+              >
+                Explorers
+              </button>
+            </div>
+
+            <div className="search-bar">
         <input 
           type="text" 
           placeholder="Search by name..." 
@@ -281,46 +318,106 @@ export default function Members() {
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
         />
-        <button onClick={handleSearch}>Search</button>
-        <button className="add-button" onClick={() => setShowAddForm(true)}>Add Member</button>
-        <button className="export-button" onClick={exportToExcel}>Export to Excel</button>
-      </div>
+            <button onClick={handleSearch}>Search</button>
+            <button className="export-button" onClick={exportToExcel}>Export to Excel</button>
+            </div>
 
-      {loading ? (
-        <p>Loading members...</p>
-      ) : (
-        <div className="members-list">
-          <h2>{selectedSection || 'All'} Members ({members.length})</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Section</th>
-                <th>Join Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {members.map(member => (
-                <tr key={member.id}>
-                  <td>{member.firstName} {member.lastName}</td>
-                  <td>{member.section}</td>
-                  <td>{member.joinDate?.toDate ? member.joinDate.toDate().toLocaleDateString() : 'N/A'}</td>
-                  <td>
-                    <button onClick={() => handleViewMember(member.id)}>View</button>
-                    <button onClick={() => handleEditMember(member)}>Edit</button>
-                    {canDeleteMembers && (
-                      <button onClick={() => handleDeleteMember(member.id)}>Delete</button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            {loading ? (
+              <p>Loading members...</p>
+            ) : (
+              <div className="members-list">
+                <h2>{selectedSection || 'All'} Members ({members.length})</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Section</th>
+                      <th>Join Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {members.map(member => (
+                      <tr key={member.id}>
+                        <td>{member.firstName} {member.lastName}</td>
+                        <td>{member.section}</td>
+                        <td>{member.joinDate?.toDate ? member.joinDate.toDate().toLocaleDateString() : 'N/A'}</td>
+                        <td>
+                          <button onClick={() => handleViewMember(member.id)}>View</button>
+                          <button onClick={() => handleEditMember(member)}>Edit</button>
+                          {canDeleteMembers && (
+                            <button onClick={() => handleDeleteMember(member.id)}>Delete</button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </>
+        )}
 
-      {showAddForm && (
+        {activeTab === 'add' && (
+          <div className="add-member-content">
+            <div className="add-member-form-container">
+              <h2>Add New Member</h2>
+              <form onSubmit={handleAddMember} className="add-member-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>First Name</label>
+                    <input type="text" name="firstName" value={newMember.firstName} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" value={newMember.lastName} onChange={handleInputChange} required />
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Section</label>
+                    <select name="section" value={newMember.section} onChange={handleInputChange}>
+                      <option value="Beavers">Beavers</option>
+                      <option value="Cubs">Cubs</option>
+                      <option value="Scouts">Scouts</option>
+                      <option value="Explorers">Explorers</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Date of Birth</label>
+                    <div className="dob-row">
+                      <input type="date" name="dateOfBirth" value={newMember.dateOfBirth} onChange={handleInputChange} />
+                      {newMember.dateOfBirth && (
+                        <span className="age-display">Age: {calculateAge(newMember.dateOfBirth)} years</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone" value={newMember.phone || ''} onChange={handleInputChange} />
+                  </div>
+                  <div className="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" value={newMember.email || ''} onChange={handleInputChange} />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Notes</label>
+                  <textarea name="notes" value={newMember.notes} onChange={handleInputChange} rows="3"></textarea>
+                </div>
+                <div className="form-actions">
+                  <button type="submit" className="submit-btn">Add Member</button>
+                  <button type="button" onClick={() => setActiveTab('list')} className="cancel-btn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+
+      {showAddForm && activeTab !== 'add' && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={() => setShowAddForm(false)}>&times;</span>
@@ -529,8 +626,14 @@ export default function Members() {
         </div>
       )}
 
-      <div className="navigation-buttons">
-        <button onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
+      
+      {showUserModal && (
+        <UserDetailsModal
+          user={user}
+          leaderDetails={leaderDetails}
+          onClose={() => setShowUserModal(false)}
+        />
+      )}
       </div>
     </div>
   );

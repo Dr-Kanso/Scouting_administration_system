@@ -118,8 +118,7 @@ body {
 }
 
 .header-wrapper {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
@@ -299,6 +298,109 @@ body {
   flex-direction: column;
   gap: var(--spacing-xl);
   min-width: 0; /* Allows flex items to shrink */
+}
+
+/* Events Section */
+.events-section {
+  margin-bottom: 2rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-light);
+  transition: var(--transition-base);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.event-date {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: white;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  text-align: center;
+  min-width: 60px;
+  box-shadow: var(--shadow-sm);
+}
+
+.event-day {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.event-month {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+  opacity: 0.9;
+}
+
+.event-details {
+  flex: 1;
+}
+
+.event-details h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.event-location,
+.event-time {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.event-section {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+}
+
+.event-section.beavers {
+  background: var(--beavers-light);
+  color: var(--beavers-dark);
+}
+
+.event-section.cubs {
+  background: var(--cubs-light);
+  color: var(--cubs-dark);
+}
+
+.event-section.scouts {
+  background: var(--scouts-light);
+  color: var(--scouts-dark);
 }
 
 .sidebar-content {

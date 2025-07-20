@@ -1,8 +1,13 @@
 .session-planner {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    color: #333;
+}
+
+.session-planner-content {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
-    color: #333;
 }
 
 .planner-header {

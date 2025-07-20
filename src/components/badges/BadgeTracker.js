@@ -2,47 +2,69 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MemberList from './MemberList';
 import BadgeLibrary from './BadgeLibrary';
+import TabSelector from '../common/TabSelector';
+import NavigationHeader from '../dashboard/NavigationHeader';
+import UserDetailsModal from '../dashboard/UserDetailsModal';
+import { useAuth } from '../../hooks/useAuth';
 import './BadgeTracker.css';
-import { auth } from '../../utils/firebase';
 
 export default function BadgeTracker() {
   const [activeTab, setActiveTab] = useState('members');
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedBadge, setSelectedBadge] = useState(null);
   const navigate = useNavigate();
+  
+  const {
+    user,
+    leaderDetails,
+    showUserModal,
+    setShowUserModal,
+    loading,
+    handleLogout,
+    canManageSessions,
+    canManageMeetings
+  } = useAuth();
 
-  useEffect(() => {
-    // Check authentication
-    if (!auth.currentUser) {
-      navigate('/login');
+  // Tab configuration
+  const tabs = [
+    {
+      id: 'members',
+      label: 'Members',
+      icon: '👥'
+    },
+    {
+      id: 'badges',
+      label: 'Badge Library',
+      icon: '🏅'
+    },
+    {
+      id: 'reports',
+      label: 'Reports',
+      icon: '📊'
     }
-  }, [navigate]);
+  ];
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="badge-tracker-container">
-      <div className="badge-tracker-header">
-        <h1>Badge Tracker</h1>
-        <div className="tabs">
-          <button 
-            className={activeTab === 'members' ? 'active' : ''} 
-            onClick={() => setActiveTab('members')}
-          >
-            Members
-          </button>
-          <button 
-            className={activeTab === 'badges' ? 'active' : ''} 
-            onClick={() => setActiveTab('badges')}
-          >
-            Badge Library
-          </button>
-          <button 
-            className={activeTab === 'reports' ? 'active' : ''} 
-            onClick={() => setActiveTab('reports')}
-          >
-            Reports
-          </button>
-        </div>
-      </div>
+      <NavigationHeader
+        user={user}
+        leaderDetails={leaderDetails}
+        setShowUserModal={setShowUserModal}
+        handleLogout={handleLogout}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
+      />
+
+      <TabSelector
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        className="badge-tracker-tabs"
+      />
 
       <div className="badge-tracker-content">
         {activeTab === 'members' && (
@@ -65,13 +87,14 @@ export default function BadgeTracker() {
           </div>
         )}
       </div>
-
-      <button 
-        className="back-button" 
-        onClick={() => navigate('/dashboard')}
-      >
-        Back to Dashboard
-      </button>
+      
+      {showUserModal && (
+        <UserDetailsModal
+          user={user}
+          leaderDetails={leaderDetails}
+          onClose={() => setShowUserModal(false)}
+        />
+      )}
     </div>
   );
 }

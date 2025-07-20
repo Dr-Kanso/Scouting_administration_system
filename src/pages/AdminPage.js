@@ -2,12 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../utils/firebase';
 import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import NavigationHeader from '../components/dashboard/NavigationHeader';
+import UserDetailsModal from '../components/dashboard/UserDetailsModal';
+import { useAuth } from '../hooks/useAuth';
 import logo from '../assets/logo.png';
 import './AdminPage.css';
 
 export default function AdminPage() {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  
+  const {
+    user,
+    leaderDetails,
+    showUserModal,
+    setShowUserModal,
+    loading: authLoading,
+    handleLogout,
+    canManageSessions,
+    canManageMeetings
+  } = useAuth();
+  
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,24 +46,18 @@ export default function AdminPage() {
         return;
       }
 
-      try {
-        const userDocRef = doc(db, 'leaders', user.uid);
-        const userDoc = await getDoc(userDocRef);
-
-        if (!userDoc.exists() || userDoc.data().role !== 'GSL' || user.email !== 'drhassankanso@gmail.com') {
-          navigate('/dashboard');
-          return;
-        }
-
-        fetchLeaders();
-      } catch (err) {
-        console.error('Error checking GSL status:', err);
+      if (!leaderDetails || leaderDetails.role !== 'GSL' || user.email !== 'drhassankanso@gmail.com') {
         navigate('/dashboard');
+        return;
       }
+
+      fetchLeaders();
     };
 
-    checkGSL();
-  }, [user, navigate]);
+    if (!authLoading) {
+      checkGSL();
+    }
+  }, [user, leaderDetails, authLoading, navigate]);
 
   const fetchLeaders = async () => {
     setLoading(true);
@@ -143,29 +151,23 @@ export default function AdminPage() {
     }
   };
 
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="admin-page">
-      <div className="header">
-        <img
-          src={logo}
-          alt="14th Willesden Logo"
-          className="logo"
-          onClick={() => navigate('/dashboard')}
-        />
-        <div className="title-area">
-          <h1>Admin Dashboard - GSL Only</h1>
-        </div>
-        <div className="nav-buttons">
-          <button className="back-button" onClick={() => navigate('/dashboard')}>
-            Back to Dashboard
-          </button>
-          <button className="signout-button" onClick={() => {
-            auth.signOut();
-            navigate('/');
-          }}>
-            Sign Out
-          </button>
-        </div>
+      <NavigationHeader
+        user={user}
+        leaderDetails={leaderDetails}
+        setShowUserModal={setShowUserModal}
+        handleLogout={handleLogout}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
+      />
+      
+      <div className="admin-header">
+        <h1>Admin Dashboard - GSL Only</h1>
       </div>
 
       <div className="admin-container">
@@ -173,7 +175,7 @@ export default function AdminPage() {
         
         {error && <div className="error-message">{error}</div>}
         
-        {loading ? (
+        {loading || authLoading ? (
           <div className="loading">Loading leaders...</div>
         ) : (
           <div className="leaders-table-container">
@@ -352,6 +354,14 @@ export default function AdminPage() {
             </div>
           </div>
         </div>
+      )}
+      
+      {showUserModal && (
+        <UserDetailsModal
+          user={user}
+          leaderDetails={leaderDetails}
+          onClose={() => setShowUserModal(false)}
+        />
       )}
     </div>
   );

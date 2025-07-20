@@ -18,7 +18,9 @@ const CalendarView = ({
   setCurrentDate, 
   upcomingSessions, 
   upcomingMeetings, 
-  onEventClick 
+  onEventClick,
+  canManageSessions,
+  canManageMeetings 
 }) => {
   const calendarDays = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
@@ -102,27 +104,32 @@ const CalendarView = ({
                 <div className="date-number">{format(day, 'd')}</div>
                 {eventsForDay.length > 0 && (
                   <div className="date-events">
-                    {eventsForDay.slice(0, 3).map((event, index) => (
-                      <div
-                        key={index}
-                        className={`event-item ${event.type === 'session' ? 'event-session' : 'event-meeting'} event-interactive`}
-                        title={`${event.title} - ${event.startTime}${event.endTime ? ` to ${event.endTime}` : ''} - Click to edit/delete`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onEventClick && onEventClick(event, e);
-                        }}
-                      >
-                        <span className="event-dot"></span>
-                        <div className="event-content">
-                          <div className="event-title">
-                            {event.title.length > 10 ? event.title.substring(0, 10) + '...' : event.title}
-                          </div>
-                          <div className="event-time">
-                            {event.startTime}
+                    {eventsForDay.slice(0, 3).map((event, index) => {
+                      const canEdit = event.type === 'session' ? canManageSessions : canManageMeetings;
+                      const tooltipText = `${event.title} - ${event.startTime}${event.endTime ? ` to ${event.endTime}` : ''}${canEdit ? ' - Click to edit/delete' : ' - Click for details'}`;
+                      
+                      return (
+                        <div
+                          key={index}
+                          className={`event-item ${event.type === 'session' ? 'event-session' : 'event-meeting'} event-interactive`}
+                          title={tooltipText}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEventClick && onEventClick(event, e);
+                          }}
+                        >
+                          <span className="event-dot"></span>
+                          <div className="event-content">
+                            <div className="event-title">
+                              {event.title.length > 10 ? event.title.substring(0, 10) + '...' : event.title}
+                            </div>
+                            <div className="event-time">
+                              {event.startTime}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                     {eventsForDay.length > 3 && (
                       <div className="event-item text-muted">
                         +{eventsForDay.length - 3} more

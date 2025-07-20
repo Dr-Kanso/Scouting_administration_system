@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './badges.css';
-import logo from '../assets/logo.png';
-import { auth } from '../utils/firebase';
+import NavigationHeader from './dashboard/NavigationHeader';
+import UserDetailsModal from './dashboard/UserDetailsModal';
+import { useAuth } from '../hooks/useAuth';
 import { getMembersBySection, addBadgeToMember, removeBadgeFromMember } from '../services/memberService';
 import beaverBadges from '../data/beaverBadges';
 import cubBadges from '../data/cubBadges';
@@ -26,7 +27,17 @@ const sectionColors = {
 
 export default function Badges() {
   const navigate = useNavigate();
-  const user = auth.currentUser;
+  
+  const {
+    user,
+    leaderDetails,
+    showUserModal,
+    setShowUserModal,
+    loading: authLoading,
+    handleLogout,
+    canManageSessions,
+    canManageMeetings
+  } = useAuth();
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSection, setSelectedSection] = useState('');
@@ -135,18 +146,26 @@ export default function Badges() {
     );
   };
 
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="badges-container">
-      <div className="header">
-        <img 
-          src={logo} 
-          alt="14th Willesden Logo" 
-          className="logo" 
-          onClick={() => navigate('/dashboard')}
-        />
-        <h1><span className="scout-icon">🏅</span> Scout Badge Tracker</h1>
-        <p>{user?.email}</p>
-      </div>
+      <NavigationHeader
+        user={user}
+        leaderDetails={leaderDetails}
+        setShowUserModal={setShowUserModal}
+        handleLogout={handleLogout}
+        canManageSessions={canManageSessions}
+        canManageMeetings={canManageMeetings}
+      />
+      
+      <div className="badges-content">
+        <div className="badges-page-header">
+          <h1><span className="scout-icon">🏅</span> Scout Badge Tracker</h1>
+          <p>Award and track badges for Scout members across all sections</p>
+        </div>
 
       <div className="section-filter">
         <button 
@@ -429,15 +448,15 @@ export default function Badges() {
           </div>
         </div>
       )}
-
-      <div className="navigation-buttons">
-        <button onClick={() => navigate('/dashboard')} className="nav-button">
-          <span className="nav-icon">🏠</span> Back to Dashboard
-        </button>
-        <button onClick={() => navigate('/members')} className="nav-button">
-          <span className="nav-icon">👥</span> Manage Members
-        </button>
       </div>
+      
+      {showUserModal && (
+        <UserDetailsModal
+          user={user}
+          leaderDetails={leaderDetails}
+          onClose={() => setShowUserModal(false)}
+        />
+      )}
     </div>
   );
 }

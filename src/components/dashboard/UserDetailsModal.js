@@ -8,9 +8,14 @@ const UserDetailsModal = ({
   handleInputChange, 
   handleSubmit, 
   saving, 
-  error 
+  error,
+  user 
 }) => {
   if (!showModal) return null;
+
+  // Check if current user is GSL with proper permissions
+  const isGSL = leaderDetails?.role === 'GSL' && user?.email === 'drhassankanso@gmail.com';
+  const canEditRoleAndSection = isGSL;
 
   return (
     <div className="modal-overlay">
@@ -55,6 +60,7 @@ const UserDetailsModal = ({
                 onChange={handleInputChange}
                 className="form-select"
                 required
+                disabled={!canEditRoleAndSection}
               >
                 <option value="">Select a section</option>
                 <option value="Beavers">Beavers (6-8 years)</option>
@@ -63,6 +69,11 @@ const UserDetailsModal = ({
                 <option value="Explorers">Explorers (14-18 years)</option>
                 <option value="Group">Group Level</option>
               </select>
+              {!canEditRoleAndSection && (
+                <small style={{ color: '#666', fontSize: '0.8rem' }}>
+                  Only GSL can modify section assignments
+                </small>
+              )}
             </div>
             
             <div className="form-group">
@@ -73,6 +84,7 @@ const UserDetailsModal = ({
                 onChange={handleInputChange}
                 className="form-select"
                 required
+                disabled={!canEditRoleAndSection}
               >
                 <option value="">Select your role</option>
                 <option value="Leader">Leader</option>
@@ -82,6 +94,11 @@ const UserDetailsModal = ({
                 <option value="Group Leader (Female)">Group Leader (Female)</option>
                 <option value="GSL">Group Scout Leader (GSL)</option>
               </select>
+              {!canEditRoleAndSection && (
+                <small style={{ color: '#666', fontSize: '0.8rem' }}>
+                  Only GSL can modify role assignments
+                </small>
+              )}
             </div>
             
             <div className="form-group">
