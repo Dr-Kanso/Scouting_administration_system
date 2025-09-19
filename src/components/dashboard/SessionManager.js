@@ -1,8 +1,9 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import './modern-dashboard.css';
 
-const SessionManager = ({ 
+const SessionManager = ({
   upcomingSessions,
   showSessionModal,
   setShowSessionModal,
@@ -25,6 +26,7 @@ const SessionManager = ({
   setSessionToView,
   canManageSessions
 }) => {
+  const navigate = useNavigate();
   
   const handleSessionInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,9 +61,9 @@ const SessionManager = ({
       <div className="section-header">
         <h3>Upcoming Sessions</h3>
         {canManageSessions && (
-          <button 
+          <button
             className="create-btn"
-            onClick={() => setShowSessionModal(true)}
+            onClick={() => navigate('/planner')}
           >
             Create Session
           </button>

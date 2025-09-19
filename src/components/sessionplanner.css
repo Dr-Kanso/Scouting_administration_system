@@ -447,6 +447,96 @@ select:disabled {
     color: white;
 }
 
+/* Style for the Back button at top */
+.btn-back-top {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+}
+
+.btn-back-top:hover {
+    background-color: #5a6268;
+}
+
+/* Floating Autosave Widget */
+.autosave-widget {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 1000;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  min-width: 180px;
+  max-width: 250px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.autosave-widget:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.autosave-item {
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.autosave-item.saving {
+  color: #1976d2;
+  animation: pulse 1.5s infinite;
+}
+
+.autosave-item.saved {
+  color: #4caf50;
+}
+
+.autosave-item.pending {
+  color: #ff9800;
+}
+
+.save-time {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+.force-save-warning {
+  color: #f44336;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding-top: 4px;
+  border-top: 1px solid #ffebee;
+  margin-top: 4px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn-edit:hover {
     background-color: #f57c00;
 }

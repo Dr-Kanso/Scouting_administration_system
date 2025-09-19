@@ -3,16 +3,30 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import './modern-dashboard.css';
 
-const NavigationHeader = ({ 
-  user, 
-  leaderDetails, 
-  setShowUserModal, 
-  handleLogout, 
-  canManageSessions, 
-  canManageMeetings 
+const NavigationHeader = ({
+  user,
+  leaderDetails,
+  setShowUserModal,
+  handleLogout,
+  canManageSessions,
+  canManageMeetings,
+  hasUnsavedChanges = false,
+  onSaveBeforeNavigate = null
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleNavigation = (path) => {
+    if (hasUnsavedChanges && onSaveBeforeNavigate) {
+      if (window.confirm('You have unsaved changes. Do you want to save before leaving?')) {
+        onSaveBeforeNavigate().then(() => navigate(path));
+      } else if (window.confirm('Are you sure you want to leave without saving? Your changes will be lost.')) {
+        navigate(path);
+      }
+    } else {
+      navigate(path);
+    }
+  };
 
   // Determine active nav item based on current route
   const getNavItemClass = (path) => {
@@ -23,7 +37,7 @@ const NavigationHeader = ({
     <header className="modern-header">
       <div className="header-wrapper">
         <div className="header-top">
-          <div className="logo-section" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
+          <div className="logo-section" onClick={() => handleNavigation('/dashboard')} style={{ cursor: 'pointer' }}>
             <img src={logo} alt="14th Willesden Logo" className="logo" />
             <h1 className="app-title">14th Willesden Scouts</h1>
           </div>
@@ -58,22 +72,27 @@ const NavigationHeader = ({
         </div>
 
         <nav className="modern-nav">
-          <button onClick={() => navigate('/dashboard')} className={getNavItemClass('/dashboard')}>
+          <button onClick={() => handleNavigation('/dashboard')} className={getNavItemClass('/dashboard')}>
             Dashboard
           </button>
-          <button onClick={() => navigate('/badges')} className={getNavItemClass('/badges')}>
+          <button onClick={() => handleNavigation('/badges')} className={getNavItemClass('/badges')}>
             Badge Tracker
           </button>
-          <button onClick={() => navigate('/members')} className={getNavItemClass('/members')}>
+          <button onClick={() => handleNavigation('/members')} className={getNavItemClass('/members')}>
             Members
           </button>
           {canManageSessions && (
-            <button onClick={() => navigate('/planner')} className={getNavItemClass('/planner')}>
-              Planner
-            </button>
+            <>
+              <button onClick={() => handleNavigation('/sessions')} className={getNavItemClass('/sessions')}>
+                Sessions
+              </button>
+              <button onClick={() => handleNavigation('/planner')} className={getNavItemClass('/planner')}>
+                Planner
+              </button>
+            </>
           )}
           {canManageMeetings && (
-            <button onClick={() => navigate('/admin')} className={getNavItemClass('/admin')}>
+            <button onClick={() => handleNavigation('/admin')} className={getNavItemClass('/admin')}>
               Admin
             </button>
           )}

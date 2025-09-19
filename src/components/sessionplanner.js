@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './sessionplanner.css';
 import { db, auth } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, ImageRun } from 'docx';
 import { saveAs } from 'file-saver';
 import NavigationHeader from './dashboard/NavigationHeader';
 import UserDetailsModal from './dashboard/UserDetailsModal';
@@ -74,6 +74,13 @@ export default function SessionPlanner() {
   const [isLoading, setIsLoading] = useState(false);
   const [mode, setMode] = useState('create');
   const [sessionId, setSessionId] = useState(null);
+  const [lastSaved, setLastSaved] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [lastSavedData, setLastSavedData] = useState(null);
+  const [lastChangeTime, setLastChangeTime] = useState(null);
+  const [nextSaveTime, setNextSaveTime] = useState(null);
+  const [timeUntilSave, setTimeUntilSave] = useState(null);
   
   // User details modal state and functions
   const [userDetailsForm, setUserDetailsForm] = useState({
@@ -149,6 +156,31 @@ export default function SessionPlanner() {
             setSelectedBadges(data.selectedBadges || []);
             setCheckedSteps(data.checkedSteps || {});
             setCostItems(Array.isArray(data.costBreakdown) && data.costBreakdown.length > 0 ? data.costBreakdown : [{ resource: '', quantity: 1, cost: '' }]);
+
+            // Set initial saved data snapshot after loading
+            setTimeout(() => {
+              setLastSavedData(JSON.stringify({
+                form: {
+                  leader: data.leader || '',
+                  group: data.section || '',
+                  sessionDate: parseDate(data.date),
+                  sessionTime: parseTime(data.date),
+                  title: data.title || '',
+                  badges: data.badges || '',
+                  intro: data.intro || '',
+                  islamic: data.islamic || '',
+                  body: data.description || data.body || '',
+                  activityLink: data.activityLink || '',
+                  conclusion: data.conclusion || '',
+                  www: data.www || '',
+                  ebi: data.ebi || '',
+                },
+                selectedBadges: data.selectedBadges || [],
+                checkedSteps: data.checkedSteps || {},
+                costItems: Array.isArray(data.costBreakdown) && data.costBreakdown.length > 0 ? data.costBreakdown : [{ resource: '', quantity: 1, cost: '' }]
+              }));
+              setHasUnsavedChanges(false);
+            }, 100);
           } else {
             console.error("Session not found!");
             alert("Session not found. Redirecting to dashboard.");
@@ -186,6 +218,133 @@ export default function SessionPlanner() {
     }
   }, [form.group, mode]);
   
+  // Helper function to create a snapshot of current data for comparison
+  const createDataSnapshot = () => {
+    return JSON.stringify({
+      form,
+      selectedBadges,
+      checkedSteps,
+      costItems
+    });
+  };
+
+  // Track changes for autosave
+  useEffect(() => {
+    if (!lastSavedData) {
+      // Initialize lastSavedData on first load
+      setLastSavedData(createDataSnapshot());
+      return;
+    }
+
+    const currentData = createDataSnapshot();
+    if (currentData !== lastSavedData) {
+      setHasUnsavedChanges(true);
+      if (!lastChangeTime) {
+        setLastChangeTime(Date.now());
+      }
+    }
+  }, [form, selectedBadges, checkedSteps, costItems]);
+
+  // Autosave with both debounce (30 seconds) and maximum interval (2 minutes)
+  useEffect(() => {
+    if (mode === 'view') return;
+    if (!hasUnsavedChanges) {
+      setNextSaveTime(null);
+      return;
+    }
+    if (!form.title || !form.sessionDate || !form.group) return;
+
+    const DEBOUNCE_TIME = 30000; // 30 seconds after last change
+    const MAX_SAVE_INTERVAL = 120000; // 2 minutes maximum between saves
+
+    let timer;
+
+    // Check if we've exceeded the maximum time since last change started
+    if (lastChangeTime) {
+      const timeSinceFirstChange = Date.now() - lastChangeTime;
+
+      if (timeSinceFirstChange >= MAX_SAVE_INTERVAL) {
+        // Force save immediately if we've been editing for 2+ minutes
+        autoSave(false).then(() => {
+          setLastChangeTime(null); // Reset the timer after save
+          setNextSaveTime(null);
+        });
+        return;
+      }
+
+      // Otherwise set a timer for either 30 seconds or the remaining time to hit 2 minutes
+      const remainingTime = Math.min(DEBOUNCE_TIME, MAX_SAVE_INTERVAL - timeSinceFirstChange);
+      setNextSaveTime(Date.now() + remainingTime);
+
+      timer = setTimeout(() => {
+        autoSave(false).then(() => {
+          setLastChangeTime(null); // Reset the timer after save
+          setNextSaveTime(null);
+        });
+      }, remainingTime);
+    } else {
+      // Normal 30-second debounce
+      setNextSaveTime(Date.now() + DEBOUNCE_TIME);
+
+      timer = setTimeout(() => {
+        autoSave(false).then(() => {
+          setLastChangeTime(null); // Reset the timer after save
+          setNextSaveTime(null);
+        });
+      }, DEBOUNCE_TIME);
+    }
+
+    // Cleanup function clears the timer if any dependency changes
+    return () => clearTimeout(timer);
+  }, [hasUnsavedChanges, form, selectedBadges, checkedSteps, costItems, mode, lastChangeTime]);
+
+  // Update countdown timer display
+  useEffect(() => {
+    if (!nextSaveTime) {
+      setTimeUntilSave(null);
+      return;
+    }
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const timeLeft = Math.max(0, nextSaveTime - now);
+      const seconds = Math.ceil(timeLeft / 1000);
+
+      if (seconds <= 0) {
+        setTimeUntilSave(null);
+      } else {
+        // Calculate force save time if applicable
+        let forceSaveIn = null;
+        if (lastChangeTime) {
+          const timeSinceFirst = now - lastChangeTime;
+          const forceSaveTime = Math.max(0, 120000 - timeSinceFirst);
+          forceSaveIn = Math.ceil(forceSaveTime / 1000);
+        }
+
+        setTimeUntilSave({ seconds, forceSaveIn });
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [nextSaveTime, lastChangeTime]);
+
+  // Warn about unsaved changes when navigating away
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (hasUnsavedChanges && mode !== 'view') {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+        return 'You have unsaved changes. Are you sure you want to leave?';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges, mode]);
+
   useEffect(() => {
     if (leaderDetails) {
       fetchLeaderDetails();
@@ -289,25 +448,26 @@ export default function SessionPlanner() {
     }
   };
 
-  const handleSave = async () => {
+  // Autosave function
+  const autoSave = async (isManualSave = false) => {
     if (mode === 'view') return;
 
+    // Don't autosave if required fields are missing
+    if (!form.title || !form.sessionDate || !form.group) {
+      return;
+    }
+
+    if (!user) return;
+
+    // Prevent multiple simultaneous saves
+    if (isSaving) return;
+
+    setIsSaving(true);
+
     try {
-      if (!user) {
-        alert('You must be logged in to save a session.');
-        return;
-      }
-
-      if (!form.title || !form.sessionDate || !form.group) {
-        alert('Please fill in at least the Title, Session Date, and Group fields before saving.');
-        return;
-      }
-
       const sessionDate = new Date(form.sessionDate);
       const [hours, minutes] = form.sessionTime.split(':');
       sessionDate.setHours(parseInt(hours), parseInt(minutes), 0);
-
-      let timeString = form.sessionTime || "15:30";
 
       const sessionData = {
         title: form.title,
@@ -325,6 +485,8 @@ export default function SessionPlanner() {
         conclusion: form.conclusion,
         www: form.www,
         ebi: form.ebi,
+        startTime: form.sessionTime || '15:30',  // Add startTime field
+        endTime: null,  // You can add an endTime field to the form if needed
         costBreakdown: costItems.map(item => ({
           ...item,
           totalCost: calculateItemTotal(item)
@@ -332,25 +494,72 @@ export default function SessionPlanner() {
         costTotal: calculateGrandTotal(),
         isSessionPlan: true,
         lastUpdatedAt: serverTimestamp(),
-        ...(mode === 'create' && { createdAt: serverTimestamp(), createdBy: user.uid }),
-        ...(mode === 'edit' && { updatedBy: user.uid }),
+        autoSaved: !isManualSave,
       };
 
-      if (mode === 'edit' && sessionId) {
+      // Always use the existing session ID if we have one
+      if (sessionId) {
+        // Update existing session
         const sessionDocRef = doc(db, 'sessions', sessionId);
-        await updateDoc(sessionDocRef, sessionData);
-        alert('Session plan updated successfully!');
-        navigate('/sessions');
+        await updateDoc(sessionDocRef, {
+          ...sessionData,
+          updatedBy: user.uid
+        });
+      } else if (mode === 'create' && !sessionId) {
+        // Only create a new session if we're in create mode AND don't have a session ID
+        const docRef = await addDoc(collection(db, 'sessions'), {
+          ...sessionData,
+          createdAt: serverTimestamp(),
+          createdBy: user.uid
+        });
+
+        // Important: Set the session ID immediately to prevent duplicate creation
+        setSessionId(docRef.id);
+        setMode('edit');
+        navigate(`/planner?mode=edit&sessionId=${docRef.id}`, { replace: true });
       } else {
-        await addDoc(collection(db, 'sessions'), sessionData);
-        alert('Session plan saved successfully! The session will appear on the calendar for ' + 
-              sessionDate.toLocaleDateString() + ' at ' + timeString + '.');
-        handleReset();
+        // This shouldn't happen, but log it if it does
+        console.error('Unexpected state: mode =', mode, 'sessionId =', sessionId);
+        return;
+      }
+
+      setLastSaved(new Date());
+      setHasUnsavedChanges(false);
+      setLastSavedData(createDataSnapshot()); // Update the saved data snapshot
+      setLastChangeTime(null); // Reset the change timer
+
+      if (isManualSave) {
+        alert('Session saved successfully!');
       }
 
     } catch (error) {
-      console.error(`Error ${mode === 'edit' ? 'updating' : 'saving'} session:`, error);
-      alert(`Failed to ${mode === 'edit' ? 'update' : 'save'} session.`);
+      console.error('Error saving session:', error);
+      if (isManualSave) {
+        alert('Failed to save session.');
+      }
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSave = async () => {
+    await autoSave(true);
+  };
+
+  // Helper function to fetch image as base64
+  const fetchImageAsBase64 = async (url) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('Error fetching badge image:', error);
+      return null;
     }
   };
 
@@ -360,7 +569,7 @@ export default function SessionPlanner() {
         alert('Please fill in at least the Leader Name, Group, and Session Title before exporting.');
         return;
       }
-      
+
       const doc = new Document({
         sections: [
           {
@@ -457,24 +666,58 @@ export default function SessionPlanner() {
                   text: "Badge Requirements",
                   heading: HeadingLevel.HEADING_3,
                 }),
-                ...selectedBadges.flatMap(badge => [
-                  new Paragraph({
-                    text: badge.name,
-                    heading: HeadingLevel.HEADING_4,
-                  }),
-                  ...(badge.steps ? badge.steps.map(step => 
+                ...(await Promise.all(selectedBadges.map(async (badge) => {
+                  const badgeElements = [];
+
+                  // Try to add badge icon
+                  if (badge.image) {
+                    const imageBase64 = await fetchImageAsBase64(badge.image);
+                    if (imageBase64) {
+                      badgeElements.push(
+                        new Paragraph({
+                          children: [
+                            new ImageRun({
+                              data: imageBase64,
+                              transformation: {
+                                width: 60,
+                                height: 60
+                              }
+                            })
+                          ],
+                          spacing: { after: 100 }
+                        })
+                      );
+                    }
+                  }
+
+                  // Add badge name
+                  badgeElements.push(
                     new Paragraph({
-                      children: [
-                        new TextRun({
-                          text: checkedSteps[badge.name]?.[step] ? "☑ " : "□ ", 
-                          bold: true,
-                        }),
-                        new TextRun(step),
-                      ],
+                      text: badge.name,
+                      heading: HeadingLevel.HEADING_4,
                     })
-                  ) : []),
-                  new Paragraph({ text: "" }),
-                ]),
+                  );
+
+                  // Add badge steps
+                  if (badge.steps) {
+                    badgeElements.push(
+                      ...badge.steps.map(step =>
+                        new Paragraph({
+                          children: [
+                            new TextRun({
+                              text: checkedSteps[badge.name]?.[step] ? "☑ " : "□ ",
+                              bold: true,
+                            }),
+                            new TextRun(step),
+                          ],
+                        })
+                      )
+                    );
+                  }
+
+                  badgeElements.push(new Paragraph({ text: "" }));
+                  return badgeElements;
+                }))).flat(),
               ] : []),
               
               new Paragraph({
@@ -672,10 +915,46 @@ export default function SessionPlanner() {
         handleLogout={handleLogout}
         canManageSessions={canManageSessions}
         canManageMeetings={canManageMeetings}
+        hasUnsavedChanges={hasUnsavedChanges && mode !== 'view'}
+        onSaveBeforeNavigate={() => autoSave(true)}
       />
-      
+
+      {/* Floating Autosave Status Widget */}
+      {mode !== 'view' && (
+        <div className="autosave-widget">
+          {isSaving && <div className="autosave-item saving">🔄 Saving...</div>}
+          {!isSaving && lastSaved && !hasUnsavedChanges && (
+            <div className="autosave-item saved">
+              ✅ Saved
+              <span className="save-time">{lastSaved.toLocaleTimeString()}</span>
+            </div>
+          )}
+          {!isSaving && hasUnsavedChanges && timeUntilSave && (
+            <div className="autosave-item pending">
+              ⏱️ Autosave in {timeUntilSave.seconds}s
+              {timeUntilSave.forceSaveIn && timeUntilSave.forceSaveIn <= 120 && (
+                <div className="force-save-warning">Force save in {timeUntilSave.forceSaveIn}s</div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="session-planner-content">
         <div className="planner-header">
+        <button className="btn-back-top" onClick={() => {
+          if (hasUnsavedChanges && mode !== 'view') {
+            if (window.confirm('You have unsaved changes. Do you want to save before leaving?')) {
+              autoSave(true).then(() => navigate(-1));
+            } else if (window.confirm('Are you sure you want to leave without saving? Your changes will be lost.')) {
+              navigate(-1);
+            }
+          } else {
+            navigate(-1);
+          }
+        }}>
+          <span>←</span> Back
+        </button>
         <h1>{mode === 'view' ? 'View Session Plan' : mode === 'edit' ? 'Edit Session Plan' : '🧭 Session Planner'}</h1>
         <p>{mode === 'view' ? 'Reviewing session details.' : 'Create and manage your Scout sessions.'}</p>
       </div>
@@ -993,20 +1272,15 @@ export default function SessionPlanner() {
         </div>
       </div>
 
-      <div className="form-buttons"> 
+      <div className="form-buttons">
         {mode !== 'view' && (
-          <button className="btn-save" onClick={handleSave}>
+          <button className="btn-save" onClick={handleSave} disabled={isSaving}>
             <span>💾</span> {mode === 'edit' ? 'Update Session' : 'Save Session'}
           </button>
         )}
         <button className="btn-export" onClick={handleExportWord}>
           <span>⬇️</span> Export as Word
         </button>
-        {mode !== 'view' && (
-          <button className="btn-reset" onClick={handleReset}>
-            <span>🔁</span> {mode === 'edit' ? 'Cancel Changes' : 'Reset Form'}
-          </button>
-        )}
         {mode === 'view' && sessionId && (
           <button className="btn-edit" onClick={() => navigate(`/planner?mode=edit&sessionId=${sessionId}`)}>
             <span>✏️</span> Edit Session

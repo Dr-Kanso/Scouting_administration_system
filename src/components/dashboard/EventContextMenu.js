@@ -68,16 +68,16 @@ const EventContextMenu = ({
 
       {canEditEvent && (
         <div className="context-menu-actions">
-          <button 
+          <button
             className="btn btn-secondary context-menu-btn"
             onClick={() => {
               onEdit(event);
               onClose();
             }}
           >
-            ✏️ Edit
+            ✏️ {event.isSessionPlan ? 'Edit in Planner' : 'Edit'}
           </button>
-          <button 
+          <button
             className="btn btn-danger context-menu-btn"
             onClick={() => {
               onDelete(event);

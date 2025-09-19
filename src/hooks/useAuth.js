@@ -57,7 +57,7 @@ export const useAuth = () => {
     return leaderDetails.role === roleToCheck;
   };
 
-  const canManageSessions = hasRole('GSL') || hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)');
+  const canManageSessions = hasRole('GSL') || hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)') || hasRole('Leader');
   const canManageMeetings = hasRole('GSL') || hasRole('Group Leader (Male)') || hasRole('Group Leader (Female)');
 
   useEffect(() => {

@@ -102,22 +102,29 @@ export default function Dashboard() {
   };
 
   const handleEditSession = (session) => {
-    const sessionDate = session.date.toDate ? session.date.toDate() : new Date(session.date);
-    
-    setNewSession({
-      title: session.title,
-      section: session.section,
-      date: sessionDate,
-      startTime: session.startTime || '18:00',
-      endTime: session.endTime || '19:00',
-      location: session.location,
-      description: session.description,
-      type: 'session'
-    });
-    
-    setSessionToEdit(session);
-    setIsEditingSession(true);
-    setShowSessionModal(true);
+    // Check if this is a session plan created in the planner
+    if (session.isSessionPlan) {
+      // Navigate to the session planner edit page
+      navigate(`/planner?mode=edit&sessionId=${session.id}`);
+    } else {
+      // For regular sessions, use the modal
+      const sessionDate = session.date.toDate ? session.date.toDate() : new Date(session.date);
+
+      setNewSession({
+        title: session.title,
+        section: session.section,
+        date: sessionDate,
+        startTime: session.startTime || '18:00',
+        endTime: session.endTime || '19:00',
+        location: session.location,
+        description: session.description,
+        type: 'session'
+      });
+
+      setSessionToEdit(session);
+      setIsEditingSession(true);
+      setShowSessionModal(true);
+    }
   };
 
   const handleEditMeeting = (meeting) => {

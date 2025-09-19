@@ -93,72 +93,76 @@ const MeetingManager = ({
       {showMeetingModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>{isEditingMeeting ? 'Edit Meeting' : 'Create New Meeting'}</h3>
+            <div className="modal-header">
+              <h3 className="modal-title">{isEditingMeeting ? 'Edit Meeting' : 'Create New Meeting'}</h3>
+            </div>
             <form onSubmit={handleCreateMeeting}>
-              <div className="form-group">
-                <label>Title:</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={newMeeting.title}
-                  onChange={handleMeetingInputChange}
-                  required
-                />
+              <div className="modal-body">
+                <div className="form-group">
+                  <label>Title:</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={newMeeting.title}
+                    onChange={handleMeetingInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Date:</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={format(new Date(newMeeting.date), 'yyyy-MM-dd')}
+                    onChange={handleMeetingInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Start Time:</label>
+                  <input
+                    type="time"
+                    name="startTime"
+                    value={newMeeting.startTime}
+                    onChange={handleMeetingInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>End Time:</label>
+                  <input
+                    type="time"
+                    name="endTime"
+                    value={newMeeting.endTime}
+                    onChange={handleMeetingInputChange}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Location:</label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={newMeeting.location}
+                    onChange={handleMeetingInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Agenda:</label>
+                  <textarea
+                    name="agenda"
+                    value={newMeeting.agenda}
+                    onChange={handleMeetingInputChange}
+                    rows="4"
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label>Date:</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={format(new Date(newMeeting.date), 'yyyy-MM-dd')}
-                  onChange={handleMeetingInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Start Time:</label>
-                <input
-                  type="time"
-                  name="startTime"
-                  value={newMeeting.startTime}
-                  onChange={handleMeetingInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>End Time:</label>
-                <input
-                  type="time"
-                  name="endTime"
-                  value={newMeeting.endTime}
-                  onChange={handleMeetingInputChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Location:</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={newMeeting.location}
-                  onChange={handleMeetingInputChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Agenda:</label>
-                <textarea
-                  name="agenda"
-                  value={newMeeting.agenda}
-                  onChange={handleMeetingInputChange}
-                  rows="4"
-                />
-              </div>
-              <div className="form-actions">
-                <button type="submit">
-                  {isEditingMeeting ? 'Update Meeting' : 'Create Meeting'}
-                </button>
-                <button type="button" onClick={handleCloseModal}>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
                   Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  {isEditingMeeting ? 'Update Meeting' : 'Create Meeting'}
                 </button>
               </div>
             </form>
