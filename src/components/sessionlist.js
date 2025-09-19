@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { db, auth } from '../utils/firebase';
 import { collection, getDocs, query, orderBy, where, doc, getDoc, deleteDoc } from 'firebase/firestore';
@@ -19,11 +19,14 @@ export default function SessionList() {
     dateFrom: '',
     dateTo: '',
     section: '', // Start with empty section, will be set to leader's section
-    badge: ''
+    badge: '',
+    leader: 'all' // Add leader filter
   });
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteSessionId, setDeleteSessionId] = useState(null);
+  const [sortBy, setSortBy] = useState('dateCreated'); // Add sorting state
+  const [uniqueLeaders, setUniqueLeaders] = useState([]); // Add state for unique leaders
   
   // State for handling auto-view of a specific session
   const [viewingSessionId, setViewingSessionId] = useState(null);
@@ -51,6 +54,19 @@ export default function SessionList() {
     }
   }, [location.search]);
 
+  // Handle view session details - navigate to planner in view mode
+  const handleViewSession = useCallback((sessionId) => {
+    if (!sessionId) return;
+
+    // Navigate to the planner with mode=view parameter
+    navigate(`/planner?mode=view&sessionId=${sessionId}`);
+
+    // Clear previous localStorage items if they exist (optional cleanup)
+    localStorage.removeItem('viewMode');
+    localStorage.removeItem('viewSessionId');
+    localStorage.removeItem('editSessionId');
+  }, [navigate]);
+
   // Auto-navigate to view the session if viewingSessionId is set
   useEffect(() => {
     if (viewingSessionId && !loading) {
@@ -59,7 +75,7 @@ export default function SessionList() {
       // Reset to avoid repeated navigations
       setViewingSessionId(null);
     }
-  }, [viewingSessionId, loading]);
+  }, [viewingSessionId, loading, handleViewSession]);
 
   // Fetch leader details to get their section and role
   useEffect(() => {
@@ -175,6 +191,14 @@ export default function SessionList() {
         
         setSessions(filteredData);
         setFilteredSessions(filteredData);
+
+        // Extract unique leaders from sessions
+        const leaders = [...new Set(filteredData
+          .map(session => session.leader)
+          .filter(leader => leader && leader.trim() !== '')
+        )].sort();
+        setUniqueLeaders(leaders);
+
         setLoading(false);
       } catch (error) {
         console.error('Error loading sessions:', error);
@@ -188,20 +212,27 @@ export default function SessionList() {
     }
   }, [leaderDetails, navigate]);
 
-  // Apply filters when filter state changes
+  // Apply filters when filter state or sorting changes
   useEffect(() => {
     if (sessions.length === 0) return;
-    
+
     let result = [...sessions];
-    
+
     // Section filter
     if (filters.section !== 'all') {
-      result = result.filter(session => 
-        (session.section?.toLowerCase() === filters.section) || 
+      result = result.filter(session =>
+        (session.section?.toLowerCase() === filters.section) ||
         (session.group?.toLowerCase() === filters.section)
       );
     }
-    
+
+    // Leader filter
+    if (filters.leader !== 'all') {
+      result = result.filter(session =>
+        session.leader === filters.leader
+      );
+    }
+
     // Date range filter
     if (filters.dateFrom) {
       const fromDate = new Date(filters.dateFrom);
@@ -211,7 +242,7 @@ export default function SessionList() {
         return sessionDate >= fromDate;
       });
     }
-    
+
     if (filters.dateTo) {
       const toDate = new Date(filters.dateTo);
       toDate.setHours(23, 59, 59, 999);
@@ -220,17 +251,37 @@ export default function SessionList() {
         return sessionDate <= toDate;
       });
     }
-    
+
     // Badge filter
     if (filters.badge) {
       const badgeQuery = filters.badge.toLowerCase();
-      result = result.filter(session => 
+      result = result.filter(session =>
         session.badges?.toLowerCase().includes(badgeQuery)
       );
     }
-    
+
+    // Apply sorting
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'dateCreated':
+          const dateA = a.createdAt?.toDate?.() || new Date(a.createdAt || 0);
+          const dateB = b.createdAt?.toDate?.() || new Date(b.createdAt || 0);
+          return dateB - dateA; // newest first
+        case 'alphabetical':
+          const titleA = (a.title || 'Untitled Session').toLowerCase();
+          const titleB = (b.title || 'Untitled Session').toLowerCase();
+          return titleA.localeCompare(titleB);
+        case 'sessionDate':
+          const sessionDateA = a.date?.toDate ? a.date.toDate() : new Date(a.date);
+          const sessionDateB = b.date?.toDate ? b.date.toDate() : new Date(b.date);
+          return sessionDateB - sessionDateA; // newest first
+        default:
+          return 0;
+      }
+    });
+
     setFilteredSessions(result);
-  }, [filters, sessions]);
+  }, [filters, sessions, sortBy]);
 
   const formatDate = (dateField) => {
     if (!dateField) return 'No date';
@@ -268,7 +319,8 @@ export default function SessionList() {
       dateFrom: '',
       dateTo: '',
       section: leaderDetails?.section?.toLowerCase() || 'all',
-      badge: ''
+      badge: '',
+      leader: 'all'
     });
   };
 
@@ -337,20 +389,7 @@ export default function SessionList() {
       setDeleteSessionId(null);
     }
   };
-  
-  // Handle view session details - navigate to planner in view mode
-  const handleViewSession = (sessionId) => {
-    if (!sessionId) return;
-    
-    // Navigate to the planner with mode=view parameter
-    navigate(`/planner?mode=view&sessionId=${sessionId}`);
-    
-    // Clear previous localStorage items if they exist (optional cleanup)
-    localStorage.removeItem('viewMode');
-    localStorage.removeItem('viewSessionId');
-    localStorage.removeItem('editSessionId'); 
-  };
-  
+
   // Handle session edit - modified to ensure proper navigation to edit mode
   const handleEditSession = (sessionId) => {
     if (!sessionId) return;
@@ -399,6 +438,15 @@ export default function SessionList() {
       <div className="filter-panel">
         <div className="filter-grid">
           <div className="filter-group">
+            <label>Sort By</label>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="dateCreated">Date Created (Newest)</option>
+              <option value="alphabetical">Title (A-Z)</option>
+              <option value="sessionDate">Session Date (Newest)</option>
+            </select>
+          </div>
+
+          <div className="filter-group">
             <label>Section</label>
             <select name="section" value={filters.section} onChange={handleFilterChange}>
               <option value="all">All Sections</option>
@@ -408,34 +456,44 @@ export default function SessionList() {
               <option value="explorers">Explorers</option>
             </select>
           </div>
-          
+
+          <div className="filter-group">
+            <label>Leader</label>
+            <select name="leader" value={filters.leader} onChange={handleFilterChange}>
+              <option value="all">All Leaders</option>
+              {uniqueLeaders.map(leader => (
+                <option key={leader} value={leader}>{leader}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="filter-group">
             <label>From Date</label>
-            <input 
-              type="date" 
-              name="dateFrom" 
-              value={filters.dateFrom} 
+            <input
+              type="date"
+              name="dateFrom"
+              value={filters.dateFrom}
               onChange={handleFilterChange}
             />
           </div>
-          
+
           <div className="filter-group">
             <label>To Date</label>
-            <input 
-              type="date" 
-              name="dateTo" 
-              value={filters.dateTo} 
+            <input
+              type="date"
+              name="dateTo"
+              value={filters.dateTo}
               onChange={handleFilterChange}
             />
           </div>
-          
+
           <div className="filter-group">
             <label>Badge</label>
-            <input 
-              type="text" 
-              name="badge" 
-              placeholder="Search badges" 
-              value={filters.badge} 
+            <input
+              type="text"
+              name="badge"
+              placeholder="Search badges"
+              value={filters.badge}
               onChange={handleFilterChange}
             />
           </div>

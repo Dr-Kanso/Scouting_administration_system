@@ -523,6 +523,39 @@ select:disabled {
   margin-top: 4px;
 }
 
+.manual-save-btn {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.manual-save-btn:hover {
+  background: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.manual-save-btn:active {
+  transform: translateY(0);
+}
+
+.manual-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;

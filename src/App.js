@@ -5,7 +5,7 @@ import Dashboard from './components/DashboardNew';
 import Badges from './components/badges';
 import Members from './components/members';
 import SessionPlanner from './components/sessionplanner';
-import SessionList from './components/sessionlist';
+import SessionList from './components/SessionList';
 import SessionDetail from './components/sessiondetail';
 import AdminPage from './pages/AdminPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';

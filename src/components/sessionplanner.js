@@ -937,6 +937,15 @@ export default function SessionPlanner() {
               )}
             </div>
           )}
+          {hasUnsavedChanges && !isSaving && (
+            <button
+              className="manual-save-btn"
+              onClick={handleSave}
+              title="Save now"
+            >
+              💾 Save Now
+            </button>
+          )}
         </div>
       )}
 
