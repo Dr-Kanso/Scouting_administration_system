@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { auth, db } from '../utils/firebase';
-import { 
-  doc, 
-  getDoc, 
-  setDoc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  collection, 
-  query, 
-  where, 
-  getDocs, 
-  orderBy 
+import {
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  deleteDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy
 } from 'firebase/firestore';
 
 export const useDashboard = () => {
@@ -323,9 +322,10 @@ export const useDashboard = () => {
           setLoading(false);
         }
       };
-      
+
       loadInitialData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return {

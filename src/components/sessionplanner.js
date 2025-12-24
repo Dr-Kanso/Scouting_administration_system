@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './sessionplanner.css';
-import { db, auth } from '../utils/firebase';
+import { db } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, ImageRun } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType, ImageRun } from 'docx';
 import { saveAs } from 'file-saver';
 import NavigationHeader from './dashboard/NavigationHeader';
 import UserDetailsModal from './dashboard/UserDetailsModal';
@@ -11,7 +11,6 @@ import { useAuth } from '../hooks/useAuth';
 import beaverBadges from '../data/beaverBadges';
 import cubBadges from '../data/cubBadges';
 import scoutBadges from '../data/scoutBadges';
-import rawActivities from '../data/activities';
 
 const parseDate = (dateField) => {
   if (!dateField) return '';
@@ -92,32 +91,6 @@ export default function SessionPlanner() {
   });
   const [saving, setSaving] = useState(false);
   const [userError, setUserError] = useState(null);
-
-  const transformedActivities = useMemo(() => {
-    return rawActivities.map((activity, index) => {
-      const badges = [];
-      if (activity.countsTowards) {
-        Object.entries(activity.countsTowards).forEach(([section, badgeNames]) => {
-          badgeNames.forEach(name => {
-            badges.push({ section, name });
-          });
-        });
-      }
-      return {
-        id: `${activity.title.replace(/\s+/g, '-')}-${index}`,
-        name: activity.title,
-        url: activity.url,
-        duration: activity.details?.time || 'N/A',
-        cost: activity.details?.cost || 'N/A',
-        location: activity.details?.location || 'N/A',
-        groupSize: activity.details?.groupSize || 'N/A',
-        suitable: activity.details?.suitableFor || [],
-        description: `Activity details available at: ${activity.url}`,
-        badges: badges,
-        type: 'General',
-      };
-    });
-  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -200,6 +173,7 @@ export default function SessionPlanner() {
       setSessionId(null);
       fetchLeaderDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search, navigate]);
 
   useEffect(() => {
@@ -243,6 +217,7 @@ export default function SessionPlanner() {
         setLastChangeTime(Date.now());
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, selectedBadges, checkedSteps, costItems]);
 
   // Autosave with both debounce (30 seconds) and maximum interval (2 minutes)
@@ -296,6 +271,7 @@ export default function SessionPlanner() {
 
     // Cleanup function clears the timer if any dependency changes
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasUnsavedChanges, form, selectedBadges, checkedSteps, costItems, mode, lastChangeTime]);
 
   // Update countdown timer display
@@ -349,6 +325,7 @@ export default function SessionPlanner() {
     if (leaderDetails) {
       fetchLeaderDetails();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leaderDetails]);
 
   const fetchLeaderDetails = async () => {
@@ -429,23 +406,6 @@ export default function SessionPlanner() {
 
   const calculateGrandTotal = () => {
     return costItems.reduce((sum, item) => sum + calculateItemTotal(item), 0);
-  };
-
-  const handleReset = () => {
-    if (window.confirm("Are you sure you want to reset the form? Any unsaved changes will be lost.")) {
-      if (mode === 'edit' || mode === 'view') {
-        navigate('/planner');
-      } else {
-        setForm({
-          leader: '', group: '', sessionDate: '', sessionTime: '15:30', title: '', badges: '',
-          intro: '', islamic: '', body: '', activityLink: '', conclusion: '', www: '', ebi: '',
-        });
-        setSelectedBadges([]);
-        setCheckedSteps({});
-        setCostItems([{ resource: '', quantity: 1, cost: '' }]);
-        fetchLeaderDetails();
-      }
-    }
   };
 
   // Autosave function

@@ -4,7 +4,7 @@ import './badges.css';
 import NavigationHeader from './dashboard/NavigationHeader';
 import UserDetailsModal from './dashboard/UserDetailsModal';
 import { useAuth } from '../hooks/useAuth';
-import { getMembersBySection, addBadgeToMember, removeBadgeFromMember } from '../services/memberService';
+import { getMembersBySection, addBadgeToMember } from '../services/memberService';
 import beaverBadges from '../data/beaverBadges';
 import cubBadges from '../data/cubBadges';
 import scoutBadges from '../data/scoutBadges';
@@ -149,12 +149,6 @@ export default function Badges() {
     } catch (error) {
       console.error('Error adding badge:', error);
     }
-  };
-
-  const hasBadge = (member, badgeName) => {
-    return member.badges?.some(badge => 
-      badge.name === badgeName && badge.section === selectedSection
-    );
   };
 
   // User details form handlers

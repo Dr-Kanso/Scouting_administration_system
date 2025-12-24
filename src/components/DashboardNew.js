@@ -166,15 +166,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleDayClick = (date, events) => {
-    if (events.length > 0) {
-      setSelectedDate(date);
-      setSessionsForSelectedDate(events.filter(e => e.type === 'session'));
-      setMeetingsForSelectedDate(events.filter(e => e.type === 'meeting'));
-      setDateSessionsModalOpen(true);
-    }
-  };
-
   const handleEventClick = (event, mouseEvent) => {
     const rect = mouseEvent.target.getBoundingClientRect();
     setContextMenu({

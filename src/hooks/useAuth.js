@@ -66,8 +66,9 @@ export const useAuth = () => {
       navigate('/login');
       return;
     }
-    
+
     fetchUserDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, navigate]);
 
   return {

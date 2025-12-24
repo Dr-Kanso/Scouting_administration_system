@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './members.css';
-import logo from '../assets/logo.png';
-import { auth, db } from '../utils/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../utils/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import { getAllMembers, getMembersBySection, searchMembersByName, addNewMember, deleteMember, getMemberById, updateMember } from '../services/memberService';
 import TabSelector from './common/TabSelector';
 import NavigationHeader from './dashboard/NavigationHeader';
@@ -105,6 +104,7 @@ export default function Members() {
 
   useEffect(() => {
     loadMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSection]);
 
   const loadMembers = async () => {

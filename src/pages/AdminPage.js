@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../utils/firebase';
-import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '../utils/firebase';
+import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import NavigationHeader from '../components/dashboard/NavigationHeader';
 import UserDetailsModal from '../components/dashboard/UserDetailsModal';
 import { useAuth } from '../hooks/useAuth';
-import logo from '../assets/logo.png';
 import './AdminPage.css';
 
 export default function AdminPage() {

@@ -135,26 +135,14 @@ export default function SessionList() {
         }
 
         setLoading(true);
-        let sessionsQuery;
-        
-        // GSL and Group Leaders can see all sessions
-        if (leaderDetails.role === 'GSL' || 
-            leaderDetails.role === 'Group Leader (Male)' || 
-            leaderDetails.role === 'Group Leader (Female)') {
-          // Simplified query - just order by createdAt without compound where clauses
-          sessionsQuery = query(
-            collection(db, 'sessions'),
-            orderBy('createdAt', 'desc')
-          );
-        } else {
-          // Section Leaders see only their section's sessions
-          sessionsQuery = query(
-            collection(db, 'sessions'),
-            where('section', '==', leaderDetails.section)
-          );
-        }
-        
-        console.log("Executing query with section:", leaderDetails.section);
+
+        // All leaders can see all sessions
+        const sessionsQuery = query(
+          collection(db, 'sessions'),
+          orderBy('createdAt', 'desc')
+        );
+
+        console.log("Fetching all sessions for leader:", leaderDetails.name);
         const snapshot = await getDocs(sessionsQuery);
         console.log("Query returned:", snapshot.docs.length, "documents");
         
@@ -313,12 +301,12 @@ export default function SessionList() {
     }));
   };
 
-  // Reset filters to return to the leader's section
+  // Reset filters to show all sections
   const resetFilters = () => {
     setFilters({
       dateFrom: '',
       dateTo: '',
-      section: leaderDetails?.section?.toLowerCase() || 'all',
+      section: 'all',
       badge: '',
       leader: 'all'
     });

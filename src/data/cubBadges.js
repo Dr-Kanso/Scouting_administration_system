@@ -10,10 +10,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/artist/",
     "image": "https://prod-cms.scouts.org.uk/media/4307/activity-cu-artist.png",
     "steps": [
-      "Create two items using different skills like painting, collage, digital art, sculpture or textiles.",
-      "Show you know how to use the tools for your chosen skills safely.",
-      "Talk about your artwork and the artists or designers who inspired you.",
-      "Teach someone else how to do one of the art or design skills you have learned."
+      "Choose three of these activities to do: You must have your leader or another adult with you for one of these activities. a. Visit an art gallery. b. Design and build a model. c. Draw or paint a picture of still life or a landscape. d. Imagine an event, character or scene. Now draw it using a pencil, brush, pen or crayon. e. Design and make a greetings card. f. Make a model out of clay. g. Make a display of photographs on a subject that interests you. h. Make a poster advertising Scouting or a Cub Scout event. i. Design and make a decorated book cover. j. Make a video on a subject that interests you."
     ]
   },
   {
@@ -21,11 +18,12 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/athletics-activity-badge/",
     "image": "https://prod-cms.scouts.org.uk/media/4309/activity-cu-athletics.png",
     "steps": [
-      "Show how to warm up and warm down safely before and after exercise.",
-      "Take part in four different athletics activities. Choose from: a sprint over 60 metres, a sprint over 80 metres, throwing a ball, standing long jump, high jump, 600 metre run/walk, skipping.",
-      "Show how to measure and record the results for each activity.",
-      "Explain the rules for one of your chosen activities.",
-      "Show how you have improved in two of your chosen activities over a period of time."
+      "Take part in a proper warm-up and cool down routine, using all the main muscle groups. A suitable adult, Young Leader or Scout will need to lead the routine. a. Warm up routine, b. Cool down routine",
+      "Explain the best clothes to wear for athletics and how to be safe.",
+      "Take part in one of these throwing activities: a. Throw a football or similar ball as far as you can. Do one using a chest push and another as an overhead throw. b. Throw three beanbags into a bucket. Try to increase the distance each time. c. Throw a tennis or cricket ball as far as you can. Do one overarm throw, and another underarm throw.",
+      "Take part in two of these running activities and try your best: a. shuttle run 6 x 10 m, b. 50 m skip with a rope, c. 50 m sprint, d. 25 m sack race, e. 25 m egg and spoon race, f. 400 m run",
+      "Take part in one of these team activities: a. 4 x 100 m relay, b. team assault course, c. assisted blindfold race",
+      "Do one of these jumps and go as far or as high as you can: a. sargent jump, b. standing jump, c. high jump, d. long jump"
     ]
   },
   {
@@ -33,11 +31,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/athletics-plus/",
     "image": "https://prod-cms.scouts.org.uk/media/4310/activity-cu-athleticsplus.png",
     "steps": [
-      "Complete the Athletics Activity Badge.",
-      "Take part in four different athletics activities. Choose from: a sprint over 80 metres, throwing a ball, standing long jump, high jump, 800 metre run/walk, skipping.",
-      "Show how to measure and record the results for each activity.",
-      "Explain the rules for one of your chosen activities.",
-      "Show how you have improved in two of your chosen activities over a period of time."
+      "Take part in six of the activities in the table below. Take your best four scores and, if the points you score add up to eight or more, you get your badge."
     ]
   },
   {
@@ -45,12 +39,12 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/backwoods-cooking/",
     "image": "https://prod-cms.scouts.org.uk/media/4312/activity-cu-backwooks-cooking.png",
     "steps": [
-      "Show you know the safety rules for backwoods cooking.",
-      "Help to build a fire. It doesn’t have to be big.",
-      "Cook something using a billy can or cooking pot.",
+      "Show how to light a fire.",
+      "Help someone prepare a fire for cooking on.",
+      "Cook something using a billy can.",
+      "Cook something in the embers of a fire.",
       "Cook something on a stick.",
-      "Cook something wrapped in foil or leaves.",
-      "Show how to make the fire safe when you have finished cooking."
+      "Show how to make the fire safe when you have finished with it. Extinguish the fire and make the area safe."
     ]
   },
   {
@@ -58,10 +52,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/book-reader/",
     "image": "https://prod-cms.scouts.org.uk/media/4313/activity-cu-book-reader.png",
     "steps": [
-      "Read at least six books. Tell your leader or other Cubs about the books you have read.",
-      "Show you know how to care for books.",
-      "Do one of these: a. Design a book cover or book mark. b. Write a book review. c. Edit a book review section for a Pack newsletter. d. Help a Beaver Scout learn about books.",
-      "Find out about your local library and how it works."
+      "Make a list of at least six books you have read or used recently. Books you have read on an e-reader count too.",
+      "Name the authors of your books. Tell your leader or other Cubs something about three of your books. At least one book should be fiction and one should be non-fiction.",
+      "Show that you know how to care for your books and know the benefits a library can bring to people who enjoy reading.",
+      "Show that you can use a dictionary and a thesaurus. You could show that you can use visual (pictorial), verbal, printed, or online dictionaries or thesauruses.",
+      "Write a review of your favourite book and share it with your Sixer, an Explorer Scout Young Leader or your Cub Leader."
     ]
   },
   {
@@ -69,12 +64,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/chef/",
     "image": "https://prod-cms.scouts.org.uk/media/4314/activity-cu-chef.png",
     "steps": [
-      "Show that you know about kitchen safety and food hygiene.",
-      "Talk to your leader about the different ways to make a healthy, balanced meal.",
-      "Plan a menu for a balanced meal.",
-      "Help to prepare and cook a balanced meal for your family or friends.",
-      "Show how to use kitchen equipment safely.",
-      "Clean up after you have finished cooking."
+      "Learn the basic rules of safety and hygiene in the kitchen. Explain why they're important.",
+      "Talk to your leader about the different ways of preparing and cooking food.",
+      "Learn what the major food groups are. How do they fit into a healthy diet?",
+      "Plan, cook, serve and clear away a two-course meal for at least two people. You should prepare and cook vegetables as part of the menu. Remember, an adult must supervise you for this step. Talk to the people you're cooking for about the menu."
     ]
   },
   {
@@ -82,10 +75,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/collector/",
     "image": "https://prod-cms.scouts.org.uk/media/4315/activity-cu-collector.png",
     "steps": [
-      "Make a collection over three months of something that interests you.",
-      "Show your collection to your leader or other Cubs.",
-      "Talk about your collection and why you chose it.",
-      "Explain how you look after your collection and how you display it."
+      "Over three months, build up a collection of similar items.",
+      "Display your collection in an exciting and interesting way. This can include displaying your collection through photographs or using a computer/tablet.",
+      "Talk about items in your collection. Which things particularly interest you?",
+      "View a collection made by someone else. What do you like or dislike about the way it's presented?"
     ]
   },
   {
@@ -93,12 +86,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/communicator/",
     "image": "https://prod-cms.scouts.org.uk/media/4316/activity-cu-communicator.png",
     "steps": [
-      "Spell your name using the phonetic alphabet.",
-      "Send and receive a simple message using Morse code, semaphore, or another code.",
-      "Send and receive a simple message using sign language, such as British Sign Language or Makaton.",
-      "Take part in a JOTA or JOTI event, or communicate with another Cub or Scout using the internet or amateur radio.",
-      "Show you know how to use a mobile phone or other device to make an emergency call and explain what information you would need to give.",
-      "Use trail signs to set or follow a simple trail."
+      "Get someone to give you directions or instructions to do something. Check that you have understood. Then follow the directions or instructions.",
+      "Get someone you know to give you a call. Write down what they say, making sure that you have all the main details.",
+      "Show you can send emails and text messages. You could also show how to use a mobile phone or a tablet to send a message to someone.",
+      "Introduce yourself to an adult who helps out with your Pack. Talk to them for two minutes about your life, school or hobbies.",
+      "Choose three of these activities to do: a. Write three simple messages using codes, ciphers, invisible ink or semaphore. Try to work out three similar messages given to you. b. Report on a local event, either past or present. It could be written for something like a newsletter or recorded so people can listen to it. c. Find out how people with a visual or hearing impairment communicate. You might learn about Braille or British Sign Language. Learn a simple phrase in one of the ways you have learned. d. Hold a simple conversation in another language. e. Pass a message to someone using amateur radio. f. Take part in Jamboree On The Air (JOTA) or Jamboree On The Internet (JOTI). g. Make contact with another Pack. Send them videos, letters or emails for whatever length of time your leader suggests."
     ]
   },
   {
@@ -106,10 +98,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/staged-badges/community-impact/",
     "image": "https://prod-cms.scouts.org.uk/media/4456/staged-community.png",
     "steps": [
-      "Identify a need in a community you belong to.",
-      "Plan a project or activity to make a positive impact.",
-      "Take action to carry out your project or activity.",
-      "Learn from the experience and think about how you could make an even bigger impact next time."
+      "Identify need. Investigate what issues and challenges exist in your chosen community – it could be local, national or international.",
+      "Plan action. Decide what issue your section should take action on and what you want to change. Talk to your section about what actions you would like to take.",
+      "Take action over three months. You should: a. spend at least four hours personally taking action on your chosen issue. You can achieve more impact by spreading your time out over a month, instead of doing it all in one go. b. involve others in the action. Work in a team with your section and preferably people in the community you are trying to help.",
+      "Learn and make more change. Discuss with your section what you've learned, how you have made people's lives better, how taking action has developed you, and what you could do to help even more people in your chosen community.",
+      "Tell the world. Help other people to understand why the issue you took action on is important, what you did and how they can help."
     ]
   },
   {
@@ -117,10 +110,12 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/cyclist/",
     "image": "https://prod-cms.scouts.org.uk/media/19912/cubs-cyclist-02-01-1.png",
     "steps": [
-      "Show you know how to ride your bike safely. This includes starting, stopping, balancing, steering and signalling.",
-      "Show you know the safety rules for riding on the road. Explain what the Green Cross Code is.",
-      "Show you know how to look after your bike. This includes checking the brakes, tyres, chain and saddle.",
-      "Take part in a cycle ride with other Cubs or your family. It should be at least two kilometres long."
+      "Regularly use a bicycle, which is the right size for you, with a cycle helmet.",
+      "Show you can clean and oil a bicycle. Show how to pump up the tyres and mend a puncture.",
+      "Explain why you must lock up a bicycle when you leave it unattended.",
+      "Make a poster to promote road safety to pedestrians or cyclists.",
+      "Talk to your leader or other Cubs about the safety measures you need to take when you cycle in bad weather.",
+      "Choose one of these two options: Finish all the tasks for the option you choose. a. Road safety: Show that you can mount and dismount your bike properly. Show how to keep your bicycle in a roadworthy condition. Why is it important? Explain why it's important to use lights and reflective clothing. Go for a short ride in a safe place to show an adult that you can ride safely and confidently. b. Off-road safety: Find out about the safety equipment you need for cycling off-road. Show that you're able to control your bike over different types of terrain. Find out where, in your local area, is safe to cycle off-road. Plan and carry out a five-mile cycle ride off-road."
     ]
   },
   {
@@ -128,10 +123,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/diy/",
     "image": "https://prod-cms.scouts.org.uk/media/4319/activity-cu-diy.png",
     "steps": [
-      "Show you know how to use simple tools safely. You could choose from tools like a hammer, screwdriver, spanner or pliers.",
-      "Help with a DIY project at home or at your meeting place.",
-      "Make something useful using wood, metal or plastic.",
-      "Show how to do two of these: a. Change a lightbulb. b. Wire a plug correctly. c. Put up a shelf. d. Paint or varnish something. e. Put up a picture hook."
+      "Show how to use and take care of tools safely. Do this for a selection of them, like a hammer, saw, screwdriver, drill or glue gun.",
+      "Talk to your leader about how to work safely on your projects, especially when you're using electric tools.",
+      "Learn what the difference is between hard wood, soft wood, chipboard, plywood and MDF. For each of them, find out what they're best used for.",
+      "Help design and make something useful. An adult needs to supervise you. Show that you're able to: measure accurately, saw, join pieces of wood together in two different ways, use a hammer, screwdriver and drill, prepare surfaces and stain, varnish or paint"
     ]
   },
   {
@@ -139,10 +134,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/staged-badges/digital-citizen/",
     "image": "https://prod-cms.scouts.org.uk/media/4457/staged-digital-citizen.png",
     "steps": [
-      "Show you can use a computer, tablet or smartphone.",
-      "Show you know how to stay safe online.",
-      "Use technology to find something out.",
-      "Use technology to communicate with someone."
+      "In a creative way of your choice, map out your regular digital actions, such as searches, clicks or posts. Discuss with other young people the information you leave behind as a result of these digital actions, and whether that's OK or not.",
+      "Learn how to create a secure password and make one of your own. Always do this with a trusted adult.",
+      "Share three ways young people can respond positively when someone's being unkind or dishonest, including telling an adult if someone's making you feel uncomfortable.",
+      "Use an online service to learn a new skill and show others what you've learnt."
     ]
   },
   {
@@ -150,11 +145,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/disability-awareness/",
     "image": "https://prod-cms.scouts.org.uk/media/tqjm0xbw/option-b-cub-scouts-1.png",
     "steps": [
-      "Find out about different types of disabilities. You could research physical disabilities, learning disabilities, sensory impairments or mental health conditions.",
-      "Learn about famous people with disabilities and their achievements.",
-      "Take part in an activity that helps you understand what it might be like to live with a disability. This could be a simulation game or trying an adaptive sport.",
-      "Find out about accessibility and how places can be made easier to use for people with disabilities. Look at things like ramps, lifts, accessible toilets and hearing loops.",
-      "Learn about how you can help people with disabilities. Think about being inclusive, respectful and offering help when needed."
+      "Different disabilities: a. Find out about two different disabilities that you could learn more about. You could look at finding out about disabilities that are visible, or disabilities that may be non-visible. Remember it will vary from person to person on how people view or describe their own disabilities. b. Share what you've found out with someone else in a way that you choose.",
+      "Equipment and adaptations: a. Find out about one piece of equipment, assistive technology or adaptation for disabled people that can be used at school or work. If they are happy, you could invite a disabled person to share something they use to help them and show how it works. b. Find out more about a piece of disability equipment, assistive technology or adaptation for disabled people that can be used for recreation or at home. Look at how you could make your meeting space, or another venue, more accessible for disabled people with different disabilities. You could draw your new ideas, build some examples from craft materials, or fund-raise to make your changes real.",
+      "Communication and support: a. Find out about the best ways to communicate with different disabled people. This could include working with interpreters, speaking clearly and visibly for someone who lip reads, or looking at using a coms-clinic who can read, or talking at a different pace. b. Learn how you can support different disabled people at different times. This could include giving time and space to an autistic person when they need it, or knowing how and when to offer help to someone.",
+      "Real world skills and knowledge: a. Choose your favourite activity, hobby or sport and think of ways it could be made more accessible. You could focus on a disability or impairment that you know more about. b. Find some areas in your local community, such as a car park, leisure centre, library, theatre or shopping centre, that may have barriers for disabled people. Choose one of the barriers you identified in requirement 4a and think about how you could make the space more accessible for disabled people."
     ]
   },
   {
@@ -162,10 +156,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/staged-badges/emergency-aid/",
     "image": "https://prod-cms.scouts.org.uk/media/4459/staged-emergency-aid.png",
     "steps": [
-      "Know how to get help in an emergency.",
-      "Know how to help someone who is bleeding.",
-      "Know how to help someone who is unconscious.",
-      "Know how to help someone who has had a burn or scald."
+      "Explain to your leader or another adult about: a. the importance of getting help, b. what to say when you call 999, c. helping someone who is unconscious, d. helping someone who is bleeding, e. reassuring someone at the scene of an emergency."
     ]
   },
   {
@@ -173,10 +164,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/entertainer/",
     "image": "https://prod-cms.scouts.org.uk/media/4320/activity-cu-entertainer.png",
     "steps": [
-      "Take part in a performance. This could be at a Pack meeting, campfire, show or other event.",
-      "Choose two of these to do: a. Tell three jokes. b. Recite a poem. c. Perform a magic trick. d. Play a musical instrument. e. Sing a song. f. Take part in a mime or sketch. g. Perform a dance.",
-      "Help organise a show for your Pack or another audience. This could involve planning, setting up or helping backstage.",
-      "Make a prop, costume or piece of scenery for a show."
+      "Choose two activities from the list to do: a. Help to plan and perform some recorded entertainment, like a video or audio story. b. Take part in a show, concert or band performance. c. Make up and perform a dance to a piece of music of your choice. d. Help plan and perform a series of magic tricks. e. Help to make up a mime or play, then perform it. f. Perform a puppet play or shadowgraph using puppets that you have made. g. Sing two songs. h. Perform some folk or traditional dances. i. Make a selection of simple rhythm instruments. Use them in a music performance. j. Tell a story to an audience."
     ]
   },
   {
@@ -184,11 +172,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/environmental-conservation/",
     "image": "https://prod-cms.scouts.org.uk/media/4321/activity-cu-environment-conservation.png",
     "steps": [
-      "Find out about an environmental issue that affects your local area. This could be pollution, litter, loss of green spaces or climate change impacts.",
-      "Take part in a practical conservation project. This could be planting trees, clearing a pond, building bird boxes or creating a wildlife garden.",
-      "Learn about recycling and how you can reduce waste at home and at Cubs.",
-      "Find out about endangered animals or plants in the UK or abroad. Learn why they are endangered and what is being done to help them.",
-      "Do two of these: a. Make a poster about an environmental issue. b. Build a bug hotel or bird box. c. Take part in a litter pick. d. Plant a tree or flowers to help wildlife."
+      "Learn how to separate recyclable and non-recyclable rubbish ready for collection. Find out where to take recyclable items that cannot be collected with your normal rubbish.",
+      "Find out how to reduce the energy and water you use in your home. Show how you have encouraged your family to reduce water and energy use over four weeks.",
+      "Find out about one type of renewable energy. Talk to your leader about the advantages and disadvantages of the technology.",
+      "Take part in two projects with a group of other people. You could: a. plant a tree or shrub, b. clear a ditch, pond or creek, c. make, set up and look after a bird feeder, table, nesting box or bath, d. look after a piece of land or a garden, e. tidy up a piece of wasteland, f. take part in an anti-litter campaign, g. look after a compost bin"
     ]
   },
   {
@@ -196,12 +183,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/fire-safety/",
     "image": "https://prod-cms.scouts.org.uk/media/4323/activity-cu-fire-safety.png",
     "steps": [
-      "Learn about the dangers of fire. Talk about how fires can start and spread.",
-      "Show you know what to do if you discover a fire. This includes raising the alarm and getting out safely.",
-      "Show you know how to make an emergency call to the fire service. Explain what information you need to give.",
-      "Learn about smoke alarms. Know why they are important, where they should be fitted and how to test them.",
-      "Take part in a fire drill at your meeting place or school. Know where the assembly point is.",
-      "Learn about firework safety. Know the Firework Code."
+      "Learn about the main causes of fire in the home. Why are they such a hazard?",
+      "Learn what you can do to prevent a fire starting in your home.",
+      "Learn and practise a fire drill for your home. Ideally, do this with everyone you live with. If you can't, then practise what you'd do in the event of a fire with your leader.",
+      "Take part in an activity to make sure you know exactly what to do if you discovered a fire in your home.",
+      "Learn about smoke and heat detectors and how they can help you. Design a poster to teach others about smoke and heat detectors."
     ]
   },
   {
@@ -209,11 +195,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/gardener/",
     "image": "https://prod-cms.scouts.org.uk/media/4324/activity-cu-gardener.png",
     "steps": [
-      "Grow and care for a plant for at least two months. This could be indoors or outdoors.",
-      "Learn about the tools needed for gardening, like trowels, forks, watering cans and gloves. Show how to use them safely.",
-      "Identify six different types of plants, flowers or trees you might find in a garden or park.",
-      "Help look after a garden or allotment. This could involve weeding, watering, planting or tidying.",
-      "Do one of these: a. Build a mini garden in a container. b. Make a scarecrow. c. Grow vegetables or fruit to eat. d. Plant bulbs that will flower."
+      "Show how to care for a garden by doing the following over a period of at least three months. You could use your own garden, an allotment or Cub Scout meeting place: prepare a patch of ground, sow seeds or plant bulbs or plants, water and feed the plants as they grow, control any weeds, safely use gardening tools",
+      "Name three plants that grow from bulbs.",
+      "Name three plants that are grown from seeds.",
+      "Keep a record of what you have seen as your garden develops. You could draw pictures, write notes, or take photographs."
     ]
   },
   {
@@ -221,10 +206,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/global-issues/",
     "image": "https://prod-cms.scouts.org.uk/media/v10fxzbk/varta-badge.png",
     "steps": [
-      "Find out about a global issue like poverty, climate change, access to clean water or health.",
-      "Learn about a charity or organisation that works on this issue. Find out what they do.",
-      "Take part in an activity to raise awareness or funds for this issue. This could be giving a presentation, making posters or organising a fundraising event.",
-      "Find out how Scouts are involved in helping with global issues, for example through partnerships or international projects."
+      "Try different kinds of fairly traded products and talk to your leader or other Cubs about the importance of Fair Trade. Find out what the Fair Trade logo looks like and what products you can buy that are fairly traded.",
+      "Play a game about Fair Trade.",
+      "Learn about endangered animals and tell other Cubs about one animal and why it's endangered. You could create a poster, make a video, write a story or poem.",
+      "Learn about the problems some people in the world have trying to find safe, clean water. Talk to your leader or other Cubs about what you have found out."
     ]
   },
   {
@@ -240,10 +225,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/hobbies/",
     "image": "https://prod-cms.scouts.org.uk/media/lflh5heo/airfix-01.png",
     "steps": [
-      "Have a hobby and follow it for at least four weeks. This could be anything from model making or coding to playing an instrument or looking after pets.",
-      "Show you know about your hobby and can talk about it enthusiastically.",
-      "Show your leader or other Cubs something related to your hobby. This could be showing your collection, demonstrating a skill or sharing something you’ve made.",
-      "Find out about famous people who share your hobby or have achieved something special related to it."
+      "Choose a hobby you enjoy that you want to tell other people about. It can be anything you do when you're not at school or Cubs that you find fun and spend time on.",
+      "Make sure you do your hobby regularly for three months.",
+      "Find out three interesting things about your hobby. Talk to your leader about them.",
+      "Show your Six, leader or another adult a part of your hobby and teach them something about it."
     ]
   },
   {
@@ -251,10 +236,14 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/home-help/",
     "image": "https://prod-cms.scouts.org.uk/media/4327/activity-cu-home-help.png",
     "steps": [
-      "Help with chores at home for at least four weeks. Keep a chart or diary to show what you have done.",
-      "Show you can do two of these safely and well: a. Wash up or load/unload a dishwasher. b. Clean shoes. c. Tidy your bedroom. d. Make your bed. e. Help with laundry (sorting, loading machine, hanging out).",
-      "Show you can do two of these safely and well: a. Prepare vegetables for cooking. b. Lay the table correctly for a meal. c. Make a simple meal or snack for yourself or someone else. d. Help with shopping (writing a list, finding items, packing).",
-      "Learn about safety in the home. Identify potential hazards and know how to avoid them."
+      "Plan, cook and serve a simple one-course meal.",
+      "Wash up afterwards. Show how to clean a saucepan or other cooking utensils, cutlery and glasses. You could use a dishwasher for this step, including loading and unloading it.",
+      "Help sort out the washing. Load and unload the washing machine.",
+      "Iron at least two items. They could be things like pillowcases, t-shirts or trousers.",
+      "Sew on a button.",
+      "Help to clean and tidy a living room.",
+      "Clean at least two items in your home. They could be things like a basin or kitchen cupboard, silverware or brass.",
+      "Take sheets, pillow covers and the duvet cover off a bed and help to put clean ones on. Make your own bed for a week."
     ]
   },
   {
@@ -262,11 +251,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/international/",
     "image": "https://prod-cms.scouts.org.uk/media/4329/activity-cu-international.png",
     "steps": [
-      "Find out about Scouting in another country. Learn about their uniform, Promise, Law or activities.",
-      "Learn some words or phrases in another language. Try to have a simple conversation.",
-      "Take part in an activity with an international theme. This could be celebrating Thinking Day on the Air (TDOTA), joining in Jamboree on the Air/Internet (JOTA/JOTI) or linking with a Pack overseas.",
-      "Find out about a festival or celebration from another country.",
-      "Do one of these: a. Try food from another country. b. Learn a game from another country. c. Make a craft from another country."
+      "Draw or create the World Scout Badge. Explain the meaning of each of its parts and talk about the advantages of being part of a global movement of Cub Scouts.",
+      "Make, build or draw something to represent a country. Include things like its currency, national dress, cultures, customs and languages.",
+      "Explore another country's traditions and culture around food and eating. What time do they eat? How do they eat? How do they sit? What do they eat?",
+      "Take part in the activities of a celebration or festival that usually takes place in another country. Explore why the celebration or festival happens. What are the customs of the event?"
     ]
   },
   {
@@ -283,11 +271,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/local-knowledge/",
     "image": "https://prod-cms.scouts.org.uk/media/4330/activity-cu-local-knowledge.png",
     "steps": [
-      "Find out about the history of your local area. This could include finding out how your town or village got its name or learning about an important local event.",
-      "Visit a place of interest in your local area, like a museum, park, historic building or nature reserve. Explain why it is interesting.",
-      "Find out about local services like the library, police station, fire station, post office or community centre. Know where they are and what they do.",
-      "Draw a map of your local area showing key places like your meeting place, school, park, shops and local services.",
-      "Find out about a famous person from your local area, past or present."
+      "Do three of the following activities: a. Find out about a famous person who lived in or near your area. The famous person could be from the past or present. Or you could learn about a famous building, monument, earthworks or other place of historical interest and visit it. Talk about what you find out with your leader or other Cubs. b. Collect pictures of your county, borough, district, town or village coat of arms. Find out what the coat of arms represents. Try to find as many different places as you can where the coat of arms is displayed. Tell your leader how many you found. c. Talk to someone who has lived in your local area for a long time. Find out about what life was like when they were young. What changes have they seen in the local area over the years? d. Draw a map of your area. Mark places of interest on it and, with other Cubs, go on a short walk in your local area. Point out any features of interest to your leader. e. Design a poster, leaflet or web page to advertise your area to a visitor."
     ]
   },
   {
@@ -295,11 +279,9 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/martial-arts/",
     "image": "https://prod-cms.scouts.org.uk/media/4331/activity-cu-martial-arts.png",
     "steps": [
-      "Take part regularly in a martial art for at least four months. This could be karate, judo, taekwondo, aikido, kung fu or another recognised style.",
-      "Show you know the rules and etiquette (good manners) of your chosen martial art.",
-      "Demonstrate some basic moves or techniques appropriate to your level or grade.",
-      "Explain the grading system for your martial art (like belts or sashes).",
-      "Find out about the history or origins of your martial art."
+      "Regularly take part in a martial arts activity for at least three months. Show how you've improved over that time. Your martial arts activity should be recognised by your nation's sports council.",
+      "Discuss with a leader the skills needed and the rules to be observed.",
+      "Take part in one exhibition or competition."
     ]
   },
   {
@@ -307,11 +289,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/money-skills/",
     "image": "https://prod-cms.scouts.org.uk/media/13707/activity-badges-cu-money-skills-rgb.png",
     "steps": [
-      "Show you know the value of different coins and notes used in the UK. Be able to make up different amounts.",
-      "Learn about different ways to pay for things, like cash, cards (debit/credit), online payments and mobile payments. Talk about the pros and cons of each.",
-      "Plan how to spend some money (real or imaginary). Think about needs (things you must have) and wants (things you’d like to have).",
-      "Learn about saving money. Talk about why it's important and different ways to save (like piggy banks or bank accounts). Set a savings goal.",
-      "Take part in a fundraising activity for your Pack or another charity. Understand where the money came from and how it will be used."
+      "Show you know about foreign currency by explaining how a Scout from another country would exchange their money if they came to a camp in the UK.",
+      "Show how you'd create a budget for a Scouts activity. Think about value for money, as well as how other values (such as supporting local businesses, making ethical choices, or protecting the environment) might affect your budget.",
+      "Learn about the things that can influence different people's spending decisions (from religious beliefs to adverts and peer pressure) and create a list of things that might influence your spending decisions.",
+      "Talk with your group about how people from different cultures can gain, save, and give away money, and choose a way of gaining, saving, or giving away money that you'd like to try.",
+      "Create a guide for how young people can recognise and protect themselves from online scams and fake, counterfeit money."
     ]
   },
   {
@@ -319,11 +301,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/my-faith/",
     "image": "https://prod-cms.scouts.org.uk/media/4332/activity-cu-my-faith.png",
     "steps": [
-      "Learn about the main beliefs and practices of your faith.",
-      "Find out about important stories, writings or figures in your faith.",
-      "Visit a place of worship for your faith or talk to someone knowledgeable about it.",
-      "Take part in a celebration or festival related to your faith. Explain its meaning.",
-      "Share something about your faith with other Cubs in a sensitive and appropriate way. This could be a story, song, custom or object."
+      "Find out about your place of worship and something about: the people involved, their titles and what they do, the important or sacred objects, the festivals and customs, the stories and traditions. These could be from books, videos or other places.",
+      "Choose a favourite prayer or reading. You could even write the prayer yourself. Share it with the Pack at a time that's good for everyone. Explain to the Pack why you like it and what it means to you.",
+      "Choose your favourite festival. Explain what it celebrates or means and talk about the food, clothes and customs associated with the festival.",
+      "Talk to an adult about how your faith links to your Cub Scout Promise."
     ]
   },
   {
@@ -331,11 +312,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/naturalist/",
     "image": "https://prod-cms.scouts.org.uk/media/4333/activity-cu-naturalist.png",
     "steps": [
-      "Identify six different types of trees or plants you might find locally.",
-      "Identify six different types of birds, insects or animals you might find locally.",
-      "Learn about the life cycle of a plant or animal, like a butterfly, frog or bean plant.",
-      "Take part in a nature walk. Point out the things you see and hear. Alternatively, visit a nature reserve, zoo or wildlife park.",
-      "Do one of these: a. Make a collection of leaf rubbings or pressed flowers. b. Build a mini beast hotel or bug house. c. Keep a nature diary for a month, recording what you see. d. Make plaster casts of animal tracks you find."
+      "Learn how to identify six different living things from two of these categories: trees, garden birds, water birds, minibeasts and insects, wild flowers, pond dwellers, fungi, butterflies and moths. That means you should have 12 examples in total.",
+      "Over three months, visit the same natural area at least four times. Take a note of the changes in the plants and wildlife that you see. You might visit a garden, hedgerow, canal, river lake or park. Make sure that you have an adult's permission for the visits.",
+      "Learn the countryside code and how to follow it.",
+      "Choose one of these activities to do: a. Make a hedgehog, ladybird or bee house. b. Create a piece of art using natural material. You could do a bark or leaf rubbing, dried flower picture or maybe a collage. c. With an adult pick wild edible berries, leaves or fruit. Use them in a recipe. d. Use a dye that uses natural ingredients to colour a piece of material. e. Make a feeding station for birds. Get permission to hang it in a good position."
     ]
   },
   {
@@ -343,11 +323,12 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/staged-badges/navigator/",
     "image": "https://prod-cms.scouts.org.uk/media/4463/staged-navigator.png",
     "steps": [
-      "Know the four cardinal points: North, South, East and West.",
-      "Know how to set a map so it lines up with North.",
-      "Recognise five map symbols on a simple map (like an OS map).",
-      "Follow a simple route marked on a map.",
-      "Draw a simple map of your local area or meeting place."
+      "Locate yourself on a simple map. You could use a map of a local park, nature reserve, zoo, or even a theme park.",
+      "Identify a number of features or locations on that map. You could pinpoint locations like the toilets, car park, bird hide or picnic area.",
+      "Learn the four cardinal points of a compass.",
+      "Draw a simple map of where you live, your meeting place or another area local to you.",
+      "Use a map during an outdoor activity.",
+      "Show you understand how to dress appropriately and what equipment you and the adults will need on the activity."
     ]
   },
   {
@@ -355,9 +336,7 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/staged-badges/nights-away/",
     "image": "https://prod-cms.scouts.org.uk/media/19908/nights-away-02-01-1.png",
     "steps": [
-      "Spend one night away on a recognised Scout activity (like a camp or sleepover).",
-      "Help pitch or strike a tent OR help set up or clear away your sleeping area.",
-      "Know what personal kit you need for your night away."
+      "Spend 1 night away at a Scouting activity. A night away doesn't have to be spent in a tent (or even outside). You could sleep in your meeting place, a lodge a little further from home, or even in a local museum."
     ]
   },
   {
@@ -365,11 +344,10 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/photographer/",
     "image": "https://prod-cms.scouts.org.uk/media/4335/activity-cu-photographer.png",
     "steps": [
-      "Show you know how to use a camera or phone camera safely and respectfully. Understand about asking permission before taking photos of people.",
-      "Take at least eight photos on a theme chosen with your leader. Think about composition (how the picture is arranged).",
-      "Show your photos to your leader or other Cubs. This could be prints or on a screen.",
-      "Choose your favourite photo and explain why you like it and how you took it.",
-      "Learn how to edit or enhance your photos using software or an app. This could include cropping, adjusting brightness or adding filters."
+      "Show that you know how to use and look after a digital camera or smartphone camera. Show how to change the mode, change the settings, use the zoom function, and transfer photos to another device.",
+      "Take at least five photos of your local area that could be used on a tourist leaflet or website.",
+      "Take photos while you're on a trip, camp or another event. Show 10 of your best photos to someone else after the event. You could present them in a scrapbook, on a screen, in a photo book or some other way.",
+      "Choose one of these activities to do: a. Create two photos of the same thing, one in colour and one in black and white. Compare how the effects change the way the final picture looks. b. Edit a photo using a smartphone or editing software. Explain what you have changed and why. c. Make a short film on a subject of your choice. d. Using a series of photos, make a short animation sequence."
     ]
   },
   {
@@ -377,10 +355,11 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/physical-recreation/",
     "image": "https://prod-cms.scouts.org.uk/media/4336/activity-cu-physical-recreation.png",
     "steps": [
-      "Take part regularly in a physical activity for at least four weeks. This could be a sport like football, swimming, gymnastics or dancing, or another activity like skateboarding or climbing.",
-      "Show you know the rules or techniques for your chosen activity.",
-      "Explain why warming up before and cooling down after the activity is important. Show how to do this safely.",
-      "Show how you have improved in your chosen activity over the four weeks."
+      "Show a good sporting attitude in all games and sports you take part in.",
+      "Tell your leader about the sports you take part in.",
+      "Show that you're fairly skilled in your sports. Take part for three months or more in at least one of your chosen sports.",
+      "Bring the clothing and equipment for the sport you've chosen along to a meeting. Show how to look after them.",
+      "Tell a leader about the training and preparation you take part in for your chosen sport. How and when do you practise?"
     ]
   },
   {
@@ -388,23 +367,22 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/pioneer/",
     "image": "https://prod-cms.scouts.org.uk/media/4337/activity-cu-pioneer.png",
     "steps": [
-      "Learn how to tie four different knots useful for pioneering, such as reef knot, clove hitch, bowline, sheet bend or timber hitch.",
-      "Learn how to tie two different lashings, such as square lashing and diagonal lashing.",
-      "Take part in building a simple pioneering project like a flagpole, gateway, A-frame or raft.",
-      "Show you know how to use pioneering tools like mallets and saws safely (if used).",
-      "Learn about safety when working on pioneering projects, like lifting correctly and working together."
+      "Make your own rope, perhaps using a rope machine or working with a friend.",
+      "Tie a simple lashing.",
+      "Show how you would: a. tie three different knots, such as a reef, figure of eight, sheet bend or bowline, b. make one hitch, such as a clove hitch, round turn and two half-hitches or a cow hitch",
+      "Take part in a knot game.",
+      "Build an indoor pioneering project using simple knots and lashings."
     ]
   },
   {
     "name": "Road Safety",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/road-safety/",
-    "image": "https://prod-cms.scouts.org.uk/media/4338/activity-cu-road-safety.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4337/activity-cu-road-safety.png",
     "steps": [
-      "Learn the Green Cross Code and explain it in your own words.",
-      "Show you know how to cross different types of roads safely, including roads with parked cars, junctions and crossings (like zebra or pelican crossings).",
-      "Learn about common road signs and markings and explain what they mean.",
-      "Learn about cycle safety. Know the importance of helmets, lights, reflective clothing and checking your bike.",
-      "Learn about safety in cars. Know why seatbelts are important and how to behave safely as a passenger."
+      "Draw or take photos of 10 different traffic signs. Explain what they mean.",
+      "Show how to use the Green Cross Code.",
+      "Tell a leader why it's important to have different types of pedestrian crossing. Explain how to use them safely.",
+      "Show that you know how to behave safely as a car passenger."
     ]
   },
   {
@@ -412,35 +390,33 @@ const cubBadges = [
     "url": "https://www.scouts.org.uk/cubs/activity-badges/scientist/",
     "image": "https://prod-cms.scouts.org.uk/media/4222/cu-scientist-rollsroyce.png",
     "steps": [
-      "Carry out three different science experiments. These could explore topics like forces, electricity, chemical reactions or properties of materials.",
-      "Explain what you did and what happened in each experiment. Talk about what you learned.",
-      "Learn about a famous scientist and their discoveries. Find out why their work was important.",
-      "Find out about science in everyday life. Think about examples in cooking, transport, communication or nature.",
-      "Visit a science museum, science centre or take part in a science workshop or event. Alternatively, research a science topic that interests you and present your findings."
+      "To earn your badge, do two science activities from each of these sections. For each one, explain or show your leader what you did and what you found out. Reactions: a. Find out what happens when you add salt to water. b. Show how vinegar reacts with different items and explain what happens. The different items could be chalk, wool, sodium bicarbonate or old dirty coins. c. Compare the density of water to the density of other liquids. Show how these liquids react to each other. d. Make a pH indicator solution. Use it to test the acidity or alkalinity of other liquids. e. Grow crystals. f. Another activity agreed with your leader",
+      "Interacting with energy: a. Find a way to show that hot air rises. b. Create a basic electrical circuit that includes a switch. Show how it could be used to control a lightbulb powered by a battery. c. Make an air powered balloon rocket or a water rocket. Investigate ways of improving how far it can travel. d. Make a simple compass. Show the effects of metallic and magnetic materials upon it. e. Design and power a model to show the strongest tower you can. Explain how you improved your design. f. Another activity agreed with your leader",
+      "Living things: a. Make a wormery or ant colony. Record what happens over three or four weeks. b. Investigate what happens to your pulse rate before, during and after exercise. c. Grow cress, beans, peas or a similar plant. Investigate what happens when the plant has no access to light. What happens when it has light, but no water? d. Find a way to show that plants take water up through their stems. e. Make some yoghurt and find out how living organisms are involved in the process. f. Another activity agreed with your leader"
     ]
   },
   {
     "name": "Space",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/space/",
-    "image": "https://prod-cms.scouts.org.uk/media/21395/cu_astronomer_sa.png",
+    "image": "https://prod-cms.scouts.org.uk/media/21395/cu_space_sa.png",
     "steps": [
-      "Identify some constellations you can see in the night sky, like the Plough or Orion. Know a story associated with one of them.",
-      "Learn about the planets in our solar system. Know their order from the Sun and one fact about each.",
-      "Find out about space exploration. Learn about famous astronauts, missions (like the Moon landing or the International Space Station) or space probes.",
-      "Build a model rocket or spacecraft.",
-      "Do one of these: a. Visit a planetarium or observatory. b. Use a telescope or binoculars to look at the stars or Moon. Draw or describe what you see. c. Create a presentation, display or model about space."
+      "Find out about how the Earth moves round the Sun. Explain how the Sun and the Moon affect night and day and the solar eclipse.",
+      "Astronauts have lots of different tasks to do while they're in space. Find out about an astronaut, and the skills they learned to become one.",
+      "Think about what space travel might look like in the future and share your idea with someone else.",
+      "Learn what a satellite is and how they help us to study and protect our planet. You could share interesting facts about what satellites have discovered about Earth.",
+      "Find out about stars and constellations, and how we can view them from Earth. You could use a telescope or look at some images. Create a model, craft or drawing of a constellation.",
+      "Discover what asteroids and comets are, and how they have affected planets in our solar system. You could look at what happens when an asteroid or comet hits a planet."
     ]
   },
   {
     "name": "World Faiths",
     "url": "https://www.scouts.org.uk/cubs/activity-badges/world-faiths/",
-    "image": "https://prod-cms.scouts.org.uk/media/4344/activity-cu-world-faiths.png",
+    "image": "https://prod-cms.scouts.org.uk/media/4338/activity-cu-world-faiths.png",
     "steps": [
-      "Find out about the main beliefs of two different world faiths (not including your own, if you have one). Choose from faiths like Buddhism, Christianity, Hinduism, Islam, Judaism or Sikhism.",
-      "Learn about important festivals or celebrations in these faiths. Find out when and why they are celebrated.",
-      "Visit a place of worship for one of these faiths (like a church, mosque, temple, synagogue or gurdwara) or talk to someone who follows it about their beliefs and practices.",
-      "Find out about symbols or special objects used in these faiths and what they represent.",
-      "Compare something about these faiths (like a belief, practice or festival) with your own beliefs or another faith you know about."
+      "Visit a place of worship which is important to one of the World religions. Find out some information about the building, what's inside it and how it's used for worship.",
+      "Meet someone who belongs to one of the World religions, or has a set of beliefs which are different to your own. Find out how they put their faith into practice.",
+      "Find out about the places of religious significance for a World religion.",
+      "Find out about the religious festivals and customs linked to a World religion."
     ]
   }
 ];
