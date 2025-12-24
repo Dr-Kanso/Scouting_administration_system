@@ -38,6 +38,7 @@ export default function Members() {
   const {
     user,
     leaderDetails,
+    setLeaderDetails,
     showUserModal,
     setShowUserModal,
     loading: authLoading,
