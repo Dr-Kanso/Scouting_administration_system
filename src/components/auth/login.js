@@ -50,8 +50,8 @@ export default function Login() {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <img src={logo} alt="14th Willesden Scouts Logo" className="login-logo" />
-          <h1>14th Willesden Scouts</h1>
+          <img src={logo} alt="Hidaya Scouts Logo" className="login-logo" />
+          <h1>Hidaya Scouts</h1>
           <p>Leader Portal</p>
         </div>
         

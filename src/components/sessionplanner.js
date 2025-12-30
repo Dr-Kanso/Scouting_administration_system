@@ -536,7 +536,7 @@ export default function SessionPlanner() {
             properties: {},
             children: [
               new Paragraph({
-                text: "14th Willesden Scout Group",
+                text: "Hidaya Scout Group",
                 heading: HeadingLevel.HEADING_1,
                 alignment: AlignmentType.CENTER,
               }),
@@ -686,19 +686,19 @@ export default function SessionPlanner() {
               }),
               
               new Paragraph({
-                text: "Introductory Points",
+                text: "Starter activity",
                 heading: HeadingLevel.HEADING_4,
               }),
               new Paragraph(form.intro || ""),
               
               new Paragraph({
-                text: "Islamic Principles (integrated)",
+                text: "Islamic Principles (If needed)",
                 heading: HeadingLevel.HEADING_4,
               }),
               new Paragraph(form.islamic || ""),
               
               new Paragraph({
-                text: "Main Body",
+                text: "Main activity",
                 heading: HeadingLevel.HEADING_4,
               }),
               new Paragraph(form.body || ""),
@@ -771,7 +771,7 @@ export default function SessionPlanner() {
               ] : [new Paragraph("No cost items added.")]),
               
               new Paragraph({
-                text: "Conclusive Statement",
+                text: "Conclusion",
                 heading: HeadingLevel.HEADING_4,
               }),
               new Paragraph(form.conclusion || ""),
@@ -1074,10 +1074,10 @@ export default function SessionPlanner() {
         </div>
 
         <div className="form-group full-width">
-          <label>Introductory Points:</label>
-          <textarea 
-            name="intro" 
-            value={form.intro} 
+          <label>Starter activity:</label>
+          <textarea
+            name="intro"
+            value={form.intro}
             onChange={handleChange}
             placeholder={isReadOnly ? "N/A" : "How will you introduce the session?"}
             rows="3"
@@ -1085,11 +1085,11 @@ export default function SessionPlanner() {
           />
         </div>
 
-        <div className="form-group full-width"> 
-          <label>Islamic Principles (integrated):</label>
-          <textarea 
-            name="islamic" 
-            value={form.islamic} 
+        <div className="form-group full-width">
+          <label>Islamic Principles (If needed):</label>
+          <textarea
+            name="islamic"
+            value={form.islamic}
             onChange={handleChange}
             placeholder={isReadOnly ? "N/A" : "Add Islamic principles related to this activity"}
             rows="3"
@@ -1098,13 +1098,13 @@ export default function SessionPlanner() {
         </div>
 
         <div className="form-group full-width">
-          <label>Main Body:</label>
-          <textarea 
-            name="body" 
-            value={form.body} 
+          <label>Main activity:</label>
+          <textarea
+            name="body"
+            value={form.body}
             onChange={handleChange}
             placeholder={isReadOnly ? "N/A" : "Describe the main activities and instructions"}
-            rows="6" 
+            rows="6"
             readOnly={isReadOnly}
           />
         </div>
@@ -1201,10 +1201,10 @@ export default function SessionPlanner() {
         </div>
 
         <div className="form-group full-width">
-          <label>Conclusive Statement:</label>
-          <textarea 
-            name="conclusion" 
-            value={form.conclusion} 
+          <label>Conclusion:</label>
+          <textarea
+            name="conclusion"
+            value={form.conclusion}
             onChange={handleChange}
             placeholder={isReadOnly ? "N/A" : "How will you wrap up the session?"}
             rows="3"

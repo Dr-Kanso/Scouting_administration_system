@@ -601,12 +601,12 @@ export default function Dashboard() {
       <div className="header">
         <img
           src={logo}
-          alt="14th Willesden Logo"
+          alt="Hidaya Logo"
           className="logo"
           onClick={() => navigate('/dashboard')}
         />
         <div className="title-area">
-          <h1>Welcome to 14th Willesden Scouts</h1>
+          <h1>Welcome to Hidaya Scouts</h1>
           {leaderDetails.firstName && (
             <div className="leader-info">
               <span className="leader-badge">

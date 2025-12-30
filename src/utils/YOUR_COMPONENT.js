@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 const navigate = useNavigate();
 
 // Then find your logo element and update it:
-<img 
-  src={logo} 
-  alt="14th Willesden Logo" 
-  className="logo" 
+<img
+  src={logo}
+  alt="Hidaya Logo"
+  className="logo"
   onClick={() => navigate('/dashboard')}
 />

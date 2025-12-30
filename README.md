@@ -1,4 +1,4 @@
-# 14th Willesden Scouts Management Application
+# Hidaya Scouts Management Application
 
 A comprehensive web application for managing UK Scout groups, including member tracking, badge progression, and session planning.
 
@@ -115,7 +115,7 @@ src/
 
 ## License
 
-This project is proprietary software for the 14th Willesden Scout Group.
+This project is proprietary software for the Hidaya Scout Group.
 
 ## Support
 
@@ -123,6 +123,6 @@ For support or questions, please contact your Group Scout Leader.
 
 ## Acknowledgments
 
-- Built for the 14th Willesden Scout Group
+- Built for the Hidaya Scout Group
 - Follows UK Scouting badge and section structure
 - Icons and branding property of The Scout Association

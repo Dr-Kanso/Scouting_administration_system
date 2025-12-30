@@ -395,10 +395,10 @@ export default function SessionList() {
     <div className="session-list-container">
       {/* Add header from badge tracker */}
       <div className="header">
-        <img 
-          src={logo} 
-          alt="14th Willesden Logo" 
-          className="logo" 
+        <img
+          src={logo}
+          alt="Hidaya Logo"
+          className="logo"
           onClick={() => navigate('/dashboard')}
         />
         <h1><span className="scout-icon"></span> Session plans</h1>

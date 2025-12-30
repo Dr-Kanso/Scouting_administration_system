@@ -38,8 +38,8 @@ const NavigationHeader = ({
       <div className="header-wrapper">
         <div className="header-top">
           <div className="logo-section" onClick={() => handleNavigation('/dashboard')} style={{ cursor: 'pointer' }}>
-            <img src={logo} alt="14th Willesden Logo" className="logo" />
-            <h1 className="app-title">14th Willesden Scouts</h1>
+            <img src={logo} alt="Hidaya Logo" className="logo" />
+            <h1 className="app-title">Hidaya Scouts</h1>
           </div>
           
           <div className="user-section">
